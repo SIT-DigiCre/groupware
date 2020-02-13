@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}掲示板{% endblock %}
 {% block username %}{{ user.get_username }}{% endblock %}
-{% block icon_url %}{{ user_icon_url }}{% endblock %}
+{% block icon_url %}{{ user.icon_url }}{% endblock %}
 {% block content %}
 
 <div class="bbs">
@@ -24,7 +24,7 @@
                     <div class="bbs-content-header">
                         <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
                         <div class="floating">
-                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <img src="{{message.member.icon_url}}" alt="">
                             <p>{{ message.member.username }}</p>
                             <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
@@ -57,7 +57,7 @@
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
                         <div class="floating">
-                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <img src="{{message.member.icon_url}}" alt="">
                         </div>
                         <div class="float-blocker"></div>
                     </div>

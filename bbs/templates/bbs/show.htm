@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}掲示板{% endblock %}
 {% block username %}{{ user.get_username }}{% endblock %}
-{% block icon_url %}{{ user_icon_url }}{% endblock %}
+{% block icon_url %}{{ user.icon_url }}{% endblock %}
 {% block content %}
 
 <div class="bbs">
@@ -52,7 +52,7 @@
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
                         <div class="floating">
-                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <img src="{{message.member.icon_url}}" alt="">
                             <p >{{ message.member.username }}</p>
                             <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
@@ -69,7 +69,7 @@
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
                         <div class="floating">
-                            <img src="{{reply.member_profile.icon_url}}" alt="">
+                            <img src="{{reply.member.icon_url}}" alt="">
                             <p >{{ reply.member.username }}</p>
                             <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
@@ -121,7 +121,7 @@
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
                         <div class="floating">
-                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <img src="{{message.member.icon_url}}" alt="">
                         </div>
                         <div class="float-blocker"></div>
                     </div>
@@ -136,7 +136,7 @@
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
                         <div class="floating">
-                            <img src="{{reply.member_profile.icon_url}}" alt="">
+                            <img src="{{reply.member.icon_url}}" alt="">
                             <p >{{ reply.member.username }}</p>
                             <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
