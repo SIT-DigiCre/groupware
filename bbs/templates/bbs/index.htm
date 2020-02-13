@@ -1,0 +1,122 @@
+{% extends 'bbs/header.htm' %}
+{% load static %}
+{% block title %}掲示板{% endblock %}
+{% block username %}{{ user.get_username }}{% endblock %}
+{% block icon_url %}{{ user_icon_url }}{% endblock %}
+{% block content %}
+
+<div class="bbs">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-2 side-menu">
+                <button type="button" class=" btn btn-primary" data-toggle="modal" data-target="#modal1">新規スレッド</button>
+                
+                
+                <h5>掲示板リスト</h5>
+                {% for ch in channel_list %}
+                <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
+                {% endfor %}
+            </div>
+            <div class="col-10 bbs-main-flow">
+                <h2>{{ channel_name }}</h2>
+                {% for message in messages %}
+                <div class="bbs-content">
+                    <div class="bbs-content-header">
+                        <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
+                        <div class="floating">
+                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <p>{{ message.member.username }}</p>
+                            <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ message.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                {% endfor %}
+
+                {# ペジネーションの部分（URLの書き方が微妙） #}
+                {% if messages.has_previous %}
+                <a href="/bbs/{{ channel_name }}">&laquo;first</a>
+                <a href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;prev</a>
+                {% endif %}
+                [{{ messages.number }}/{{ messages.paginator.num_pages }}]
+                {% if messages.has_next %}
+                <a href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">next&raquo;</a>
+                <a href="/bbs/{{ channel_name }}/{{ messages.paginator.num_pages }}">last&raquo;</a>
+                {% endif %}
+
+            </div>
+            <div class="bbs-main-flow-m">
+                <h2>{{ channel_name }}</h2>
+                {% for message in messages %}
+                <div class="bbs-content">
+                    <div class="bbs-content-header">
+                        <h4>{{ message.title }}</h4>
+                        <div class="floating">
+                            <img src="{{message.member_profile.icon_url}}" alt="">
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ message.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                {% endfor %}
+
+                {# ペジネーションの部分（URLの書き方が微妙） #}
+                {% if messages.has_previous %}
+                <a href="/bbs/{{ channel_name }}">&laquo;first</a>
+                <a href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;prev</a>
+                {% endif %}
+                [{{ messages.number }}/{{ messages.paginator.num_pages }}]
+                {% if messages.has_next %}
+                <a href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">next&raquo;</a>
+                <a href="/bbs/{{ channel_name }}/{{ messages.paginator.num_pages }}">last&raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+<a class="new-thread-btn-mobile new-thread-modal-open">
+    <i class="fas fa-plus-circle"></i>
+</a>
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="label1">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Submit"></td>
+                        </tr>
+                    </form>
+                </table>
+                <a href="">画像を貼り付ける</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

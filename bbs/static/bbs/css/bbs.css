@@ -1,0 +1,85 @@
+.menu-icon-box:nth-child(2){
+    background-color: aqua;
+    border-radius: 6px;
+}
+.bbs{
+    height: 1500px;
+    width: 100%;
+}
+
+.bbs-main-flow{
+    background-color: rgb(230, 230, 230);
+}
+.bbs-main-flow-m{
+    background-color: rgb(230, 230, 230);
+    width: 100%;
+    display: none;
+}
+
+.bbs-content{
+    background-color:white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+}
+.bbs-reply-content{
+    background-color:white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    margin-left: 25px;
+    width: auto;
+}
+.bbs-content-header h4{
+    display: inline-block;
+}
+.bbs-content-header .floating{
+    display: inline-block;
+    float: right;
+}
+.bbs-content-header .floating img{
+    display: inline-block;
+    height: 30px;
+    border-radius: 50%;
+}
+.bbs-content-header .floating p{
+    display: inline-block;
+}
+.bbs-return img{
+    display: inline-block;
+    height: 35px;
+    border-radius: 50%;
+}
+.bbs-return-name{
+    display: inline-block;
+    margin-right: 20px;
+}
+.bbs-return-msg{
+    display: inline-block;
+}
+.new-thread-btn-mobile{
+    display: none;
+    position:fixed;
+    right:10px;
+    bottom:20px;
+    
+}
+.new-thread-btn-mobile i{
+    font-size: 70px;
+    color: #00aeff;
+}
+@media screen and (max-width:925px){
+    .bbs-main-flow{
+        display: none;
+    }
+    .bbs-main-flow-m{
+        display: inline-block;
+    }
+    .new-thread-btn-mobile{
+        display: inline-block;
+    }
+    .bbs-reply-content{
+        margin-left: 15px;
+    }
+}

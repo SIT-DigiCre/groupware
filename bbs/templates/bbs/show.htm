@@ -1,0 +1,163 @@
+{% extends 'bbs/header.htm' %}
+{% load static %}
+{% block title %}掲示板{% endblock %}
+{% block username %}{{ user.get_username }}{% endblock %}
+{% block icon_url %}{{ user_icon_url }}{% endblock %}
+{% block content %}
+
+<div class="bbs">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-2 side-menu">
+                <a type="button" class="btn btn-primary" href="/bbs/"{{ channel_name }}>戻る</a><br>
+                <button type="button" class=" btn btn-warning" data-toggle="modal" data-target="#edit-modal">編集</button>
+                
+                <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="edit-label">編集</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table>
+                                    <form action="" method="post" >
+                                        {% csrf_token %}
+                                        {{ form_edit.as_table }}
+                                        <tr>
+                                            <td></td>
+                                            <td><input type="submit" value="Submit" name="edit-form"></td>
+                                        </tr>
+                                    </form>
+                                </table>
+                                <a href="">画像を貼り付ける</a>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
+                                <button type="button" class="btn btn-primary">変更</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>掲示板リスト</h5>
+                {% for ch in channel_list %}
+                <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
+                {% endfor %}
+            </div>
+            <div class="col-10 bbs-main-flow">
+                <h2><a href="/bbs/"{{ channel_name }}>{{ channel_name }}</a> / {{ message.title }}</h2>
+                <div class="bbs-content">
+                    <div class="bbs-content-header">
+                        <h4>{{ message.title }}</h4>
+                        <div class="floating">
+                            <img src="{{message.member_profile.icon_url}}" alt="">
+                            <p >{{ message.member.username }}</p>
+                            <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ message.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                
+                {% for reply in replys %}
+                <div class="bbs-reply-content">
+                    <div class="bbs-content-header">
+                        <div class="floating">
+                            <img src="{{reply.member_profile.icon_url}}" alt="">
+                            <p >{{ reply.member.username }}</p>
+                            <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ reply.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#reply-modal" >コメント</button>
+                
+                <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="reply-label">コメント</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table>
+                                    <form action="" method="post" >
+                                        {% csrf_token %}
+                                        {{ form_reply.as_table }}
+                                        <tr>
+                                            <td></td>
+                                            <td><input type="submit" value="Submit" name="reply-form"></td>
+                                        </tr>
+                                    </form>
+                                </table>
+                                <a href="">画像を貼り付ける</a>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
+                                <button type="button" class="btn btn-primary">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="bbs-main-flow-m">
+                <h2>{{ channel_name }}</h2>
+                <div class="bbs-content">
+                    <div class="bbs-content-header">
+                        <h4>{{ message.title }}</h4>
+                        <div class="floating">
+                            <img src="{{message.member_profile.icon_url}}" alt="">
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ message.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                
+                {% for reply in replys %}
+                <div class="bbs-reply-content">
+                    <div class="bbs-content-header">
+                        <div class="floating">
+                            <img src="{{reply.member_profile.icon_url}}" alt="">
+                            <p >{{ reply.member.username }}</p>
+                            <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
+                        </div>
+                        <div class="float-blocker"></div>
+                    </div>
+                    <p>
+                        {{ reply.formatted_markdown|safe }}
+                    </p>
+                    <div class="bbs-content-footer">
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#reply-modal">コメント</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<a class="new-thread-btn-mobile" href="bbs">
+    <i class="fas fa-plus-circle"></i>
+</a>
+
+
+{% endblock %}

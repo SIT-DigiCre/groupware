@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <script src="http://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static "bbs/css/defStyle.css" %}">
+    <link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="{% static "bbs/js/bbs.js" %}"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="menu-box">
+            <img src="{% static "bbs/img/logo.png" %}" alt="">
+            <a href="/bbs" class="menu-icon-box">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <p>掲示板</p>
+            </a>
+            <a href="/project" class="menu-icon-box">
+                <i class="fas fa-puzzle-piece"></i>
+                <p>Project</p>
+            </a>
+            <a href="/ringi" class="menu-icon-box">
+                <i class="fas fa-hand-holding-usd"></i>
+                <p>稟議</p>
+            </a>
+            <a href="/userlist" class="menu-icon-box">
+                <i class="fas fa-user-friends"></i>
+                <p>UserList</p>
+            </a>
+            <a href="/setting" class="menu-icon-box">
+                <i class="fas fa-cogs"></i>
+                <p>Setting</p>
+            </a>
+        </div>
+        <div class="header-userinfo">
+            <img src="{% block icon_url %}{% endblock %}" alt="">
+            <p>{% block username %}{% endblock %}</p>
+        </div>
+        <div class="float-blocker"></div>
+
+    </header>
+</body>
+<main>
+{% block content %}{% endblock %}
+</main>
+
+</html>
