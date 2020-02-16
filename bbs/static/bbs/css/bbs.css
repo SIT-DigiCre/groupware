@@ -1,7 +1,4 @@
-.menu-icon-box:nth-child(2){
-    background-color: aqua;
-    border-radius: 6px;
-}
+
 .bbs{
     height: 1500px;
     width: 100%;
@@ -9,6 +6,7 @@
 
 .bbs-main-flow{
     background-color: rgb(230, 230, 230);
+    border-radius: 5px;
 }
 .bbs-main-flow-m{
     background-color: rgb(230, 230, 230);
@@ -68,18 +66,4 @@
 .new-thread-btn-mobile i{
     font-size: 70px;
     color: #00aeff;
-}
-@media screen and (max-width:925px){
-    .bbs-main-flow{
-        display: none;
-    }
-    .bbs-main-flow-m{
-        display: inline-block;
-    }
-    .new-thread-btn-mobile{
-        display: inline-block;
-    }
-    .bbs-reply-content{
-        margin-left: 15px;
-    }
 }
