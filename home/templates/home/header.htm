@@ -13,8 +13,8 @@
     <script src="http://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static "bbs/css/defStyle.css" %}">
-    <link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">
+    <link rel="stylesheet" href="{% static "home/css/defStyle.css" %}">
+    {% block customCSS %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -26,7 +26,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="{% static "bbs/js/bbs.js" %}"></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -35,7 +34,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-dark">
                 <a href="/home" class="navbar-brand">
-                    <img src="{% static "bbs/img/logo.png" %}" height="60" alt="">
+                    <img src="{% static "home/img/logo.png" %}" height="60" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu1"
                     aria-controls="navmenu1" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,8 +68,8 @@
                 <div>
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
-                            <img src="{% block icon_url %}{% endblock %}" alt="">
-                            <p>{% block username %}{% endblock %}</p>
+                            <img src="{{ user.icon_url }}" alt="">
+                            <p>{{ user.get_username }}</p>
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" role="menu">
