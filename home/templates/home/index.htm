@@ -1,0 +1,10 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% block title %}ホーム{% endblock %}
+{% block username %}{{ user.get_username }}{% endblock %}
+{% block icon_url %}{{ user.icon_url }}{% endblock %}
+{% block content %}
+<div class="container">
+    <p>Under Construction...</p>
+</div>
+{% endblock %}
