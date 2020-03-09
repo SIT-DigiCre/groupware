@@ -73,10 +73,12 @@
                             <p>{% block username %}{% endblock %}</p>
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">設定</a></li>
-                            <li><a href="#">ログアウト</a></li>
-                        </ul>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="#">個人設定</a>
+                            <a class="dropdown-item" href="#">プロフィール</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">ログアウト</a>
+                        </div>
                     </div>
                 </div>
             </nav>
