@@ -1,8 +1,7 @@
-{% extends 'bbs/header.htm' %}
+{% extends 'home/header.htm' %}
 {% load static %}
 {% block title %}掲示板{% endblock %}
-{% block username %}{{ user.get_username }}{% endblock %}
-{% block icon_url %}{{ user.icon_url }}{% endblock %}
+{% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
 {% block content %}
 
 <div class="bbs">
