@@ -1,0 +1,58 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}稟議{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'create' %}'">申請する</button>
+        </div>
+
+        <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr class="info">
+                            <th>品目</th>
+                            <th>ステータス</th>
+                            <th>金額</th>
+                            <th>申請者</th>
+                            <th>申請日</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ringi in ringis %}
+                            <tr>
+                                <td>{{ ringi.title }}</td>
+                                {% ifequal ringi.status.state_type '申請中' %}
+                                    <td class="table-danger">{{ ringi.status.state_type }}</td>
+                                {% else %}
+                                    <td>{{ ringi.status.state_type }}</td>
+                                {% endifequal %}
+                                <td class="text-right">{{ ringi.price | intcomma }} 円</td>
+                                <td>{{ ringi.owner }}</td>
+                                <td>{{ ringi.created_at | date:"Y/m/d" }}</td>
+                        {% endfor %}
+                        {# 表示例 #}
+                            <tr><td>液晶タブレット</td><td class="table-danger">申請中</td><td class="text-right">990 円</td><td>Muramatsu</td><td>2020/02/25</td></tr>
+                            <tr><td>ドメイン更新料</td><td class="table-secondary">承認済</td><td class="text-right">1,860 円</td><td>Mogami</td><td>2020/01/07</td></tr>
+                            <tr><td>HDMI-VGAアダプタ</td><td class="table-secondary">承認済</td><td class="text-right">2,300 円</td><td>Mogami</td><td>2020/03/10</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            {# ペジネーション #}
+                {% if ringis.has_previous %}
+                <a href="/ringi/">&laquo;first</a>
+                <a href="/ringi/{{ ringis.previous_page_number }}">&laquo;prev</a>
+                {% endif %}
+                [{{ ringis.number }}/{{ ringis.paginator.num_pages }}]
+                {% if ringis.has_next %}
+                <a href="/ringi/{{ ringis.next_page_number }}">next&raquo;</a>
+                <a href="/ringi/{{ ringis.paginator.num_pages }}">last&raquo;</a>
+                {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

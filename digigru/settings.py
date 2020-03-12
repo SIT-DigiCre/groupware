@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'account',
     'home',
     'bbs',
+    'ringi',
 
     # 3rd-party
     'markdownx',

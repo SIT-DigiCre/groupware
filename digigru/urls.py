@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', include('home.urls')),
     path('bbs/', include('bbs.urls')),
+    path('ringi/', include('ringi.urls')),
 ]
