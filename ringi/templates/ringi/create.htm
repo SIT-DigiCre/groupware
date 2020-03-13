@@ -1,0 +1,15 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% block title %}稟議{% endblock %}
+{% block content %}
+
+<div class="container">
+    <table>
+        <form action="{% url 'create' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <tr><td></td><td><input type="submit" value="submit"></td></tr>
+        </form>
+    </table>
+</div>
+{% endblock %}
