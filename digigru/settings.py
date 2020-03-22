@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'sass_processor',
     'account',
     'home',
     'bbs',
@@ -129,3 +130,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static'
 
 AUTH_USER_MODEL = 'account.User'
+STATICFILES_DIRS = (
+os.path.join(BASE_DIR, 'static'),
+)
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.(sass|scss)$'
+SASS_PRECISION = 8
+SASS_OUTPUT_STYLE = 'compressed'
+SASS_TEMPLATE_EXTS = ['.html', '.haml']
