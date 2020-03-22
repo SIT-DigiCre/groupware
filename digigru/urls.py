@@ -21,4 +21,5 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('bbs/', include('bbs.urls')),
     path('ringi/', include('ringi.urls')),
+    path('member/',include('member.urls')),
 ]

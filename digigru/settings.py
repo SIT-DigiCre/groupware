@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'home',
     'bbs',
     'ringi',
+    'member',
 
     # 3rd-party
     'markdownx',
