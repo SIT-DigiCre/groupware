@@ -15,7 +15,8 @@
                 <table class="table table-hover">
                     <thead class="thead-light">
                         <tr class="info">
-                            <th></th><th></th>
+                            {% if perms.ringi.change_ringi %}<th></th>{% endif %}
+                            {% if perms.ringi.delete_ringi %}<th></th>{% endif %}
                             <th>品目</th>
                             <th>ステータス</th>
                             <th>金額</th>
@@ -28,8 +29,12 @@
                             <tr>
                                 <!-- url 'edit' item.id -->
                                 <!-- url 'delete' item.id -->
-                                <td><a href="">Edit</a></td>
-                                <td><a href="">Delete</a></td>
+                                {% if perms.ringi.change_ringi %}
+                                    <td><a href="">Edit</a></td>
+                                {% endif %}
+                                {% if perms.ringi.delete_ringi %}
+                                    <td><a href="">Delete</a></td>
+                                {% endif %}
                                 <td>{{ ringi.title }}</td>
                                 {% ifequal ringi.status.state_type '申請中' %}
                                     <td class="table-danger">{{ ringi.status.state_type }}</td>
@@ -41,9 +46,11 @@
                                 <td>{{ ringi.created_at | naturalday }}</td>
                         {% endfor %}
                         {# 表示例 #}
+                        <!--
                             <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>液晶タブレット</td><td class="table-danger">申請中</td><td class="text-right">990 円</td><td>Muramatsu</td><td>2020/02/25</td></tr>
                             <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>ドメイン更新料</td><td class="table-secondary">承認済</td><td class="text-right">1,860 円</td><td>Mogami</td><td>2020/01/07</td></tr>
                             <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>HDMI-VGAアダプタ</td><td class="table-secondary">承認済</td><td class="text-right">2,300 円</td><td>Mogami</td><td>2020/03/10</td></tr>
+                        -->
                     </tbody>
                 </table>
             </div>
