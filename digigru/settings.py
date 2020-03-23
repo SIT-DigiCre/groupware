@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['app','localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    # build-in app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'sass_processor',
+
+    # custom app
     'account',
     'home',
     'bbs',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
 
     # 3rd-party
     'markdownx',
+    'sass_processor',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -139,3 +142,6 @@ SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.(sass|scss)$'
 SASS_PRECISION = 8
 SASS_OUTPUT_STYLE = 'compressed'
 SASS_TEMPLATE_EXTS = ['.html', '.haml']
+
+DATE_FORMAT = 'Y/m/d'
+USE_L10N = False
