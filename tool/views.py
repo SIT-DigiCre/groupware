@@ -16,8 +16,14 @@ def index(request):
     return render(request, 'tool/index.htm', params)
 
 @login_required(login_url='/admin/login/')
-def show(request):
-    return render(request,'tool/show.htm')
+def show(request,id=-1):
+    if id==-1:
+        return redirect(to='/tool')
+    tool = Tool.objects.filter(id=id).first()
+    params={
+        'tool':tool
+    }
+    return render(request,'tool/show.htm',params)
 
 
 @login_required(login_url='/admin/login/')

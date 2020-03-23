@@ -1,0 +1,19 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}ツール{% endblock %}
+{% block content %}
+
+<div class="container">
+    
+    <div class="row">
+        <h2>{{tool.name}}</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <img src="{{tool.icon.url}}" alt="" style="width: 500px; display: inline-block;">
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

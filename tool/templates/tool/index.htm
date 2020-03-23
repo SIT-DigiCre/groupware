@@ -6,12 +6,14 @@
 
 <div class="container">
     <div class="row">
+        <a type="button" class="btn btn-primary"  href='{% url 'tool.create' %}'>追加</a>
+    </div>
+    <div class="row">
         <h2>Tools</h2>
     </div>
     <div class="row">
         <div class="col-md-12">
             <img src="" alt="" style="width: 500px; display: inline-block;">
-
             <div class="card-deck">
                 
                 {% for tool in tools %}
@@ -27,9 +29,6 @@
                 </div>
                 {% endfor %}
             </div>
-
-
-
         </div>
     </div>
 </div>
