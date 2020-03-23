@@ -36,11 +36,16 @@
                                     <td><a href="">Delete</a></td>
                                 {% endif %}
                                 <td>{{ ringi.title }}</td>
-                                {% ifequal ringi.status.state_type '申請中' %}
+
+                                {# ここで条件分岐して色分けを行うのではなく、ステータスが直接CSSクラスの情報を持つほうがよさそう #}
+                                {% if ringi.status.state_type == '申請中' %}
                                     <td class="table-danger">{{ ringi.status.state_type }}</td>
+                                {% elif ringi.status.state_type == '承認済' %}
+                                    <td class="table-secondary">{{ ringi.status.state_type }}</td>
                                 {% else %}
                                     <td>{{ ringi.status.state_type }}</td>
-                                {% endifequal %}
+                                {% endif %}
+
                                 <td class="text-right">{{ ringi.price | intcomma }} 円</td>
                                 <td>{{ ringi.owner }}</td>
                                 <td>{{ ringi.created_at | naturalday }}</td>
