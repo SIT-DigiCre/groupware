@@ -5,20 +5,33 @@
 {% block content %}
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'ringi.create' %}'">申請する</button>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <h4><i class="fas fa-hand-holding-usd"></i> 稟議申請</h4>
+            <p>新しく稟議を申請するには、「申請する」ボタンを押してください。</p>
+        </div>
+    </div>
+
+    <div class="row m-1">
+        <div class="col-md-2 shadow">
+            <p><button type="button" class="btn btn-primary btn-block mt-2" onclick="location.href='{% url 'ringi.create' %}'">申請する</button></p>
+            <li class="list-unstyled"><strong>状況</strong></li>
+            <li class="list-unstyled"><a href="">✔未完了</a> 6件</li>
+            <li class="list-unstyled"><a href="">申請中</a> 3件</li>
+            <li class="list-unstyled"><a href="">承認済</a> 5件</li>
+            <li class="list-unstyled"><a href="">✔完了</a></li>
         </div>
 
         <div class="col-md-10">
+            <p>12件のレコード</p>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover table-sm">
                     <thead class="thead-light">
                         <tr class="info">
-                            {% if perms.ringi.change_ringi %}<th></th>{% endif %}
-                            {% if perms.ringi.delete_ringi %}<th></th>{% endif %}
+                            <th width=1px></th>
+                            <th width=1px></th>
                             <th>品目</th>
-                            <th>ステータス</th>
+                            <th>状況</th>
                             <th>金額</th>
                             <th>申請者</th>
                             <th>申請日</th>
@@ -29,12 +42,16 @@
                             <tr>
                                 <!-- url 'edit' item.id -->
                                 <!-- url 'delete' item.id -->
-                                {% if perms.ringi.change_ringi %}
-                                    <td><a href="">Edit</a></td>
-                                {% endif %}
-                                {% if perms.ringi.delete_ringi %}
-                                    <td><a href="">Delete</a></td>
-                                {% endif %}
+                                <td>
+                                    {% if perms.ringi.change_ringi %}
+                                    <a href="" style="text-decoration: none;">⛏</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if perms.ringi.delete_ringi %}
+                                    <a href="" style="text-decoration: none;">❌</a>
+                                    {% endif %}
+                                </td>
                                 <td>{{ ringi.title }}</td>
 
                                 {# ここで条件分岐して色分けを行うのではなく、ステータスが直接CSSクラスの情報を持つほうがよさそう #}
