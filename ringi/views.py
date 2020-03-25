@@ -8,14 +8,13 @@ from .forms import RingiForm
 @login_required(login_url='/admin/login/')
 def index(request, page=1):
     # GETアクセス時の処理
-    display_num = 5 # 1ページに表示するレコードの件数
+    display_num = 10 # 1ページに表示するレコードの件数
     ringis = Ringi.objects.all()
     ringis_page = Paginator(ringis, display_num)
     statuses = Status.objects.all()
 
     params = {
        'ringis': ringis_page.get_page(page),
-       'display_num': display_num,
        'statuses': statuses,
     }
     return render(request, 'ringi/index.htm', params)
