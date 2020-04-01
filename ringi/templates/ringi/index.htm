@@ -44,7 +44,8 @@
                         <tr class="info">
                             <th width=1px></th>
                             <th width=1px></th>
-                            <th>品目</th>
+                            <th>id</th>
+                            <th>表題</th>
                             <th>状況</th>
                             <th>金額</th>
                             <th>申請者</th>
@@ -64,6 +65,7 @@
                                     <a href="{% url 'ringi.delete' ringi.id %}" style="text-decoration: none;">❌</a>
                                     {% endif %}
                                 </td>
+                                <td>{{ ringi.id }}</td>
                                 <td><a href="{% url 'ringi.show' ringi.id %}">{{ ringi.title }}</a></td>
                                 <td class="table-{{ ringi.status.color }}">{{ ringi.status.state_type }}</td>
                                 <td class="text-right">{{ ringi.price | intcomma }} 円</td>
