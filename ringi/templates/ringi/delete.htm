@@ -1,5 +1,4 @@
 {% extends 'home/header.htm' %}
-{% load static %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 
@@ -9,20 +8,21 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
-                  <li class="breadcrumb-item"><a href="{% url 'ringi.index' %}">費用申請</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'ringi.index' %}">費用一覧</a></li>
                   <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
                 </ol>
             </nav>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
-            <form action="{% url 'ringi.create' %}" method="post">
+            <p>{{ ringi.id }}: {{ ringi.title }}を削除します。よろしいですか？</p>
+            <form action="{% url 'ringi.delete' ringi.id %}" method="post">
                 {% csrf_token %}
-                {{ form }}
-                <input type="submit" class="btn btn-primary mt-3" value="登録する">
+                <input type="submit" class="btn btn-danger" value="削除する">
             </form>
-        </div>
+    </div>
     </div>
 </div>
 {% endblock %}

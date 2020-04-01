@@ -1,27 +1,35 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
+from django.db.models import Count
 from .models import Ringi, Status
-from .forms import RingiForm
+from .forms import RingiForm, RingiEditForm
 
 @login_required(login_url='/admin/login/')
 def index(request, page=1):
     # GETアクセス時の処理
     display_num = 10 # 1ページに表示するレコードの件数
-    ringis = Ringi.objects.all()
+    
+    if 'status' in request.GET:
+        ringis = Ringi.objects.filter(status=request.GET['status'])
+    else:
+        ringis = Ringi.objects.all()
+    
     ringis_page = Paginator(ringis, display_num)
-    statuses = Status.objects.all()
 
     params = {
-       'ringis': ringis_page.get_page(page),
-       'statuses': statuses,
+        'title': '費用申請',
+        'ringis': ringis_page.get_page(page),
+        'uncompleted_statuses': Status.objects.filter(is_completed=False),
+        'records_num': ringis.count(),
     }
     return render(request, 'ringi/index.htm', params)
 
 @login_required(login_url='/admin/login/')
 def create(request):
     params = {
+        'title': '新規',
         'form': RingiForm()
     }
     # POSTアクセス時の処理
@@ -35,3 +43,45 @@ def create(request):
 
     # GETアクセス時の処理
     return render(request, 'ringi/create.htm', params)
+
+@login_required(login_url='/admin/login/')
+def show(request, id):
+    params = {
+        'title': '詳細',
+        'ringi': Ringi.objects.get(id=id)
+    }
+    return render(request, 'ringi/show.htm', params)
+
+@login_required(login_url='/admin/login/')
+@permission_required('ringi.change_ringi')
+def edit(request, id):
+    obj = Ringi.objects.get(id=id)
+    # POSTアクセス時の処理
+    if request.method == 'POST':
+        ringi = RingiEditForm(request.POST, instance=obj)
+        ringi.save()
+        return redirect(to="/ringi")
+    
+    # GETアクセス時の処理
+    params = {
+        'title': '編集',
+        'id': obj.id,
+        'form': RingiEditForm(instance=obj)
+    }
+    return render(request, 'ringi/edit.htm', params)
+
+@login_required(login_url='/admin/login/')
+@permission_required('ringi.delete_ringi')
+def delete(request, id):
+    ringi = Ringi.objects.get(id=id)
+    # POSTアクセス時の処理
+    if request.method == 'POST':
+        ringi.delete()
+        return redirect(to="/ringi")
+
+    # GETアクセス時の処理
+    params = {
+        'title': '削除',
+        'ringi': ringi
+    }
+    return render(request, 'ringi/delete.htm', params)

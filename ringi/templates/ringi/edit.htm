@@ -17,10 +17,10 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form action="{% url 'ringi.create' %}" method="post">
+            <form action="{% url 'ringi.edit' id %}" method="post">
                 {% csrf_token %}
                 {{ form }}
-                <input type="submit" class="btn btn-primary mt-3" value="登録する">
+                <input type="submit" class="btn btn-primary mt-3" value="更新する">
             </form>
         </div>
     </div>
