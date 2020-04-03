@@ -22,12 +22,4 @@ class Tool(models.Model):
     def formatted_markdown(self):
         return markdownify(self.intro) # モデルデータをMarkDown形式に変換してくれる
 
-class UserTool(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
-    level = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
 
-
-    def __str__(self):
-        return self.tool.name

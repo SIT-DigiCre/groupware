@@ -1,0 +1,15 @@
+{% for tooltag in profile.usertool_set.all %}
+{% if tooltag.tool.kind == 'pg_tool' %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-primary">{{ tooltag.tool.name }}</a>
+{% elif tooltag.tool.kind == '2dcg_tool' %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-success">{{ tooltag.tool.name }}</a>
+{% elif tooltag.tool.kind == '3dcg_tool' %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-danger">{{ tooltag.tool.name }}</a>
+{% elif tooltag.tool.kind == 'dtm_tool' %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-info">{{ tooltag.tool.name }}</a>
+{% elif tooltag.tool.kind == 'project_tool' %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-warning">{{ tooltag.tool.name }}</a>
+{% else %}
+<a href="/tool/{{tooltag.tool.id}}" class="badge badge-secondary">{{ tooltag.tool.name }}</a>
+{% endif %}
+{% endfor %}
