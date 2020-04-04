@@ -3,14 +3,50 @@
     "model": "ringi.status",
     "pk": 1,
     "fields": {
-      "state_type": "申請中"
+      "state_type": "申請中",
+      "order": 1,
+      "is_completed": false,
+      "color": "primary"
     }
   },
   {
     "model": "ringi.status",
     "pk": 2,
     "fields": {
-      "state_type": "承認済"
+      "state_type": "承認済",
+      "order": 2,
+      "is_completed": false,
+      "color": "success"
+    }
+  },
+  {
+    "model": "ringi.status",
+    "pk": 3,
+    "fields": {
+      "state_type": "未支払",
+      "order": 3,
+      "is_completed": false,
+      "color": "warning"
+    }
+  },
+  {
+    "model": "ringi.status",
+    "pk": 4,
+    "fields": {
+      "state_type": "却下",
+      "order": 4,
+      "is_completed": true,
+      "color": "danger"
+    }
+  },
+  {
+    "model": "ringi.status",
+    "pk": 5,
+    "fields": {
+      "state_type": "完了",
+      "order": 5,
+      "is_completed": true,
+      "color": "secondary"
     }
   },
   {
