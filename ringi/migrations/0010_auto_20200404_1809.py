@@ -9,9 +9,9 @@ def load_fixture(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ringi', '0002_auto_20200312_1813'),
+        ('ringi', '0009_auto_20200401_1909'),
     ]
 
     operations = [
-        # migrations.RunPython(load_fixture),
+        migrations.RunPython(load_fixture),
     ]
