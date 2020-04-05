@@ -8,11 +8,8 @@ class ProfileForm(forms.ModelForm):
         fields = ['message',]
 
 class UserToolForm(forms.Form):
-    TOOL = (('',''),)
-    c_tools = Tool.objects.all()
-    for t in c_tools:
-        TOOL += ((t.name,t.name),)
-    c_tool = forms.ChoiceField(choices=TOOL)
+    
+    c_tool = forms.CharField()
     level = forms.IntegerField()
 
 
