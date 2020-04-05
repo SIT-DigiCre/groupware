@@ -59,11 +59,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     # アイコン追加
-    icon_url = models.URLField(max_length=200,blank=True)
+    icon = models.ImageField(upload_to='user_icon/', default='defo')
+    #icon_url = models.URLField(max_length=200,blank=True)
     email = models.EmailField(_('email address'), blank=True)
     is_staff = models.BooleanField(
         _('staff status'),
-        default=False,
+        default=True,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
     is_active = models.BooleanField(

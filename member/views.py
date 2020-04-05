@@ -36,7 +36,7 @@ def edit(request):
                 usertool = UserTool()
                 usertool.level = usertool_form.cleaned_data['level']
                 usertool.user=request.user
-                usertool.tool = Tool.objects.filter(name__exact=usertool_form.cleaned_data['c_tool']).first()
+                usertool.tool = usertool_form.cleaned_data['tool']
                 usertool.profile = profile
                 usertool.save()
             

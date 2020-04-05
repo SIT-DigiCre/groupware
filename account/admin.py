@@ -4,7 +4,7 @@ from .models import User
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    fieldsets = UserAdmin.fieldsets + ((None, {'fields': ('icon_url',)}),)
-    list_display = ['username', 'email', 'icon_url']
+    fieldsets = UserAdmin.fieldsets + ((None, {'fields': ('icon',)}),)
+    list_display = ['username', 'email', 'icon']
 
 admin.site.register(User, CustomUserAdmin)
