@@ -10,7 +10,16 @@
         <div class="col-md-12">
             <img src="" alt="" style="width: 500px; display: inline-block;">
             <div>
-                
+                {% if is_currentusers_data %}
+                <a type="button" class="btn btn-primary" href='/member/edit'>編集</a><br>
+                {% endif %}
+
+                <h1>{{profile.user.username}}</h1>
+                <p>{{profile.message}}</p>
+                <br>
+                {% include 'tool/usertool.htm' %}
+                <br>
+                <h2>作品一覧</h2>
             </div>
             
         </div>

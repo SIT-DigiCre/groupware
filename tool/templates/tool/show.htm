@@ -1,0 +1,35 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}ツール{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/tool">ツール</a></li>
+                    <li class="breadcrumb-item active">{{ tool.name }}</li>
+                </ol>
+            </nav>
+        </div>
+        
+    </div>
+    <div class="row">
+        
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <img src="{{tool.icon.url}}" alt="" style="height: 100px; display: inline-block;">
+                <div style="width: 20px;display: inline-block;"></div>
+                <h1 class="d-inline-block text-center" style="margin: 0; line-height: 100px;">{{tool.name}}</h1>
+            </div>
+            
+            <p>{{ tool.formatted_markdown|safe }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

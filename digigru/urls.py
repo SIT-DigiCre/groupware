@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from . import settings
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('home.urls')),
-    path('bbs/', include('bbs.urls')),
-    path('ringi/', include('ringi.urls')),
-    path('member/',include('member.urls')),
+    path('home/', include('home.urls'), name="home"),
+    path('bbs/', include('bbs.urls'), name="bbs"),
+    path('ringi/', include('ringi.urls'), name="ringi"),
+    path('member/',include('member.urls'), name="member"),
+    path('tool/',include('tool.urls'), name="tool"),
+    #path('work/',include('work.urls'), name="work")
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -58,6 +58,18 @@
                         <a href="#" class="btn btn-primary">詳細</a>
                     </div>
                 </div>
+                {% for profile in profiles %}
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top rounded-circle" src="http://drive.google.com/uc?export=view&id=1wyWwpbH8-o2zWl3mOKDR9TjNX3TFMW9f" alt="ユーザー画像">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ profile.user.username }}</h5>
+                        <p class="card-text">{{profile.message}}</p>
+                        {% include 'tool/usertool.htm' %}
+                        <br>
+                        <a href="/member/{{profile.id}}" class="btn btn-primary">詳細</a>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
             
         </div>

@@ -1,0 +1,46 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}ツール{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active">ツール</li>
+                </ol>
+            </nav>
+        </div>
+        
+    </div>
+    <div class="row">
+        <a type="button" class="btn btn-primary"  href='{% url 'tool.create' %}'>追加</a>
+    </div>
+    <div class="row">
+        <h2>Tools</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <img src="" alt="" style="width: 500px; display: inline-block;">
+            <div class="card-deck">
+                
+                {% for tool in tools %}
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ tool.icon.url }}" alt="Tool画像">
+                    <div class="card-body">
+                        <h5 class="card-title">{{tool.name}}</h5>
+                        <p class="card-text">{{tool.kind}}</p>
+                        
+                        <br>
+                        <a href="show/{{tool.id}}" class="btn btn-primary">詳細</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

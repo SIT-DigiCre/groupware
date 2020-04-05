@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'bbs',
     'ringi',
     'member',
+    'tool',
+    'work',
 
     # 3rd-party
     'markdownx',
@@ -119,6 +121,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'Asia/Tokyo'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 USE_I18N = True
 
