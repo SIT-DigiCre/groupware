@@ -1,24 +1,52 @@
 {% extends 'home/header.htm' %}
 {% load static %}
 {% load humanize %}
-{% block title %}稟議{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
 
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'ringi.create' %}'">申請する</button>
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4><i class="fas fa-hand-holding-usd"></i> 費用申請</h4>
+            <p>新しく費用を申請するには、「申請する」ボタンを押してください。</p>
+        </div>
+    </div>
+
+    <div class="row m-1">
+        <div class="col-md-2 shadow">
+            <p><button type="button" class="btn btn-primary btn-block mt-2" onclick="location.href='{% url 'ringi.create' %}'">申請する</button></p>
+            <li class="list-unstyled"><strong>状況</strong></li>
+            <li class="list-unstyled">未完了</li>
+            {% for status in uncompleted_statuses %}
+            <li class="list-unstyled">
+                {% if forloop.last %}┗{% else %}┣{% endif %}■<a href="?status={{ status.id }}">{{ status.state_type }}</a> {{ status.ringi_set.count }}件
+            </li>
+            {% endfor %}
+            <li class="list-unstyled">✔完了</li> 
         </div>
 
         <div class="col-md-10">
+            <p>{{ records_num }}件のレコード</p>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover table-sm">
                     <thead class="thead-light">
                         <tr class="info">
-                            {% if perms.ringi.change_ringi %}<th></th>{% endif %}
-                            {% if perms.ringi.delete_ringi %}<th></th>{% endif %}
-                            <th>品目</th>
-                            <th>ステータス</th>
+                            <th width=1px></th>
+                            <th width=1px></th>
+                            <th>id</th>
+                            <th>表題</th>
+                            <th>状況</th>
                             <th>金額</th>
                             <th>申請者</th>
                             <th>申請日</th>
@@ -27,35 +55,24 @@
                     <tbody>
                         {% for ringi in ringis %}
                             <tr>
-                                <!-- url 'edit' item.id -->
-                                <!-- url 'delete' item.id -->
-                                {% if perms.ringi.change_ringi %}
-                                    <td><a href="">Edit</a></td>
-                                {% endif %}
-                                {% if perms.ringi.delete_ringi %}
-                                    <td><a href="">Delete</a></td>
-                                {% endif %}
-                                <td>{{ ringi.title }}</td>
-
-                                {# ここで条件分岐して色分けを行うのではなく、ステータスが直接CSSクラスの情報を持つほうがよさそう #}
-                                {% if ringi.status.state_type == '申請中' %}
-                                    <td class="table-danger">{{ ringi.status.state_type }}</td>
-                                {% elif ringi.status.state_type == '承認済' %}
-                                    <td class="table-secondary">{{ ringi.status.state_type }}</td>
-                                {% else %}
-                                    <td>{{ ringi.status.state_type }}</td>
-                                {% endif %}
-
+                                <td>
+                                    {% if perms.ringi.change_ringi %}
+                                    <a href="{% url 'ringi.edit' ringi.id %}" style="text-decoration: none;">📝</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if perms.ringi.delete_ringi %}
+                                    <a href="{% url 'ringi.delete' ringi.id %}" style="text-decoration: none;">❌</a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ ringi.id }}</td>
+                                <td><a href="{% url 'ringi.show' ringi.id %}">{{ ringi.title }}</a></td>
+                                <td class="table-{{ ringi.status.color }}">{{ ringi.status.state_type }}</td>
                                 <td class="text-right">{{ ringi.price | intcomma }} 円</td>
                                 <td>{{ ringi.owner }}</td>
                                 <td>{{ ringi.created_at | naturalday }}</td>
+                            </tr>
                         {% endfor %}
-                        {# 表示例 #}
-                        <!--
-                            <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>液晶タブレット</td><td class="table-danger">申請中</td><td class="text-right">990 円</td><td>Muramatsu</td><td>2020/02/25</td></tr>
-                            <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>ドメイン更新料</td><td class="table-secondary">承認済</td><td class="text-right">1,860 円</td><td>Mogami</td><td>2020/01/07</td></tr>
-                            <tr><td><a href="">Edit</a></td><td><a href="">Delete</a></td><td>HDMI-VGAアダプタ</td><td class="table-secondary">承認済</td><td class="text-right">2,300 円</td><td>Mogami</td><td>2020/03/10</td></tr>
-                        -->
                     </tbody>
                 </table>
             </div>

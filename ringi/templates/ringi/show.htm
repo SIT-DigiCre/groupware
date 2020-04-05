@@ -1,0 +1,44 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'ringi.index' %}">費用申請</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ ringi.id }}: {{ ringi.title }}</h2>
+            <p><span class="badge badge-{{ ringi.status.color }}">{{ ringi.status }}</span></p>
+            <p>
+                {% if perms.ringi.change_ringi %}
+                <a href="{% url 'ringi.edit' ringi.id %}">📝編集する</a>
+                {% endif %}
+                {% if perms.ringi.delete_ringi %}
+                 | <a href="{% url 'ringi.delete' ringi.id %}">❌削除する</a>
+                {% endif %}
+            </p>
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <tr><th>備考</th><td>{{ ringi.note }}</td></tr>
+                    <tr><th>金額</th><td>{{ ringi.price }}</td></tr>
+                    <tr><th>申請者</th><td>{{ ringi.owner }}</td></tr>
+                    <tr><th>申請日時</th><td>{{ ringi.created_at | date:"Y/m/d H:i" }}</td></tr>
+                    <tr><th>更新日時</th><td>{{ ringi.updated_at | date:"Y/m/d H:i" }}</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
