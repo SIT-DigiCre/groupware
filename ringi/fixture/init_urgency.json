@@ -1,0 +1,26 @@
+[
+  {
+    "model": "ringi.urgency",
+    "pk": 1,
+    "fields": {
+      "urgency_type": "通常",
+      "color": "primary"
+    }
+  },
+  {
+    "model": "ringi.urgency",
+    "pk": 2,
+    "fields": {
+      "urgency_type": "緊急",
+      "color": "danger"
+    }
+  },
+  {
+    "model": "ringi.urgency",
+    "pk": 3,
+    "fields": {
+      "urgency_type": "事後報告",
+      "color": "secondary"
+    }
+  }
+]

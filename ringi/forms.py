@@ -9,7 +9,7 @@ class RingiForm(forms.ModelForm):
 
     class Meta:
         model = Ringi
-        fields = ['title', 'price', 'purpose', 'note']
+        fields = ['title', 'price', 'urgency', 'purpose', 'note']
 
 class RingiEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

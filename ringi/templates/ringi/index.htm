@@ -47,6 +47,7 @@
                             <th>id</th>
                             <th>表題</th>
                             <th>状況</th>
+                            <th>緊急度</th>
                             <th>金額</th>
                             <th>申請者</th>
                             <th>申請日</th>
@@ -68,6 +69,9 @@
                                 <td>{{ ringi.id }}</td>
                                 <td><a href="{% url 'ringi.show' ringi.id %}">{{ ringi.title }}</a></td>
                                 <td class="table-{{ ringi.status.color }}">{{ ringi.status.state_type }}</td>
+                                {% if ringi.urgency_id == 1 %}<td></td>{% else %}
+                                <td class="table-{{ ringi.urgency.color }}">{{ ringi.urgency.urgency_type }}</td>
+                                {% endif %}
                                 <td class="text-right">{{ ringi.price | intcomma }} 円</td>
                                 <td>{{ ringi.owner }}</td>
                                 <td>{{ ringi.created_at | naturalday }}</td>
