@@ -25,7 +25,7 @@ class Urgency(models.Model):
 class Ringi(models.Model):
     title = models.CharField(verbose_name='タイトル', max_length=50)
     status = models.ForeignKey(Status, verbose_name='ステータス', on_delete=models.CASCADE)
-    price = models.IntegerField(verbose_name='金額', validators=[MinValueValidator(0)])
+    price = models.PositiveIntegerField(verbose_name='金額', validators=[MinValueValidator(0)])
     owner = models.ForeignKey(User, verbose_name='登録者', on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name='登録日時', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
