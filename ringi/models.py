@@ -23,7 +23,7 @@ class Urgency(models.Model):
         return self.urgency_type
 
 class Ringi(models.Model):
-    title = models.CharField(verbose_name='タイトル', max_length=50)
+    title = models.CharField(verbose_name='表題', max_length=50)
     status = models.ForeignKey(Status, verbose_name='ステータス', on_delete=models.CASCADE)
     price = models.PositiveIntegerField(verbose_name='金額', validators=[MinValueValidator(0)])
     owner = models.ForeignKey(User, verbose_name='登録者', on_delete=models.CASCADE)
@@ -32,9 +32,11 @@ class Ringi(models.Model):
     purpose = models.CharField(verbose_name='目的', max_length=50, default='')
     note = models.TextField(verbose_name='備考', max_length=200, blank=True, default='')
     urgency = models.ForeignKey(Urgency, verbose_name='緊急度', on_delete=models.CASCADE)
+    is_purchased = models.BooleanField(verbose_name='購入済', default=False)
+    is_pay_offed = models.BooleanField(verbose_name='精算済', default=False)
 
     class Meta:
-        ordering = ('-created_at',) # 新着順にする
+        ordering = ('-urgency', '-created_at', ) # 緊急度、新着順にする
 
     def __str__(self):
         return self.title

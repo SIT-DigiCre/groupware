@@ -33,7 +33,7 @@
                 {% if forloop.last %}┗{% else %}┣{% endif %}■<a href="?status={{ status.id }}">{{ status.state_type }}</a> {{ status.ringi_set.count }}件
             </li>
             {% endfor %}
-            <li class="list-unstyled">✔完了</li> 
+            <li class="list-unstyled">✔完了</li>
         </div>
 
         <div class="col-md-10">
@@ -49,6 +49,8 @@
                             <th>状況</th>
                             <th>緊急度</th>
                             <th>金額</th>
+                            <th>購入</th>
+                            <th>精算</th>
                             <th>申請者</th>
                             <th>申請日</th>
                         </tr>
@@ -73,6 +75,8 @@
                                 <td class="table-{{ ringi.urgency.color }}">{{ ringi.urgency.urgency_type }}</td>
                                 {% endif %}
                                 <td class="text-right">{{ ringi.price | intcomma }} 円</td>
+                                {% if ringi.is_purchased %}<td class="text-center">✔</td>{% else %}<td></td>{% endif %}
+                                {% if ringi.is_pay_offed %}<td class="text-center">✔</td>{% else %}<td></td>{% endif %}
                                 <td>{{ ringi.owner }}</td>
                                 <td>{{ ringi.created_at | naturalday }}</td>
                             </tr>

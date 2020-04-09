@@ -19,4 +19,4 @@ class RingiEditForm(forms.ModelForm):
 
     class Meta:
         model = Ringi
-        fields = ['status']
+        fields = ['status', 'is_purchased', 'is_pay_offed']

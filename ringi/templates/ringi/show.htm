@@ -20,7 +20,11 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{ ringi.id }}: {{ ringi.title }}</h2>
-            <p><span class="badge badge-{{ ringi.status.color }}">{{ ringi.status }}</span></p>
+            <p>
+                <span class="badge badge-{{ ringi.status.color }}">{{ ringi.status }}</span>
+                {% if ringi.is_purchased %}<span class="badge badge-primary">購入済</span>{% endif %}
+                {% if ringi.is_pay_offed %}<span class="badge badge-primary">精算済</span>{% endif %}
+            </p>
             <p>
                 {% if perms.ringi.change_ringi %}
                 <a href="{% url 'ringi.edit' ringi.id %}">📝編集する</a>
