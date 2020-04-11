@@ -1,0 +1,55 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Work{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Work</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow p-3 mb-3">
+                <a href="{% url 'work.create'%}" class="btn btn-primary">新規Work</a>
+                <a href="{% url 'work.create'%}" class="btn btn-primary">検索</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-columns">
+                {% for work in works %}
+                <div class="card">
+                    {% if work.main_image.url !=  '/media/defo'%}
+                    <img src="{{work.main_image.url}}" class="card-image-top" alt=""style="width: 100%;">
+                    {%endif%}
+                    <div class="card-body">
+                        <a class="card-title" href="{{work.id}}"
+                            style="font-size: 20px;text-decoration: none;color:black;">{{work.name}}</a>
+                        <br>
+                        {% if work.status == 'planning' %}
+                        <span class="badge badge-pill badge-warning">Planning</span>
+                        {% elif work.status == 'making' %}
+                        <span class="badge badge-pill badge-success">Making</span>
+                        {% elif work.status == 'finished' %}
+                        <span class="badge badge-pill badge-dark">Finished</span>
+                        {% endif %}
+                        <br>
+                        {% include 'work/worktool.htm' %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

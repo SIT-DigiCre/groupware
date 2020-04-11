@@ -1,0 +1,51 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Workの編集{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'work.index' %}">Work</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{work.name}}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    {% if edit_enabled %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow p-3 mb-3">
+                <a href="/work/edit/{{work.id}}" class="btn btn-primary">編集</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{work.name}}</h2>
+            {% if work.main_image.url !=  '/media/defo'%}
+            <img src="{{work.main_image.url}}" class="card-image" alt="">
+            {%endif%}
+            <p>{{ work.formatted_markdown|safe }}</p>
+            <br>
+            <h5>Tool一覧</h5>
+            {% include 'work/worktool.htm' %}
+            <br>
+            <br>
+            <h5>メンバー</h5>
+            {%for user in work.users.all %}
+            <a href="/member/{{user.id}}" style="font-size:18px;">
+                <img src="{{ user.icon.url }}" alt="User画像" style="width: 50px;">
+                {{user.username}}
+            </a>
+            <br>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

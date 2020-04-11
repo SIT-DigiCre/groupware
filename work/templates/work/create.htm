@@ -1,0 +1,22 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Workの登録{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h2>Workの登録</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'work.create' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mt-3" >登録</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

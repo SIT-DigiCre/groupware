@@ -8,8 +8,14 @@ from markdownx.utils import markdownify
 
 class Work(models.Model):
     name =  models.CharField(max_length=50)
-    tool = models.ForeignKey(Tool,on_delete=models.CASCADE)
-    user = models.ManyToManyField(User)
+    tools = models.ManyToManyField(Tool)
+    users = models.ManyToManyField(User)
     leader_user_id = models.IntegerField()
     main_image = models.ImageField(upload_to='work_main_image/', default='defo')
     intro = MarkdownxField('intro')
+    STATUS_CHOICE =(
+        ('planning','planning'),
+        ('making','making'),
+        ('finished','finished'),
+    )
+    status = models.CharField(max_length=10,choices=STATUS_CHOICE,default=0)
