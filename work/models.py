@@ -10,6 +10,6 @@ class Work(models.Model):
     name =  models.CharField(max_length=50)
     tool = models.ForeignKey(Tool,on_delete=models.CASCADE)
     user = models.ManyToManyField(User)
-    leader = models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
+    leader_user_id = models.IntegerField()
     main_image = models.ImageField(upload_to='work_main_image/', default='defo')
     intro = MarkdownxField('intro')
