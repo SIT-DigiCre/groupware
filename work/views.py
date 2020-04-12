@@ -43,7 +43,7 @@ def edit(request,id):
 def create(request):
     work = Work()
     if request.method == 'POST':
-        work_form = WorkForm(request.POST,instance=work)
+        work_form = WorkForm(request.POST,request.FILES,instance=work)
         work = work_form.save(commit=False)
         work.leader_user_id = request.user.id
         work.save()
