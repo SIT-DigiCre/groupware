@@ -1,0 +1,15 @@
+{% for tool in work.tools.all %}
+{% if tool.kind == 'pg_tool' %}
+<a href="/tool/{{tool.id}}" class="badge badge-primary">{{ tool.name }}</a>
+{% elif tool.kind == '2dcg_tool' %}
+<a href="/tool/{{tool.id}}" class="badge badge-success">{{ tool.name }}</a>
+{% elif tool.kind == '3dcg_tool' %}
+<a href="/tool/{{tool.id}}" class="badge badge-danger">{{ tool.name }}</a>
+{% elif tool.kind == 'dtm_tool' %}
+<a href="/tool/{{tool.id}}" class="badge badge-info">{{ tool.name }}</a>
+{% elif tool.kind == 'project_tool' %}
+<a href="/tool/{{tool.id}}" class="badge badge-warning">{{ tool.name }}</a>
+{% else %}
+<a href="/tool/{{tool.id}}" class="badge badge-secondary">{{ tool.name }}</a>
+{% endif %}
+{% endfor %}

@@ -26,7 +26,7 @@ urlpatterns = [
     path('ringi/', include('ringi.urls'), name="ringi"),
     path('member/',include('member.urls'), name="member"),
     path('tool/',include('tool.urls'), name="tool"),
-    #path('work/',include('work.urls'), name="work")
+    path('work/',include('work.urls'), name="work"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
