@@ -25,12 +25,12 @@ class Migration(migrations.Migration):
                 ('color', models.CharField(default='', max_length=20)),
             ],
         ),
-        migrations.RunPython(load_fixture_urgency),
+        #migrations.RunPython(load_fixture_urgency),
         migrations.AddField(
             model_name='ringi',
             name='urgency',
             field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='ringi.Urgency', verbose_name='緊急度'),
             preserve_default=False,
         ),
-        migrations.RunPython(load_fixture),
+        #migrations.RunPython(load_fixture),
     ]

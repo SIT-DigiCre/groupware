@@ -40,6 +40,7 @@
                     <tr><th>申請者</th><td>{{ ringi.owner }}</td></tr>
                     <tr><th>申請日時</th><td>{{ ringi.created_at | date:"Y/m/d H:i" }}</td></tr>
                     <tr><th>更新日時</th><td>{{ ringi.updated_at | date:"Y/m/d H:i" }}</td></tr>
+                    <tr><th>領収書</th><td><img src="{{ ringi.receipt_image.url }}" style="width:300px;height:auto"></td></tr>
                 </table>
             </div>
         </div>

@@ -34,6 +34,7 @@ class Ringi(models.Model):
     urgency = models.ForeignKey(Urgency, verbose_name='緊急度', on_delete=models.CASCADE)
     is_purchased = models.BooleanField(verbose_name='購入済', default=False)
     is_pay_offed = models.BooleanField(verbose_name='精算済', default=False)
+    receipt_image = models.ImageField(verbose_name='領収書', upload_to='receipt_image/', default='defo')
 
     class Meta:
         ordering = ('-urgency', '-created_at', ) # 緊急度、新着順にする

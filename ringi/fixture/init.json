@@ -23,10 +23,10 @@
     "model": "ringi.status",
     "pk": 3,
     "fields": {
-      "state_type": "未支払",
+      "state_type": "取消",
       "order": 3,
-      "is_completed": false,
-      "color": "warning"
+      "is_completed": true,
+      "color": "secondary"
     }
   },
   {
