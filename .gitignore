@@ -1,3 +1,9 @@
+# Database dir
+/db
+
+# Config dir
+/.conf
+
 # Created by https://www.gitignore.io/api/django
  
 # vscodeの設定ファイルをgit管理対象から外す
