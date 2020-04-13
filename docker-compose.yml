@@ -14,6 +14,8 @@ services:
       gunicorn -c gunicorn.py digigru.wsgi"
     environment:
       TZ: Asia/Tokyo
+    env_file:
+      - .conf/docker.env
     restart: always
   web:
     image: nginx:1.17
@@ -29,6 +31,13 @@ services:
     environment:
       TZ: Asia/Tokyo
     restart: always
+  db:
+    image: mariadb:10.4
+    volumes:
+      - ./db:/var/lib/mysql
+    env_file:
+      - .conf/docker.env
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
 volumes:
   staticfiles:
