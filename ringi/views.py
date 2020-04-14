@@ -37,7 +37,7 @@ def create(request):
         obj = Ringi()
         obj.owner = request.user
         obj.status = Status.objects.all().first()
-        ringi = RingiForm(request.POST, instance=obj)
+        ringi = RingiForm(request.POST,request.FILES, instance=obj)
         ringi.save()
         return redirect(to='/ringi')
 
