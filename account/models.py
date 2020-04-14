@@ -59,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     # アイコン追加
-    icon = models.ImageField(upload_to='user_icon/', default='defo')
+    icon = models.ImageField(upload_to='user_icon/', default='defo.png')
     #icon_url = models.URLField(max_length=200,blank=True)
     email = models.EmailField(_('email address'), blank=True)
     is_staff = models.BooleanField(
