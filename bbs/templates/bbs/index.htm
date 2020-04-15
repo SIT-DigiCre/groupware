@@ -10,7 +10,7 @@
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">ホーム</a></li>
                         <li class="breadcrumb-item"><a href="#">掲示板</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ channel_name }}</li>
                     </ol>
@@ -37,7 +37,7 @@
                     <div class="bbs-content-header">
                         <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
                         <div class="floating">
-                            <img src="{{message.member.icon_url}}" alt="">
+                            <img src="{{ user.icon.url }}" alt="">
                             <p>{{ message.member.username }}</p>
                             <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
