@@ -21,6 +21,9 @@
     margin: 5px;
     width: 100%;
 }
+.bbs-content ul {
+    padding-left: 1em;
+}
 .bbs-reply-content{
     background-color:white;
     border-radius: 10px;
