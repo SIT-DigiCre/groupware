@@ -4,7 +4,10 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import markdownx.models
+from django.core.management import call_command
 
+def load_fixture(apps, schema_editor):
+    call_command('loaddata', 'bbs/fixture/init.json', app_label='bbs')
 
 class Migration(migrations.Migration):
 
@@ -60,4 +63,5 @@ class Migration(migrations.Migration):
                 'ordering': ('-pub_date',),
             },
         ),
+        migrations.RunPython(load_fixture),
     ]
