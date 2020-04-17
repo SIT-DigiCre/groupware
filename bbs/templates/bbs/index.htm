@@ -1,5 +1,6 @@
 {% extends 'home/header.htm' %}
 {% load static %}
+{% load humanize %}
 {% block title %}掲示板{% endblock %}
 {% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
 {% block content %}
@@ -50,7 +51,8 @@
                         {% if message.reply_set.count > 0 %}
                             <p>
                                 <img src="{{ message.reply_set.all.first.member.icon.url }}" class="small_icon" alt="" >
-                                {{ message.reply_set.count }} 件の返信
+                                <strong><a href="show/{{ message.id }}">{{ message.reply_set.count }} 件の返信</a></strong>
+                                <span class="text-secondary">{{ message.reply_set.all.last.pub_date | naturaltime }}</span>
                             </p>
                         {% endif %}
                     </div>
