@@ -47,6 +47,10 @@
 .bbs-content-header .floating p{
     display: inline-block;
 }
+.small_icon{
+    height: 30px;
+    border-radius: 50%;
+}
 .bbs-return img{
     display: inline-block;
     height: 35px;

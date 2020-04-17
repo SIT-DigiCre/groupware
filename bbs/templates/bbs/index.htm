@@ -23,7 +23,7 @@
                 <div class="side-menu">
                     <button type="button" class=" btn btn-primary" data-toggle="modal" data-target="#modal1">新規スレッド</button>
                 
-                    <h5>掲示板リスト</h5>
+                    <h5>チャンネル</h5>
                     {% for ch in channel_list %}
                     <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
                     {% endfor %}
@@ -47,6 +47,12 @@
                         {{ message.formatted_markdown|safe }}
                     </p>
                     <div class="bbs-content-footer">
+                        {% if message.reply_set.count > 0 %}
+                            <p>
+                                <img src="{{ message.reply_set.all.first.member.icon.url }}" class="small_icon" alt="" >
+                                {{ message.reply_set.count }} 件の返信
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
@@ -116,7 +122,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="label1">Modal title</h5>
+                    <h5 class="modal-title" id="label1">新規スレッドを作成</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
