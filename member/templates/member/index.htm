@@ -5,14 +5,29 @@
 {% block content %}
 
 <div class="container">
-    
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-primary">検索</button>
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">メンバー</li>
+                </ol>
+            </nav>
         </div>
-
-        <div class="col-md-10">
-            <h1>メンバー</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow p-3 mb-3">
+                <div style="width: 250px; display: inline-block;">
+                    <p style="display: inline-block; font-size: 22px;margin: 0;">メンバー覧</p>
+                </div>
+                <a href="{% url 'work.index'%}" class="btn btn-primary">Work</a>
+                <a href="{% url 'member.index'%}" class="btn btn-primary">検索</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="card-columns">
                 {% for profile in profiles %}
                 <div class="card" style="width: 18rem;">
