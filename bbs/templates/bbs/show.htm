@@ -1,12 +1,23 @@
 {% extends 'home/header.htm' %}
 {% load static %}
-{% block title %}掲示板{% endblock %}
+{% block title %}詳細{% endblock %}
 {% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
 {% block content %}
 
 <div class="bbs">
-    <div class="container-fluid ">
+    <div class="container">
         <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">掲示板</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">{{ channel_name }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">詳細</li>
+                    </ol>
+                </nav>
+            </div>
+
             <div class="col-2 side-menu">
                 <a type="button" class="btn btn-primary" href="/bbs/"{{ channel_name }}>戻る</a><br>
                 <button type="button" class=" btn btn-warning" data-toggle="modal" data-target="#edit-modal">編集</button>
@@ -51,8 +62,8 @@
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
                         <div class="floating">
-                            <img src="{{message.member.icon_url}}" alt="">
-                            <p >{{ message.member.username }}</p>
+                            <img src="{{ message.member.icon.url }}" alt="">
+                            <p>{{ message.member.username }}</p>
                             <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
                         <div class="float-blocker"></div>
@@ -68,8 +79,8 @@
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
                         <div class="floating">
-                            <img src="{{reply.member.icon_url}}" alt="">
-                            <p >{{ reply.member.username }}</p>
+                            <img src="{{ reply.member.icon.url }}" alt="">
+                            <p>{{ reply.member.username }}</p>
                             <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
                         <div class="float-blocker"></div>
@@ -135,8 +146,8 @@
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
                         <div class="floating">
-                            <img src="{{reply.member.icon_url}}" alt="">
-                            <p >{{ reply.member.username }}</p>
+                            <img src="{{ reply.member.icon_url }}" alt="">
+                            <p>{{ reply.member.username }}</p>
                             <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
                         <div class="float-blocker"></div>

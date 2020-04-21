@@ -11,8 +11,8 @@
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">ホーム</a></li>
-                        <li class="breadcrumb-item"><a href="#">掲示板</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">掲示板</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ channel_name }}</li>
                     </ol>
                 </nav>
@@ -54,7 +54,10 @@
                     <div class="bbs-content-footer">
                         {% if message.reply_set.count > 0 %}
                             <p>
-                                <img src="{{ message.reply_set.all.first.member.icon.url }}" class="small_icon" alt="" >
+                                {% for obj in message.reply_set.all %}
+                                    {# できれば重複を取り除いて表示したい #}
+                                    <img src="{{ obj.member.icon.url }}" class="small_icon" alt="" >
+                                {% endfor %}
                                 <strong><a href="show/{{ message.id }}">{{ message.reply_set.count }} 件の返信</a></strong>
                                 <span class="text-secondary">{{ message.reply_set.all.last.pub_date | naturaltime }}</span>
                             </p>
