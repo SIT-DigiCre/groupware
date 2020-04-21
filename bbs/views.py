@@ -13,28 +13,26 @@ def jump(request):
 
 @login_required(login_url='/admin/login/')
 def index(request, channel_name, page=1):
-    # GETアクセス時の処理
-    if request.method == 'GET':
-        channel_list = Channel.objects.all()
-        channel_now = Channel.objects.filter(name=channel_name).first()
-        messages = Message.objects.filter(channel=channel_now.id)
-        data = Paginator(messages, 5) # 1ページに5つスレッドを表示
-        params = {
-            'channel_list': channel_list,
-            'channel_name': channel_name,
-            'messages': data.get_page(page),
-            'form': NewThreadForm(),
-        }
-        return render(request, 'bbs/index.htm', params)
-
-@login_required(login_url='/admin/login/')
-def new_thread(request):
+    # POSTアクセス時（新規スレッド作成）の処理
     if request.method == 'POST':
         obj = Message()
         obj.member = request.user
         message = NewThreadForm(request.POST, instance=obj)
         message.save()
         return redirect(to='/bbs')
+
+    # GETアクセス時の処理
+    channel_list = Channel.objects.all()
+    channel_now = Channel.objects.filter(name=channel_name).first()
+    messages = Message.objects.filter(channel=channel_now.id)
+    data = Paginator(messages, 5) # 1ページに5つスレッドを表示
+    params = {
+        'channel_list': channel_list,
+        'channel_name': channel_name,
+        'messages': data.get_page(page),
+        'form': NewThreadForm(),
+    }
+    return render(request, 'bbs/index.htm', params)
 
 # indexと共通要素多いです
 @login_required(login_url='/admin/login/')
