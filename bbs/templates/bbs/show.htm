@@ -25,29 +25,23 @@
                 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="edit-label">編集</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <table>
-                                    <form action="" method="post" >
-                                        {% csrf_token %}
-                                        {{ form_edit.as_table }}
-                                        <tr>
-                                            <td></td>
-                                            <td><input type="submit" value="Submit" name="edit-form"></td>
-                                        </tr>
-                                    </form>
-                                </table>
-                                <a href="">画像を貼り付ける</a>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
-                                <button type="button" class="btn btn-primary">変更</button>
-                            </div>
+                            <form action="" method="post" >
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="edit-label">編集</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    {{ form_edit.as_p }}
+                                    <a href="">画像を貼り付ける</a>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
+                                    <button type="submit" class="btn btn-primary">変更</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -97,29 +91,22 @@
                 <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="reply-label">コメント</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <table>
-                                    <form action="" method="post" >
-                                        {% csrf_token %}
-                                        {{ form_reply.as_table }}
-                                        <tr>
-                                            <td></td>
-                                            <td><input type="submit" value="Submit" name="reply-form"></td>
-                                        </tr>
-                                    </form>
-                                </table>
-                                <a href="">画像を貼り付ける</a>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
-                                <button type="button" class="btn btn-primary">OK</button>
-                            </div>
+                            <form action="" method="post" >
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="reply-label">コメント</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    {{ form_reply.as_p }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
+                                    <button type="submit" class="btn btn-primary">OK</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
