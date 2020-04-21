@@ -23,7 +23,10 @@
             <div class="col-sm-0 col-md-4 col-lg-4 col-xl-3 d-none d-md-inline-block">
                 <div class="side-menu">
                     <button type="button" class=" btn btn-primary" data-toggle="modal" data-target="#modal1">新規スレッド</button>
-                
+                    <form action="", method="GET">
+                        <input type="text" name="search_word" class="form-control">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </form>
                     <h5>チャンネル</h5>
                     {% for ch in channel_list %}
                     <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
@@ -33,6 +36,7 @@
             </div>
             <div class="col-sm-12 col-md-8 col-lg-8 col-xl-9 bbs-main-flow">
                 <h2>{{ channel_name }}</h2>
+                <p>{{ result_message }}</p>
                 {% for message in messages %}
                 <div class="bbs-content">
                     <div class="bbs-content-header">
