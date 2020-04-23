@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Channel,Message,Reply,Stamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
 
@@ -24,13 +25,22 @@ def index(request, channel_name, page=1):
     # GETアクセス時の処理
     channel_list = Channel.objects.all()
     channel_now = Channel.objects.filter(name=channel_name).first()
-    messages = Message.objects.filter(channel=channel_now.id)
+
+    if 'search_word' in request.GET:
+        word = request.GET['search_word']
+        messages = Message.objects.filter(channel=channel_now.id).filter(Q(title__contains=word)|Q(content__contains=word))
+        result_message = '「' + word + '」の検索結果（' + str(messages.count()) + '件）'
+    else:
+        messages = Message.objects.filter(channel=channel_now.id)
+        result_message = 'すべてのスレッド（' + str(messages.count()) + '件）'
+
     data = Paginator(messages, 5) # 1ページに5つスレッドを表示
     params = {
         'channel_list': channel_list,
         'channel_name': channel_name,
         'messages': data.get_page(page),
         'form': NewThreadForm(),
+        'result_message': result_message, 
     }
     return render(request, 'bbs/index.htm', params)
 

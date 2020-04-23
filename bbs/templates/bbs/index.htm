@@ -1,5 +1,6 @@
 {% extends 'home/header.htm' %}
 {% load static %}
+{% load humanize %}
 {% block title %}掲示板{% endblock %}
 {% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
 {% block content %}
@@ -10,8 +11,8 @@
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">掲示板</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">掲示板</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ channel_name }}</li>
                     </ol>
                 </nav>
@@ -22,8 +23,11 @@
             <div class="col-sm-0 col-md-4 col-lg-4 col-xl-3 d-none d-md-inline-block">
                 <div class="side-menu">
                     <button type="button" class=" btn btn-primary" data-toggle="modal" data-target="#modal1">新規スレッド</button>
-                
-                    <h5>掲示板リスト</h5>
+                    <form action="", method="GET">
+                        <input type="text" name="search_word" class="form-control">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </form>
+                    <h5>チャンネル</h5>
                     {% for ch in channel_list %}
                     <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
                     {% endfor %}
@@ -32,12 +36,13 @@
             </div>
             <div class="col-sm-12 col-md-8 col-lg-8 col-xl-9 bbs-main-flow">
                 <h2>{{ channel_name }}</h2>
+                <p>{{ result_message }}</p>
                 {% for message in messages %}
                 <div class="bbs-content">
                     <div class="bbs-content-header">
                         <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
                         <div class="floating">
-                            <img src="{{message.member.icon_url}}" alt="">
+                            <img src="{{ message.member.icon.url }}" alt="">
                             <p>{{ message.member.username }}</p>
                             <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
                         </div>
@@ -47,20 +52,40 @@
                         {{ message.formatted_markdown|safe }}
                     </p>
                     <div class="bbs-content-footer">
+                        {% if message.reply_set.count > 0 %}
+                            <p>
+                                {% for obj in message.reply_set.all %}
+                                    {# できれば重複を取り除いて表示したい #}
+                                    <img src="{{ obj.member.icon.url }}" class="small_icon" alt="" >
+                                {% endfor %}
+                                <strong><a href="show/{{ message.id }}">{{ message.reply_set.count }} 件の返信</a></strong>
+                                <span class="text-secondary">{{ message.reply_set.all.last.pub_date | naturaltime }}</span>
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
 
-                {# ペジネーションの部分（URLの書き方が微妙） #}
-                {% if messages.has_previous %}
-                <a href="/bbs/{{ channel_name }}">&laquo;first</a>
-                <a href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;prev</a>
-                {% endif %}
-                [{{ messages.number }}/{{ messages.paginator.num_pages }}]
-                {% if messages.has_next %}
-                <a href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">next&raquo;</a>
-                <a href="/bbs/{{ channel_name }}/{{ messages.paginator.num_pages }}">last&raquo;</a>
-                {% endif %}
+                {# ペジネーション #}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if messages.has_previous %}
+                            <li class="page-item"><a class="page-link" href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for page in messages.paginator.page_range %}
+                            <li class="page-item {% if page == messages.number %} active {% endif %}"><a class="page-link" href="/bbs/{{ channel_name }}/{{ page }}">{{ page }}</a></li>
+                        {% endfor %}
+
+                        {% if messages.has_next %}
+                            <li class="page-item"><a class="page-link" href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
 
             </div>
             <div class="bbs-main-flow-m">
@@ -103,29 +128,23 @@
 <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="label1">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ form.as_table }}
-                        <tr>
-                            <td></td>
-                            <td><input type="submit" value="Submit"></td>
-                        </tr>
-                    </form>
-                </table>
-                <a href="">画像を貼り付ける</a>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">OK</button>
-            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="label1">新規スレッドを作成</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form.as_p }}
+                    <a href="">画像を貼り付ける</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                    <button type="submit" class="btn btn-primary">送信</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
