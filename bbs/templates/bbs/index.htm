@@ -20,21 +20,22 @@
             
         </div>
         <div class="row">
-            <div class="col-sm-0 col-md-4 col-lg-4 col-xl-3 d-none d-md-inline-block">
-                <div class="side-menu">
-                    <button type="button" class=" btn btn-primary" data-toggle="modal" data-target="#modal1">新規スレッド</button>
-                    <form action="", method="GET">
-                        <input type="text" name="search_word" class="form-control">
-                        <button type="submit" class="btn btn-primary">検索</button>
+            <div class="col-md-2 shadow">
+                    <button type="button" class=" btn btn-primary mt-2" data-toggle="modal" data-target="#modal1"><i class="fas fa-plus"></i>新規スレッド</button>
+                    <form action="", method="GET" class="mt-2 input-group">
+                        <input type="text" name="search_word" class="form-control inline-block">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </span>
                     </form>
-                    <h5>チャンネル</h5>
+                    <h5 class="mt-2">チャンネル</h5>
+                    <div class="mt-2"></div>
                     {% for ch in channel_list %}
                     <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
                     {% endfor %}
-                </div>
                 
             </div>
-            <div class="col-sm-12 col-md-8 col-lg-8 col-xl-9 bbs-main-flow">
+            <div class="col-md-10">
                 <h2>{{ channel_name }}</h2>
                 <p>{{ result_message }}</p>
                 {% for message in messages %}
