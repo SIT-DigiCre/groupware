@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">掲示板</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">{{ channel_name }}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">詳細</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ message.title }}</li>
                     </ol>
                 </nav>
             </div>
@@ -51,7 +51,7 @@
                 {% endfor %}
             </div>
             <div class="col-10 bbs-main-flow">
-                <h2><a href="/bbs/"{{ channel_name }}>{{ channel_name }}</a> / {{ message.title }}</h2>
+                
                 <div class="bbs-content">
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
