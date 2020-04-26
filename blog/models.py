@@ -16,6 +16,7 @@ class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = MarkdownxField('Contents')
+    article_image = models.ImageField(upload_to='article_image/', default='null')
     article_tags = models.ManyToManyField(ArticleTag)
     relates_works=models.ManyToManyField(Work)
     pub_date = models.DateTimeField(auto_now_add=True)

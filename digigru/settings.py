@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'member',
     'tool',
     'work',
+    'blog',
 
     # 3rd-party
     'markdownx',

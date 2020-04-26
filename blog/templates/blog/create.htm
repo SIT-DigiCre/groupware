@@ -1,0 +1,14 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}デジクリブログ{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-md-12">
+        <form action="{% url 'blog.create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-primary mt-3" value="登録する">
+        </form>
+    </div>
+</div>
+{% endblock %}
