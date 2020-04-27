@@ -1,0 +1,26 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}デジクリブログ{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for article in articles %}
+            <div class="card mt-2">
+                {% if article.article_image.url == 'null' %}
+                <img class="card-img-top" src="{{article.article_image.url}}" alt="カードの画像">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/blog/article/{{article.id}}">{{article.title}}</a></h5>
+                    <p class="card-text"><small class="text-muted">{{article.pub_date}}</small></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
