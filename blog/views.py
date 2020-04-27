@@ -11,6 +11,7 @@ def index(request,page=1):
     articles_data = Paginator(Article.objects.all(),10)
     params = {
         'articles':articles_data.get_page(page),
+        'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/index.htm',params)
 
@@ -19,12 +20,26 @@ def show(request,id=1):
     params = {
         'article':article,
         'is_edit_user':request.user == article.member,
+        'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/show.htm',params)
 
 @login_required(login_url='/admin/login/')
 def edit(request,id=1):
-    pass
+    article = Article.objects.filter(id=id).first()
+    if request.method == 'POST' and request.user == article.member:
+        article_form = EditArticleForm(request.POST,instance = article)
+        article_post = article_form.save(commit=False)
+        article_post.member=request.user
+        article_post.save()
+        return redirect(to='/blog/article/'+str(article_post.id))
+
+    params = {
+        'form':EditArticleForm(instance=article),
+        'article':article,
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/edit.htm',params)
 
 @login_required(login_url='/admin/login/')
 def create(request):
@@ -35,6 +50,7 @@ def create(request):
         article_f.save()
         return redirect(to='/blog')
     params = {
-        'form':NewArticleForm()
+        'form':NewArticleForm(),
+        'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/create.htm',params)

@@ -33,10 +33,45 @@
     <header class="navbarnavbar-light " style="background-color:#00aeff;">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-dark">
-                <a href="/home" class="navbar-brand">
+                <a href="/blog" class="navbar-brand">
                     <img src="{% static "home/img/logo.png" %}" height="60" alt="">
                 </a>
-                
+                <div class="collapse navbar-collapse" id="navmenu1" style="width: 100%;">
+                    <div class="navbar-nav mr-auto">
+                        <a href="/blog" style="text-decoration: none;">
+                            <h1 style="color: white;">ブログ</h1>
+                        </a>
+                    </div>
+                </div>
+                {% if is_login_user %}
+                <div class="dropdown d-none d-md-inline-block">
+                    <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
+                        <img src="{{ user.icon.url }}" alt="User画像">
+                        <p>{{ user.get_username }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" href="/">グループウェアへ</a>
+                        <a class="dropdown-item" href="/admin">管理画面</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="/admin/logout?next=/blog">ログアウト</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="dropdown d-none d-md-inline-block">
+                    <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
+                        <p>ユーザー情報なし</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" href="/admin/login?next=/">グループウェアへ</a>
+                        <a class="dropdown-item" href="/admin">管理画面</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-success" href="/admin/login?next=/blog">ログイン</a>
+                    </div>
+                </div>
+                {% endif %}
+
             </nav>
         </div>
     </header>
