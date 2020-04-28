@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+ul,li{
+    margin:0003em;
+    padding:0;
+}
+
 .menu-icon-box{
     width: 90px;
     height: 60px;

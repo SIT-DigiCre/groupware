@@ -41,8 +41,8 @@
                 <h2>{{ channel_name }}</h2>
                 <p>{{ result_message }}</p>
                 {% for message in messages %}
-                <div class="bbs-content">
-                    <div class="bbs-content-header">
+                <div class="">
+                    <div class="bbs-content-header  m-4">
                         <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
                         <div class="floating">
                             <img src="{{ message.member.icon.url }}" alt="">
