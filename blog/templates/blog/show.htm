@@ -8,6 +8,7 @@
             <div class="shadow p-3 mb-3">
                 <a href="/blog" class="btn btn-primary">一覧へ</a>
                 <a href="/blog/article/{{article.id}}/tags" class="btn btn-primary">Tag</a>
+
                 {% if is_edit_user %}
                 <a href="/blog/article/{{article.id}}/edit" class="btn btn-primary">編集</a>
                 {% endif %}

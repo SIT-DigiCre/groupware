@@ -15,6 +15,7 @@ class ArticleTag(models.Model):
     def formatted_markdown(self):
         return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
 
+
 class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
