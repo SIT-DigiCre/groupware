@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Channel,Message,Reply,Stamp
+from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
 
 @login_required(login_url='/admin/login/')
@@ -40,6 +40,7 @@ def index(request, channel_name, page=1):
         'channel_name': channel_name,
         'messages': data.get_page(page),
         'form': NewThreadForm(),
+        'stamps':Stamp.objects.all(),
         'result_message': result_message, 
     }
     return render(request, 'bbs/index.htm', params)
@@ -79,7 +80,76 @@ def show(request, channel_name, id=1):
         'message': message,
         'replys': replys,
         'form_reply':ReplyForm(),
+        'stamps':Stamp.objects.all(),
         'form_edit':EditThreadForm(instance=message),
     }
     
     return render(request, 'bbs/show.htm', params)
+
+@login_required(login_url='/admin/login/')
+def message_stamp(request,message_id,stamp_id):
+    print('message_stamp')
+    message = Message.objects.filter(id=message_id).first()
+    stamp = Stamp.objects.filter(id=stamp_id).first()
+    http = ""
+    if len(message.messagestamp_set.filter(stamp=stamp).all()) != 0:
+        if request.user in message.messagestamp_set.filter(stamp=stamp).first().users.all():
+            print('stamp:'+str(stamp.id)+':user find!')
+            tr_stmp = message.messagestamp_set.filter(stamp=stamp).first()
+            tr_stmp.users.remove(request.user)
+            if len(tr_stmp.users.all())==0:
+                print('user:0')
+                tr_stmp.delete()
+        else:
+            print('stamp:'+stamp.id+':user not find!')
+            message.messagestamp_set.filter(stamp=stamp).first().users.add(request.user)
+    else:
+        new_stamp = MessageStamp()
+        new_stamp.message = message
+        new_stamp.stamp = stamp
+        new_stamp.save()
+        new_stamp.users.add(request.user)
+        new_stamp.save()
+    message.save()
+    message = Message.objects.filter(id=message_id).first()
+    for st in message.messagestamp_set.all():
+        tmp_http = '''
+        <a id="btn_{0}" href="javascript:void(0);" onclick="bbsStampOnClick('{1}',{2},'message');" class="badge badge-pill badge-secondary">
+        <img src="{3}" alt="" style="width: 15px;height:15px;">{4}</a>
+        '''.format(st.stamp.name,str(st.stamp.id),message.id,st.stamp.image.url,str(len(st.users.all())))
+        http += tmp_http
+    return HttpResponse(http)
+
+@login_required(login_url='/admin/login/')
+def reply_stamp(request,reply_id,stamp_id):
+    print('reply_stamp')
+    reply = Reply.objects.filter(id=reply_id).first()
+    stamp = Stamp.objects.filter(id=stamp_id).first()
+    http = ""
+    if len(reply.replystamp_set.filter(stamp=stamp).all()) != 0:
+        if request.user in reply.replystamp_set.filter(stamp=stamp).first().users.all():
+            print('stamp:'+str(stamp.id)+':user find!')
+            tr_stmp = reply.replystamp_set.filter(stamp=stamp).first()
+            tr_stmp.users.remove(request.user)
+            if len(tr_stmp.users.all())==0:
+                print('user:0')
+                tr_stmp.delete()
+        else:
+            print('stamp:'+stamp.id+':user not find!')
+            reply.replystamp_set.filter(stamp=stamp).first().users.add(request.user)
+    else:
+        new_stamp = ReplyStamp()
+        new_stamp.reply = reply
+        new_stamp.stamp = stamp
+        new_stamp.save()
+        new_stamp.users.add(request.user)
+        new_stamp.save()
+    reply.save()
+    reply = Reply.objects.filter(id=reply_id).first()
+    for st in reply.replystamp_set.all():
+        tmp_http = '''
+        <a id="btn_{0}" href="javascript:void(0);" onclick="bbsStampOnClick('{1}',{2},'reply');" class="badge badge-pill badge-secondary">
+        <img src="{3}" alt="" style="width: 15px;height:15px;">{4}</a>
+        '''.format(st.stamp.name,str(st.stamp.id),reply.id,st.stamp.image.url,str(len(st.users.all())))
+        http += tmp_http
+    return HttpResponse(http)

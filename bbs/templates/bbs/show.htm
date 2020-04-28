@@ -1,7 +1,8 @@
 {% extends 'home/header.htm' %}
 {% load static %}
 {% block title %}詳細{% endblock %}
-{% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
+{% block customCSS %}
+<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
 {% block content %}
 
 <div class="bbs">
@@ -12,20 +13,22 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">掲示板</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">{{ channel_name }}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'bbs.index' channel_name %}">{{ channel_name }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ message.title }}</li>
                     </ol>
                 </nav>
             </div>
 
             <div class="col-2 side-menu">
-                <a type="button" class="btn btn-primary" href="/bbs/"{{ channel_name }}>戻る</a><br>
+                <a type="button" class="btn btn-primary" href="/bbs/" {{ channel_name }}>戻る</a><br>
                 <button type="button" class=" btn btn-warning" data-toggle="modal" data-target="#edit-modal">編集</button>
-                
-                <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-label" aria-hidden="true">
+
+                <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-label"
+                    aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <form action="" method="post" >
+                            <form action="" method="post">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="edit-label">編集</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -38,8 +41,9 @@
                                     <a href="">画像を貼り付ける</a>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
-                                    <button type="submit" class="btn btn-primary"  name="edit-form">変更</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">保存しないで閉じる</button>
+                                    <button type="submit" class="btn btn-primary" name="edit-form">変更</button>
                                 </div>
                             </form>
                         </div>
@@ -51,7 +55,7 @@
                 {% endfor %}
             </div>
             <div class="col-10 bbs-main-flow">
-                
+
                 <div class="bbs-content">
                     <div class="bbs-content-header">
                         <h4>{{ message.title }}</h4>
@@ -65,10 +69,32 @@
                     <p>
                         {{ message.formatted_markdown|safe }}
                     </p>
+
+                    {#スタンプ#}
+                    <div id="{{message.id}}_stamps">
+                        {% for stamp in message.messagestamp_set.all %}
+                        <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                            onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{message.id}},'message');"
+                            class="badge badge-pill badge-secondary">
+                            <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
+                            {{stamp.users.count}}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {# スタンプ追加ボタン #}
+                    <span class="badge badge-pill badge-secondary">
+                        <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
+                            {% for stamp in stamps %}
+                            <option value="{{stamp.id}}">{{stamp.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <a id="add_stamp" href="javascript:void(0);"
+                            onclick="addBbsStampOnClick({{message.id}},'message');">+</a>
+                    </span>
                     <div class="bbs-content-footer">
                     </div>
                 </div>
-                
+
                 {% for reply in replys %}
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
@@ -82,16 +108,42 @@
                     <p>
                         {{ reply.formatted_markdown|safe }}
                     </p>
+
+                    {#返信スタンプ#}
+                    <div id="r{{reply.id}}_stamps">
+                        {% for stamp in reply.replystamp_set.all %}
+                        <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                            onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{reply.id}},'reply');"
+                            class="badge badge-pill badge-secondary">
+                            <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
+                            {{stamp.users.count}}
+                        </a>
+                        {% endfor %}
+
+                    </div>
+                    {# 返信スタンプ追加ボタン #}
+                    <span class="badge badge-pill badge-secondary">
+
+                        <select name="stampchoice_r{{reply.id}}" id="stampchoice_r{{reply.id}}">
+                            {% for stamp in stamps %}
+                            <option value="{{stamp.id}}">{{stamp.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <a id="add_stamp" href="javascript:void(0);"
+                            onclick="addBbsStampOnClick({{reply.id}},'reply');">+</a>
+                    </span>
                     <div class="bbs-content-footer">
                     </div>
                 </div>
                 {% endfor %}
-                <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#reply-modal" >コメント</button>
-                
-                <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label" aria-hidden="true">
+                <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#reply-modal">コメント</button>
+
+                <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label"
+                    aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <form action="" method="post" >
+                            <form action="" method="post">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="reply-label">コメント</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -103,7 +155,8 @@
                                     {{ form_reply.as_p }}
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">保存しないで閉じる</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">保存しないで閉じる</button>
                                     <button type="submit" class="btn btn-primary" name="reply-form">OK</button>
                                 </div>
                             </form>
@@ -128,7 +181,7 @@
                     <div class="bbs-content-footer">
                     </div>
                 </div>
-                
+
                 {% for reply in replys %}
                 <div class="bbs-reply-content">
                     <div class="bbs-content-header">
@@ -156,5 +209,26 @@
     <i class="fas fa-plus-circle"></i>
 </a>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+    function bbsStampOnClick(stamp_id, target_id = 0, kind = 'message') {
+        url = '/bbs/' + kind + '_stamp/' + String(target_id) + '/' + stamp_id;
+        if (kind == 'message') {
+            $('#' + String(target_id) + '_stamps').load(url);
+        } else {
+            $('#r' + String(target_id) + '_stamps').load(url);
+        }
+
+    }
+    function addBbsStampOnClick(target_id = 0, kind = 'message') {
+        stamp_id = "";
+        if(kind=='message'){
+            stamp_id = String(document.getElementById("stampchoice_"+String(target_id)).selectedIndex+1);
+        }else{
+            stamp_id = String(document.getElementById("stampchoice_r"+String(target_id)).selectedIndex+1);
+        }
+        bbsStampOnClick(stamp_id, target_id, kind)
+    }
+</script>
 
 {% endblock %}
