@@ -8,17 +8,20 @@ from markdownx.utils import markdownify
 
 class ArticleTag(models.Model):
     name = models.CharField(max_length=30)
-
+    content = MarkdownxField('Contents',default='')
+    pub_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
+    def formatted_markdown(self):
+        return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
 
 class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = MarkdownxField('Contents')
     article_image = models.ImageField(upload_to='article_image/', default='null')
-    article_tags = models.ManyToManyField(ArticleTag)
-    relates_works=models.ManyToManyField(Work)
+    article_tags = models.ManyToManyField(ArticleTag,blank=True)
+    relates_works=models.ManyToManyField(Work,blank=True)
     pub_date = models.DateTimeField(auto_now_add=True)
 
 

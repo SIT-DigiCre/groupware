@@ -7,6 +7,7 @@
         <div class="col-md-12">
             <div class="shadow p-3 mb-3">
                 <a href="/blog" class="btn btn-primary">一覧へ</a>
+                <a href="/blog/article/{{article.id}}/tags" class="btn btn-primary">Tag</a>
                 {% if is_edit_user %}
                 <a href="/blog/article/{{article.id}}/edit" class="btn btn-primary">編集</a>
                 {% endif %}
@@ -18,7 +19,24 @@
             {% if article.article_image.url == 'null' %}
             <img src="{{article.article_image.url}}" alt="">
             {% endif %}
-            <h1>{{article.title}}</h2>
+            <div class="inline-block">
+                <div style="float: right;">
+                    <img src="{{article.member.icon.url}}" alt="" style="height:50px; border-radius: 50%;">
+                    <a style="font-size:20px;margin-top:5px;" href="/member/{{article.member.id}}">{{article.member.username}}</a>
+                </div>
+                <div class="text-center">
+                    <h1 style="border-bottom: solid 2px #87CEFA;">{{article.title}}</h1>
+
+                </div>
+                
+            </div>
+            {% for article_tag in article.article_tags.all %}
+                <a href="/blog/tag/{{article_tag.id}}" class="badge badge-pill badge-primary">{{article_tag.name}}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <p class="mt-2">{{ article.formatted_markdown|safe }}</p>
         </div>
     </div>

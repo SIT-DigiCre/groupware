@@ -1,0 +1,59 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}記事のタグ編集{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow p-3 mb-3">
+                <a href="/blog" class="btn btn-primary">ブログ一覧へ</a>
+                <a href="/blog/tag" class="btn btn-primary">タグ一覧へ</a>
+                {% if is_login_user %}
+                <a href="/blog/tag/create" class="btn btn-primary">新規タグ</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>記事のタグ一覧</h1>
+            <table class="table table-striped">
+                <tr>
+                    <th>タグ名</th>
+                    <th>*</th>
+                </tr>
+                {% for tag in article.article_tags.all %}
+                <tr>
+                    <td><a href="/blog/tag/{{tag.id}}">{{tag.name}}</a></td>
+                    <td>
+                        {% if is_edit_user %}
+                        <a href="">削除</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% if is_edit_user %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>タグ追加</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <select name="tagchoice" id="tagchoice">
+                    {% for tag in article_tags %}
+                    {% if tag in article.article_tags.all %}
+                    <option value="{{tag.id}}" disabled="disabled">{{tag.name}}</option>
+                    {% else %}
+                    <option value="{{tag.id}}">{{tag.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="submit" value="追加">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

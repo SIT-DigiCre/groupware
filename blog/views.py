@@ -54,3 +54,68 @@ def create(request):
         'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/create.htm',params)
+
+@login_required(login_url='/admin/login/')
+def create_tag(request):
+    if request.method=='POST':
+        article_tag = ArticleTag()
+        article_tag_f = NewArticleTagForm(request.POST, instance=article_tag)
+        article_tag_f.save()
+        return redirect(to='/blog')
+    params = {
+        'form':NewArticleTagForm(),
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/tag_create.htm',params)
+
+def show_tag(request,id=1):
+    article_tag = ArticleTag.objects.filter(id=id).first()
+    params = {
+        'article_tag':article_tag,
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/tag_show.htm',params)
+
+@login_required(login_url='/admin/login/')
+def edit_tag(request,id=1):
+    article_tag = ArticleTag.objects.filter(id=id).first()
+    if request.method == 'POST':
+        article_tag_form = EditArticleTagForm(request.POST,instance = article_tag)
+        article_tag_post = article_tag_form.save(commit=False)
+        article_tag_post.member=request.user
+        article_tag_post.save()
+        return redirect(to='/blog/tag/'+str(article_tag_post.id))
+
+    params = {
+        'form':EditArticleTagForm(instance=article_tag),
+        'article_tag':article_tag,
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/tag_edit.htm',params)
+
+def index_tag(request):
+    params = {
+        'is_login_user':request.user.is_authenticated,
+        'article_tags':ArticleTag.objects.all(),
+        
+    }
+    return render(request,'blog/tag_index.htm',params)
+
+def edit_art_tags(request,id=1):
+    article = Article.objects.filter(id=id).first()
+    if request.method=='POST' and request.user == article.member:
+        choice_id = request.POST['tagchoice']
+        print('choice_str:'+choice_id)
+        article_tag = ArticleTag.objects.filter(id=choice_id).first()
+        article.article_tags.add(article_tag)
+        article.save()
+
+        return redirect(to='/blog/article/'+str(article.id)+'/tags')
+
+    params = {
+        'article_tags':ArticleTag.objects.all(),
+        'article':article,
+        'is_edit_user':request.user == article.member,
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/article_tag_edit.htm',params)
