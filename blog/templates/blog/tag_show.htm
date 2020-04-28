@@ -1,0 +1,11 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}編集{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-md-12">
+        <h1>{{article_tag.name}}</h1>
+        <p class="mt-2">{{ article_tag.formatted_markdown|safe }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}編集{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow p-3 mb-3">
+                <a href="/blog" class="btn btn-primary">ブログ一覧へ</a>
+                {% if is_login_user %}
+                <a href="/blog/tag/create" class="btn btn-primary">新規タグ</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>タグ一覧</h1>
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>タグ名</th>
+                </tr>
+                {% for tag in article_tags.all %}
+                <tr>
+                    <td>{{tag.id}}</td>
+                    <td><a href="/blog/tag/{{tag.id}}">{{tag.name}}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

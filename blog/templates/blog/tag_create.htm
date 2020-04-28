@@ -1,0 +1,14 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}新規タグ{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-md-12">
+        <form action="/blog/tag/create" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-primary mt-3" value="作成">
+        </form>
+    </div>
+</div>
+{% endblock %}
