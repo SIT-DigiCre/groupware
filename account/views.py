@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView, LogoutView
+from .forms import LoginForm
 
-# Create your views here.
+class Login(LoginView):
+    form_class = LoginForm
+    template_name = 'account/login.html'
+
+class Logout(LogoutView):
+    template_name = 'home/index.htm'

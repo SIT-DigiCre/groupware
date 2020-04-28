@@ -28,6 +28,7 @@ urlpatterns = [
     path('tool/',include('tool.urls'), name="tool"),
     path('work/',include('work.urls'), name="work"),
     path('blog/',include('blog.urls'), name="blog"),
+    path('account/', include('account.urls'), name="account"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

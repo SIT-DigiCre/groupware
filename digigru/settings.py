@@ -159,3 +159,6 @@ SASS_TEMPLATE_EXTS = ['.html', '.haml']
 
 DATE_FORMAT = 'Y/m/d'
 USE_L10N = False
+
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'home:index'
