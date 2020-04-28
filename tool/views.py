@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from .models import *
 from .forms import ToolForm
 # Create your views here.
-@login_required(login_url='/admin/login/')
+@login_required()
 def index(request):
     # GETアクセス時の処理
     tools = Tool.objects.all()
@@ -15,7 +15,7 @@ def index(request):
     }
     return render(request, 'tool/index.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def show(request,id=-1):
     if id==-1:
         return redirect(to='/tool')
@@ -26,7 +26,7 @@ def show(request,id=-1):
     return render(request,'tool/show.htm',params)
 
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def create(request):
     params = {
         'form': ToolForm()

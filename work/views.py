@@ -5,7 +5,7 @@ from tool.models import *
 from .models import *
 from .forms import *
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def index(request):
     works = Work.objects.all()
     params = {
@@ -13,7 +13,7 @@ def index(request):
     }
     return render(request,'work/index.htm',params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def show(request,id):
     work = Work.objects.filter(id=id).first()
     params = {

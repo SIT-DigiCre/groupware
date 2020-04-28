@@ -5,7 +5,7 @@ from tool.models import *
 from .models import *
 from .forms import *
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def index(request):
     # GETアクセス時の処理
     profiles = Profile.objects.all()
@@ -15,7 +15,7 @@ def index(request):
     return render(request, 'member/index.htm', params)
 
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def show(request,id):
     # GETアクセス時の処理
     profile = Profile.objects.filter(id=id).first()
@@ -25,7 +25,7 @@ def show(request,id):
     }
     return render(request, 'member/show.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def edit(request):
     profile = Profile.objects.filter(id=request.user.id).first()
     # POSTアクセス時（返信時）の処理
