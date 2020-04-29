@@ -15,6 +15,7 @@
 *.pyc
 __pycache__/
 local_settings.py
+settings_secret.py
 db.sqlite3
 media
  
