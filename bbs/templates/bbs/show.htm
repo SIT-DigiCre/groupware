@@ -20,7 +20,7 @@
                 </nav>
             </div>
 
-            <div class="col-2 side-menu">
+            <div class="col-2 shadow">
                 <a type="button" class="btn btn-primary" href="/bbs/" {{ channel_name }}>戻る</a><br>
                 <button type="button" class=" btn btn-warning" data-toggle="modal" data-target="#edit-modal">編集</button>
 
@@ -54,10 +54,10 @@
                 <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
                 {% endfor %}
             </div>
-            <div class="col-10 bbs-main-flow">
+            <div class="col-10">
 
-                <div class="bbs-content">
-                    <div class="bbs-content-header">
+                <div class="card">
+                    <div class="bbs-content-header ml-2 mt-2">
                         <h4>{{ message.title }}</h4>
                         <div class="floating">
                             <img src="{{ message.member.icon.url }}" alt="">
@@ -82,21 +82,24 @@
                         {% endfor %}
                     </div>
                     {# スタンプ追加ボタン #}
-                    <span class="badge badge-pill badge-secondary">
-                        <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
-                            {% for stamp in stamps %}
-                            <option value="{{stamp.id}}">{{stamp.name}}</option>
-                            {% endfor %}
-                        </select>
-                        <a id="add_stamp" href="javascript:void(0);"
-                            onclick="addBbsStampOnClick({{message.id}},'message');">+</a>
-                    </span>
+                    <div>
+                        <span class="badge badge-pill badge-warning">
+                            <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
+                                {% for stamp in stamps %}
+                                <option value="{{stamp.id}}">{{stamp.name}}</option>
+                                {% endfor %}
+                            </select>
+                            <a id="add_stamp" href="javascript:void(0);"
+                                onclick="addBbsStampOnClick({{message.id}},'message');">+</a>
+                        </span>
+                    </div>
+                    
                     <div class="bbs-content-footer">
                     </div>
                 </div>
 
                 {% for reply in replys %}
-                <div class="bbs-reply-content">
+                <div class="card ml-4 mt-2">
                     <div class="bbs-content-header">
                         <div class="floating">
                             <img src="{{ reply.member.icon.url }}" alt="">
@@ -122,17 +125,18 @@
 
                     </div>
                     {# 返信スタンプ追加ボタン #}
-                    <span class="badge badge-pill badge-secondary">
-
-                        <select name="stampchoice_r{{reply.id}}" id="stampchoice_r{{reply.id}}">
-                            {% for stamp in stamps %}
-                            <option value="{{stamp.id}}">{{stamp.name}}</option>
-                            {% endfor %}
-                        </select>
-
-                        <a id="add_stamp" href="javascript:void(0);"
-                            onclick="addBbsStampOnClick({{reply.id}},'reply');">+</a>
-                    </span>
+                    <div>
+                        <span class="badge badge-pill badge-warning">
+                            <select name="stampchoice_r{{reply.id}}" id="stampchoice_r{{reply.id}}">
+                                {% for stamp in stamps %}
+                                <option value="{{stamp.id}}">{{stamp.name}}</option>
+                                {% endfor %}
+                            </select>
+                            <a id="add_stamp" href="javascript:void(0);"
+                                onclick="addBbsStampOnClick({{reply.id}},'reply');">+</a>
+                        </span>
+                    </div>
+                    
                     <div class="bbs-content-footer">
                     </div>
                 </div>
