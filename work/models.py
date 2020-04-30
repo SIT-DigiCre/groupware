@@ -19,3 +19,6 @@ class Work(models.Model):
         ('finished','finished'),
     )
     status = models.CharField(max_length=10,choices=STATUS_CHOICE,default=0)
+
+    def formatted_markdown(self):
+        return markdownify(self.intro) # モデルデータをMarkDown形式に変換してくれる

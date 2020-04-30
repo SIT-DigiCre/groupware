@@ -30,7 +30,7 @@
             <h2>{{work.name}}</h2>
             {% if work.main_image.url !=  '/media/defo'%}
             <img src="{{work.main_image.url}}" class="card-image" alt="" style="height: 200px;">
-            {%endif%}
+            {% endif %}
             <p>{{ work.formatted_markdown|safe }}</p>
             <br>
             <h5>Tool一覧</h5>
