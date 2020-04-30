@@ -66,7 +66,8 @@
                         
                     </div>
                     {# スタンプ追加ボタン #}
-                    <span class="badge badge-pill badge-warning">
+                    <div>
+                        <span class="badge badge-pill badge-warning">
                             <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
                                 {% for stamp in stamps %}
                                 <option value="{{stamp.id}}">{{stamp.name}}</option>
@@ -74,6 +75,8 @@
                             </select>
                         <a id="add_stamp" href="javascript:void(0);" onclick="addBbsStampOnClick({{message.id}},'message');" >+</a>
                     </span>
+                    </div>
+                    
 
                     <div class="bbs-content-footer">
                         {% if message.reply_set.count > 0 %}
