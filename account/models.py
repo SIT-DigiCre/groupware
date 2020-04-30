@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     icon = models.ImageField(upload_to='user_icon/', default='defo.png')
     #icon_url = models.URLField(max_length=200,blank=True)
     email = models.EmailField(_('email address'), blank=True)
-    student_id = models.CharField(max_length=7)
+    student_id = models.CharField(max_length=7,blank=True)
     is_leaders = models.BooleanField(
         _('leaders status'),
         default=False,

@@ -9,7 +9,7 @@ class ProfileForm(forms.ModelForm):
             field.widget.attrs["class"] = "form-control"
     class Meta:
         model = Profile
-        fields = ['message',]
+        fields = ['message','intro',]
 
 class UserToolForm(forms.Form):
     tool = forms.ModelChoiceField(label='ツール',queryset=Tool.objects.all(),)

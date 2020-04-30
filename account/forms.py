@@ -32,3 +32,12 @@ class UserCreateForm(UserCreationForm):
         
         User.objects.filter(email=email, is_active=False).delete() # すでに仮登録されている場合
         return email
+
+class UserEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["class"] = "form-control"
+    class Meta:
+        model = User
+        fields = ['icon','username',]

@@ -21,7 +21,7 @@ def show(request,id):
         'edit_enabled':request.user in work.users.all(),
     }
     return render(request,'work/show.htm',params)
-
+@login_required()
 def edit(request,id):
     work = Work.objects.filter(id=id).first()
     if request.user in work.users.all():
@@ -30,16 +30,26 @@ def edit(request,id):
             if 'edit-work-form' in request.POST:
                 work_form = WorkForm(request.POST,request.FILES,instance=work)
                 work_form.save()
-                
-            return redirect(to='/work/' )
+            if 'edit-work-users-form' in request.POST:
+                student_id = request.POST['student_id']
+                print(student_id)
+                user = User.objects.filter(student_id=student_id)
+                if len(user.all()) != 0:
+                    work.users.add(user.first())
+            if 'edit-work-tools-form' in request.POST:
+                tool_choice = request.POST['toolchoice']
+                tool = Tool.objects.filter(id=tool_choice).first()
+                work.tools.add(tool)
+            return redirect(to='/work/'+str(work.id) )
         params = {
             'work':work,
             'form':WorkForm(instance=work),
+            'tools':Tool.objects.all(),
         }
         return render(request,'work/edit.htm',params)
     
     return render(request,'work/permission_erorr.htm')
-
+@login_required()
 def create(request):
     work = Work()
     if request.method == 'POST':
@@ -47,6 +57,9 @@ def create(request):
         work = work_form.save(commit=False)
         work.leader_user_id = request.user.id
         work.save()
+        work.users.add(request.user)
+        work.save()
+        return redirect(to='/work/'+str(work.id))
     params = {
         'work':work,
         'form':WorkForm(),

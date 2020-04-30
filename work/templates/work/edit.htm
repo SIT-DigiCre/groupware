@@ -10,12 +10,63 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <button type="button" class=" btn btn-info" data-toggle="modal"
+                data-target="#add-member-modal">新規メンバー追加</button>
+            <button type="button" class=" btn btn-info" data-toggle="modal"
+                data-target="#add-tool-modal">Tool追加</button>
             <form action="/work/edit/{{work.id}}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary mt-3"  name="edit-work-form">登録</button>
+                <button type="submit" class="btn btn-primary mt-3" name="edit-work-form">登録</button>
             </form>
-            
+            <div class="modal fade" id="add-member-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reply-label">新規メンバー</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="student_id" id="student_id">
+                                <input type="submit" name="edit-work-users-form">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="add-tool-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reply-label">Tool追加</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <select name="toolchoice" id="toolchoice">
+                                    {% for tool in tools %}
+                                    {% if tool in work.tools.all %}
+                                    <option value="{{tool.id}}" disabled="disabled">{{tool.name}}</option>
+                                    {% else %}
+                                    <option value="{{tool.id}}">{{tool.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <input type="submit" name="edit-work-tools-form">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

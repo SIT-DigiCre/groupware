@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.views import generic
 
 from .forms import LoginForm, UserCreateForm
+from member.models import Profile
 
 User = get_user_model()
 
@@ -46,7 +47,20 @@ class UserCreate(generic.CreateView):
         user.is_active = False
         # 便宜的に、メールアドレスの最初の7文字を学生番号とみなし、ユーザーネームとする。
         user.username = user.email[:7]
+        user.student_id = user.email[:7]
         user.save()
+        profile = Profile()
+        profile.user = user
+        profile.message = "DefaultMessage"
+        #mX -7 それ以外は-3
+        student_kind = user.student_id[:1]
+        student_join_num = int(user.student_id[2:4])
+        if student_kind == 'm':
+            student_join_num -= 7
+        else:
+            student_join_num -= 3
+        profile.generation = student_join_num
+        profile.save()
 
         # アクティベーションURLの送付
         current_site = get_current_site(self.request)

@@ -16,6 +16,20 @@
 
                 <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#reply-modal">新規ツール</button>
 
+                <h2>ユーザーデータ編集</h2>
+                <form action="/member/edit" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.as_table }}
+                    <br>
+                    <input type="submit" value="Submit" name="user-edit-form">
+                </form>
+                <h2>プロファイルデータ編集</h2>
+                <form action="/member/edit" method="post">
+                    {% csrf_token %}
+                    {{ profile_form.as_table }}
+                    <input type="submit" value="Submit" name="profile-edit-form">
+                </form>
+
                 <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="reply-label"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -28,7 +42,7 @@
                             </div>
                             <div class="modal-body">
                                 <table>
-                                    <form action="" method="post">
+                                    <form action="" method="POST">
                                         {% csrf_token %}
                                         {{ add_usertool_form.as_table }}
                                         <tr>

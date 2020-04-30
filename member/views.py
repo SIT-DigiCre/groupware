@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from tool.models import *
 from .models import *
 from .forms import *
+from account.forms import UserEditForm
 
 @login_required()
 def index(request):
@@ -39,13 +40,25 @@ def edit(request):
                 usertool.tool = usertool_form.cleaned_data['tool']
                 usertool.profile = profile
                 usertool.save()
-            
-
+        if 'user-edit-form' in request.POST:
+            user_form = UserEditForm(request.POST,request.FILES,instance = request.user)
+            user_form.save()
+        if 'profile-edit-form' in request.POST:
+            profile_form = ProfileForm(request.POST,request.FILES,instance = request.user.profile)
+            profile = profile_form.save(commit=True)
         
         # 同じページにリダイレクトするだけなので、もっと賢い書き方あるはず
         return redirect(to='/member/edit' )
     # GETアクセス時の処理
     params = {
-        'add_usertool_form': UserToolForm()
+        'add_usertool_form': UserToolForm(),
+        'user_form':UserEditForm(instance=request.user),
+        'profile_form':ProfileForm(instance=request.user.profile)
     }
     return render(request, 'member/edit.htm', params)
+
+@login_required()
+def me(request):
+    # GETアクセス時の処理
+    profile = request.user.profile
+    return redirect(to='/member/'+str(profile.id))
