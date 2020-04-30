@@ -1,4 +1,8 @@
-from .settings_secret import *
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -9,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7+r(a(j4v-79)duz!lx*93h7i2db)*6*9gz_@bqobqrbuz8g8!'
+# SECRET_KEY = '' # 外部ファイルに設定
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.environ.get('DEBUG') == 'False' else True
@@ -150,7 +154,7 @@ DATE_FORMAT = 'Y/m/d'
 USE_L10N = False
 
 LOGIN_URL = 'account:login'
-LOGIN_REDIRECT_URL = 'home:index'
+LOGIN_REDIRECT_URL = 'home.index'
 
 # メール設定
 EMAIL_USE_TLS = True
