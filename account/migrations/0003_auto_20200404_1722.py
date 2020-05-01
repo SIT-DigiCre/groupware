@@ -5,8 +5,7 @@ from django.db import migrations
 #
 # 無効化済み
 #
-def load_fixture(apps, schema_editor):
-        call_command('loaddata', 'account/fixture/init.json', app_label='account')
+
 
 class Migration(migrations.Migration):
 

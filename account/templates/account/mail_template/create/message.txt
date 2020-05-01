@@ -6,6 +6,6 @@
 （まだユーザ登録手続きは完了していません）
 
 本登録用URL
-{{ protocol }}://{{ domain }}{% url 'account:user_create_complete' token %}
+https://core.digicre.net{% url 'account:user_create_complete' token %}
 
 デジクリ
