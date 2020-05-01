@@ -101,7 +101,7 @@ def message_stamp(request,message_id,stamp_id):
                 print('user:0')
                 tr_stmp.delete()
         else:
-            print('stamp:'+stamp.id+':user not find!')
+            print('stamp:'+str(stamp.id)+':user not find!')
             message.messagestamp_set.filter(stamp=stamp).first().users.add(request.user)
     else:
         new_stamp = MessageStamp()
@@ -135,7 +135,7 @@ def reply_stamp(request,reply_id,stamp_id):
                 print('user:0')
                 tr_stmp.delete()
         else:
-            print('stamp:'+stamp.id+':user not find!')
+            print('stamp:'+str(stamp.id)+':user not find!')
             reply.replystamp_set.filter(stamp=stamp).first().users.add(request.user)
     else:
         new_stamp = ReplyStamp()
