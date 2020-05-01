@@ -36,7 +36,6 @@ def edit(request):
             if usertool_form.is_valid():
                 usertool = UserTool()
                 usertool.level = usertool_form.cleaned_data['level']
-                usertool.user=request.user
                 usertool.tool = usertool_form.cleaned_data['tool']
                 usertool.profile = profile
                 usertool.save()
