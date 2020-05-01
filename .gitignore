@@ -1,5 +1,7 @@
 # Database dir
 /db
+# SSL certs dir
+/ssl_certs
 
 # Config dir
 /.conf
