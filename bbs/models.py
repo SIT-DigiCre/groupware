@@ -48,5 +48,21 @@ class Reply(models.Model):
 
 class Stamp(models.Model):
     name = models.CharField(max_length=64)
-    img_url = models.URLField(max_length=200)
+    image = models.ImageField(upload_to='stamp_img/', default='defo')
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name
+
+class MessageStamp(models.Model):
+    stamp = models.ForeignKey(Stamp,on_delete=models.CASCADE)
+    message = models.ForeignKey(Message,on_delete=models.CASCADE)
+    users = models.ManyToManyField(User)
+    def __str__(self):
+        return self.message.title +':'+self.stamp.name
+
+class ReplyStamp(models.Model):
+    stamp = models.ForeignKey(Stamp,on_delete=models.CASCADE)
+    reply = models.ForeignKey(Reply,on_delete=models.CASCADE)
+    users = models.ManyToManyField(User)
+    def __str__(self):
+        return self.stamp.name

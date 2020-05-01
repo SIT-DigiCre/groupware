@@ -2,7 +2,9 @@
 {% load static %}
 {% load humanize %}
 {% block title %}掲示板{% endblock %}
-{% block customCSS %}<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">{% endblock %}
+{% block customCSS %}
+<link rel="stylesheet" href="{% static "bbs/css/bbs.css" %}">
+{% endblock %}
 {% block content %}
 
 <div class="bbs">
@@ -17,30 +19,31 @@
                     </ol>
                 </nav>
             </div>
-            
+
         </div>
         <div class="row">
             <div class="col-md-2 shadow">
-                    <button type="button" class=" btn btn-primary mt-2" data-toggle="modal" data-target="#modal1"><i class="fas fa-plus"></i>新規スレッド</button>
-                    <form action="", method="GET" class="mt-2 input-group">
-                        <input type="text" name="search_word" class="form-control inline-block">
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-                        </span>
-                    </form>
-                    <h5 class="mt-2">チャンネル</h5>
-                    <div class="mt-2"></div>
-                    {% for ch in channel_list %}
-                    <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
-                    {% endfor %}
-                
+                <button type="button" class=" btn btn-primary mt-2" data-toggle="modal" data-target="#modal1"><i
+                        class="fas fa-plus"></i>新規スレッド</button>
+                <form action="" , method="GET" class="mt-2 input-group">
+                    <input type="text" name="search_word" class="form-control inline-block">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </span>
+                </form>
+                <h5 class="mt-2">チャンネル</h5>
+                <div class="mt-2"></div>
+                {% for ch in channel_list %}
+                <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
+                {% endfor %}
+
             </div>
             <div class="col-md-10">
                 <h2>{{ channel_name }}</h2>
                 <p>{{ result_message }}</p>
                 {% for message in messages %}
-                <div class="bbs-content">
-                    <div class="bbs-content-header">
+                <div class="card">
+                    <div class="m-2 bbs-content-header">
                         <h4><a href="show/{{ message.id }}">{{ message.title }}</a></h4>
                         <div class="floating">
                             <img src="{{ message.member.icon.url }}" alt="">
@@ -49,19 +52,42 @@
                         </div>
                         <div class="float-blocker"></div>
                     </div>
-                    <p>
+                    <p class="m-2 markdown-p">
                         {{ message.formatted_markdown|safe }}
                     </p>
+                    {#スタンプ#}
+                    <div id="{{message.id}}_stamps">
+                        {% for stamp in message.messagestamp_set.all %}
+                        <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);" onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{message.id}},'message');" class="badge badge-pill badge-secondary">
+                            <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
+                            {{stamp.users.count}}
+                        </a>
+                        {% endfor %}
+                        
+                    </div>
+                    {# スタンプ追加ボタン #}
+                    <div>
+                        <span class="badge badge-pill badge-warning">
+                            <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
+                                {% for stamp in stamps %}
+                                <option value="{{stamp.id}}">{{stamp.name}}</option>
+                                {% endfor %}
+                            </select>
+                        <a id="add_stamp" href="javascript:void(0);" onclick="addBbsStampOnClick({{message.id}},'message');" >+</a>
+                    </span>
+                    </div>
+                    
+
                     <div class="bbs-content-footer">
                         {% if message.reply_set.count > 0 %}
-                            <p>
-                                {% for obj in message.reply_set.all %}
-                                    {# できれば重複を取り除いて表示したい #}
-                                    <img src="{{ obj.member.icon.url }}" class="small_icon" alt="" >
-                                {% endfor %}
-                                <strong><a href="show/{{ message.id }}">{{ message.reply_set.count }} 件の返信</a></strong>
-                                <span class="text-secondary">{{ message.reply_set.all.last.pub_date | naturaltime }}</span>
-                            </p>
+                        <p>
+                            {% for obj in message.reply_set.all %}
+                            {# できれば重複を取り除いて表示したい #}
+                            <img src="{{ obj.member.icon.url }}" class="small_icon" alt="">
+                            {% endfor %}
+                            <strong><a href="show/{{ message.id }}">{{ message.reply_set.count }} 件の返信</a></strong>
+                            <span class="text-secondary">{{ message.reply_set.all.last.pub_date | naturaltime }}</span>
+                        </p>
                         {% endif %}
                     </div>
                 </div>
@@ -71,19 +97,22 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         {% if messages.has_previous %}
-                            <li class="page-item"><a class="page-link" href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/bbs/{{ channel_name }}/{{ messages.previous_page_number }}">&laquo;</a></li>
                         {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
                         {% endif %}
 
                         {% for page in messages.paginator.page_range %}
-                            <li class="page-item {% if page == messages.number %} active {% endif %}"><a class="page-link" href="/bbs/{{ channel_name }}/{{ page }}">{{ page }}</a></li>
+                        <li class="page-item {% if page == messages.number %} active {% endif %}"><a class="page-link"
+                                href="/bbs/{{ channel_name }}/{{ page }}">{{ page }}</a></li>
                         {% endfor %}
 
                         {% if messages.has_next %}
-                            <li class="page-item"><a class="page-link" href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">&raquo;</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/bbs/{{ channel_name }}/{{ messages.next_page_number }}">&raquo;</a></li>
                         {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -149,7 +178,27 @@
         </div>
     </div>
 </div>
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+    function bbsStampOnClick(stamp_id,target_id=0,kind = 'message'){
+        url = '/bbs/'+kind+'_stamp/'+String(target_id)+'/'+stamp_id;
+        if(kind == 'message'){
+            $('#'+String(target_id)+'_stamps').load(url);
+        }else{
+            $('#r'+String(target_id)+'_stamps').load(url);
+        }
+        
+    }
+    function addBbsStampOnClick(target_id=0,kind = 'message'){
+        stamp_id = "";
+        if(kind=='message'){
+            stamp_id = String(document.getElementById("stampchoice_"+String(target_id)).selectedIndex+1);
+        }else{
+            stamp_id = String(document.getElementById("stampchoice_r"+String(target_id)).selectedIndex+1);
+        }
+        
+        bbsStampOnClick(stamp_id,target_id,kind)
+    }
+</script>
 
 {% endblock %}
