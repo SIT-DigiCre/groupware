@@ -2,8 +2,7 @@
 from django.core.management import call_command
 from django.db import migrations, models
 
-def load_fixture(apps, schema_editor):
-    call_command('loaddata', 'account/fixture/init.json', app_label='account')
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='icon_url',
-        ),
         migrations.AddField(
             model_name='user',
             name='icon',
@@ -25,5 +20,5 @@ class Migration(migrations.Migration):
             name='is_staff',
             field=models.BooleanField(default=True, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status'),
         ),
-        migrations.RunPython(load_fixture),
+        
     ]

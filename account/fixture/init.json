@@ -10,6 +10,8 @@
       "first_name": "",
       "last_name": "",
       "email": "",
+      "student_id": "xx00000",
+      "is_leaders": true,
       "is_staff": true,
       "is_active": true,
       "date_joined": "2020-04-04T08:12:47.557Z",
