@@ -6,6 +6,7 @@ services:
       - 8000:8000
     volumes:
       - staticfiles:/static
+      - ./media:/app/media
       - ./log/gunicorn:/app/log/gunicorn
     command: >
       /bin/bash -c "
@@ -24,6 +25,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./log/nginx:/var/log/nginx
       - staticfiles:/static:ro
+      - ./media:/appmedia:ro
     depends_on:
       - app
     environment:
