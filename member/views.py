@@ -28,7 +28,7 @@ def show(request,id):
 
 @login_required()
 def edit(request):
-    profile = Profile.objects.filter(id=request.user.id).first()
+    profile = Profile.objects.filter(user=request.user).first()
     # POSTアクセス時（返信時）の処理
     if request.method == 'POST':
         if 'add-usertool-form' in request.POST:
