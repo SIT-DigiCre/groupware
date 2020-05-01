@@ -6,7 +6,7 @@ from django.db.models import Count
 from .models import Ringi, Status
 from .forms import RingiForm, RingiEditForm
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def index(request, page=1):
     # GETアクセス時の処理
     display_num = 10 # 1ページに表示するレコードの件数
@@ -26,7 +26,7 @@ def index(request, page=1):
     }
     return render(request, 'ringi/index.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def create(request):
     params = {
         'title': '新規',
@@ -44,7 +44,7 @@ def create(request):
     # GETアクセス時の処理
     return render(request, 'ringi/create.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def show(request, id):
     params = {
         'title': '詳細',
@@ -52,7 +52,7 @@ def show(request, id):
     }
     return render(request, 'ringi/show.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 @permission_required('ringi.change_ringi')
 def edit(request, id):
     obj = Ringi.objects.get(id=id)
@@ -70,7 +70,7 @@ def edit(request, id):
     }
     return render(request, 'ringi/edit.htm', params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 @permission_required('ringi.delete_ringi')
 def delete(request, id):
     ringi = Ringi.objects.get(id=id)

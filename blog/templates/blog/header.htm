@@ -46,7 +46,9 @@
                 {% if is_login_user %}
                 <div class="dropdown d-none d-md-inline-block">
                     <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
+                        {% if user.icon.url != "/media/defo.png" %}
                         <img src="{{ user.icon.url }}" alt="User画像">
+                        {% endif %}
                         <p>{{ user.get_username }}</p>
                         <span class="caret"></span>
                     </a>
@@ -54,7 +56,7 @@
                         <a class="dropdown-item" href="/">グループウェアへ</a>
                         <a class="dropdown-item" href="/admin">管理画面</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="/admin/logout?next=/blog">ログアウト</a>
+                        <a class="dropdown-item text-danger" href="/account/logout/?next=/blog">ログアウト</a>
                     </div>
                 </div>
                 {% else %}
@@ -64,10 +66,10 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="/admin/login?next=/">グループウェアへ</a>
+                        <a class="dropdown-item" href="/account/login/?next=/">グループウェアへ</a>
                         <a class="dropdown-item" href="/admin">管理画面</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-success" href="/admin/login?next=/blog">ログイン</a>
+                        <a class="dropdown-item text-success" href="/account/login/?next=/blog">ログイン</a>
                     </div>
                 </div>
                 {% endif %}

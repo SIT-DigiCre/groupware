@@ -7,12 +7,12 @@ from django.db.models import Q
 from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def jump(request):
     ch_first = Channel.objects.first()
     return redirect(to='./' + ch_first.name)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def index(request, channel_name, page=1):
     # POSTアクセス時（新規スレッド作成）の処理
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def index(request, channel_name, page=1):
     return render(request, 'bbs/index.htm', params)
 
 # indexと共通要素多いです
-@login_required(login_url='/admin/login/')
+@login_required()
 def show(request, channel_name, id=1):
     # 共通処理
     message = Message.objects.filter(id=id).first()

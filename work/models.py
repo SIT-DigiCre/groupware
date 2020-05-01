@@ -10,7 +10,7 @@ class Work(models.Model):
     name =  models.CharField(max_length=50)
     tools = models.ManyToManyField(Tool)
     users = models.ManyToManyField(User)
-    leader_user_id = models.IntegerField()
+    leader_user_id = models.IntegerField(blank=True)
     main_image = models.ImageField(upload_to='work_main_image/', default='defo')
     intro = MarkdownxField('intro')
     STATUS_CHOICE =(
@@ -19,3 +19,6 @@ class Work(models.Model):
         ('finished','finished'),
     )
     status = models.CharField(max_length=10,choices=STATUS_CHOICE,default=0)
+
+    def formatted_markdown(self):
+        return markdownify(self.intro) # モデルデータをMarkDown形式に変換してくれる

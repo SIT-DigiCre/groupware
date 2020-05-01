@@ -24,7 +24,7 @@ def show(request,id=1):
     }
     return render(request,'blog/show.htm',params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def edit(request,id=1):
     article = Article.objects.filter(id=id).first()
     if request.method == 'POST' and request.user == article.member:
@@ -41,7 +41,7 @@ def edit(request,id=1):
     }
     return render(request,'blog/edit.htm',params)
 
-@login_required(login_url='/admin/login/')
+@login_required()
 def create(request):
     if request.method=='POST':
         article = Article()

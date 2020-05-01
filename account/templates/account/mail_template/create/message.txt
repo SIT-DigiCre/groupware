@@ -1,0 +1,11 @@
+ユーザ {{ user.username }} の仮登録を行いました。
+
+※このメールに心当たりの無い場合は無視してください。
+
+下記URLよりサイトにアクセスし、引き継きユーザ登録をお願いします。
+（まだユーザ登録手続きは完了していません）
+
+本登録用URL
+{{ protocol }}://{{ domain }}{% url 'account:user_create_complete' token %}
+
+デジクリ

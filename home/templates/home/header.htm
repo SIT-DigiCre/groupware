@@ -33,7 +33,7 @@
     <header class="navbarnavbar-light " style="background-color:#00aeff;">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-dark">
-                <a href="/home" class="navbar-brand">
+                <a href="/" class="navbar-brand">
                     <img src="{% static "home/img/logo.png" %}" height="60" alt="">
                 </a>
                 <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navmenu1"
@@ -101,16 +101,18 @@
                 <div>
                     <div class="dropdown d-none d-md-inline-block">
                         <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
+                            {% if user.icon.url != "/media/defo.png" %}
                             <img src="{{ user.icon.url }}" alt="User画像">
+                            {% endif %}
                             <p>{{ user.get_username }}</p>
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" href="#">個人設定</a>
-                            <a class="dropdown-item" href="#">プロフィール</a>
+                            <a class="dropdown-item" href="/member/me">プロフィール</a>
                             <a class="dropdown-item" href="/admin">管理画面</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout?next=/home">ログアウト</a>
+                            <a class="dropdown-item text-danger" href="{% url 'account:logout' %}">ログアウト</a>
                         </div>
                     </div>
                 </div>
