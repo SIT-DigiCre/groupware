@@ -67,87 +67,91 @@
             <div class="col-md-10">
 
                 <div class="card">
-                    <div class="bbs-content-header ml-2 mt-2">
-                        <h4>{{ message.title }}</h4>
-                        <div class="floating">
-                            <img src="{{ message.member.icon.url }}" alt="">
-                            <p>{{ message.member.username }}</p>
-                            <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
+                    <div class="card-body">
+                        <div class="card-title bbs-content-header">
+                            <h4>{{ message.title }}</h4>
+                            <div class="floating">
+                                <img src="{{ message.member.icon.url }}" alt="">
+                                <p>{{ message.member.username }}</p>
+                                <p>{{ message.pub_date | date:"Y/m/d H:i" }}</p>
+                            </div>
+                            <div class="float-blocker"></div>
                         </div>
-                        <div class="float-blocker"></div>
-                    </div>
-                    <p>
-                        {{ message.formatted_markdown|safe }}
-                    </p>
+                        <p>
+                            {{ message.formatted_markdown|safe }}
+                        </p>
 
-                    {#スタンプ#}
-                    <div id="{{message.id}}_stamps">
-                        {% for stamp in message.messagestamp_set.all %}
-                        <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
-                            onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{message.id}},'message');"
-                            class="badge badge-pill badge-secondary">
-                            <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
-                            {{stamp.users.count}}
-                        </a>
-                        {% endfor %}
-                    </div>
-                    {# スタンプ追加ボタン #}
-                    <div>
-                        <span class="badge badge-pill badge-warning">
-                            <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
-                                {% for stamp in stamps %}
-                                <option value="{{stamp.id}}">{{stamp.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <a id="add_stamp" href="javascript:void(0);"
-                                onclick="addBbsStampOnClick({{message.id}},'message');">+</a>
-                        </span>
-                    </div>
+                        {#スタンプ#}
+                        <div id="{{message.id}}_stamps">
+                            {% for stamp in message.messagestamp_set.all %}
+                            <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                                onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{message.id}},'message');"
+                                class="badge badge-pill badge-secondary">
+                                <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
+                                {{stamp.users.count}}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {# スタンプ追加ボタン #}
+                        <div>
+                            <span class="badge badge-pill badge-warning">
+                                <select name="stampchoice_{{message.id}}" id="stampchoice_{{message.id}}">
+                                    {% for stamp in stamps %}
+                                    <option value="{{stamp.id}}">{{stamp.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <a id="add_stamp" href="javascript:void(0);"
+                                    onclick="addBbsStampOnClick({{message.id}},'message');">+</a>
+                            </span>
+                        </div>
                     
-                    <div class="bbs-content-footer">
+                        <div class="bbs-content-footer">
+                        </div>
                     </div>
                 </div>
 
                 {% for reply in replys %}
                 <div class="card ml-4 mt-2">
-                    <div class="bbs-content-header">
-                        <div class="floating">
-                            <img src="{{ reply.member.icon.url }}" alt="">
-                            <p>{{ reply.member.username }}</p>
-                            <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
+                    <div class="card-body">
+                        <div class="bbs-content-header">
+                            <div class="floating">
+                                <img src="{{ reply.member.icon.url }}" alt="">
+                                <p>{{ reply.member.username }}</p>
+                                <p>{{ reply.pub_date | date:"Y/m/d H:i" }}</p>
+                            </div>
+                            <div class="float-blocker"></div>
                         </div>
-                        <div class="float-blocker"></div>
-                    </div>
-                    <p>
-                        {{ reply.formatted_markdown|safe }}
-                    </p>
+                        <p>
+                            {{ reply.formatted_markdown|safe }}
+                        </p>
 
-                    {#返信スタンプ#}
-                    <div id="r{{reply.id}}_stamps">
-                        {% for stamp in reply.replystamp_set.all %}
-                        <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
-                            onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{reply.id}},'reply');"
-                            class="badge badge-pill badge-secondary">
-                            <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
-                            {{stamp.users.count}}
-                        </a>
-                        {% endfor %}
+                        {#返信スタンプ#}
+                        <div id="r{{reply.id}}_stamps">
+                            {% for stamp in reply.replystamp_set.all %}
+                            <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                                onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{reply.id}},'reply');"
+                                class="badge badge-pill badge-secondary">
+                                <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
+                                {{stamp.users.count}}
+                            </a>
+                            {% endfor %}
 
-                    </div>
-                    {# 返信スタンプ追加ボタン #}
-                    <div>
-                        <span class="badge badge-pill badge-warning">
-                            <select name="stampchoice_r{{reply.id}}" id="stampchoice_r{{reply.id}}">
-                                {% for stamp in stamps %}
-                                <option value="{{stamp.id}}">{{stamp.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <a id="add_stamp" href="javascript:void(0);"
-                                onclick="addBbsStampOnClick({{reply.id}},'reply');">+</a>
-                        </span>
-                    </div>
+                        </div>
+                        {# 返信スタンプ追加ボタン #}
+                        <div>
+                            <span class="badge badge-pill badge-warning">
+                                <select name="stampchoice_r{{reply.id}}" id="stampchoice_r{{reply.id}}">
+                                    {% for stamp in stamps %}
+                                    <option value="{{stamp.id}}">{{stamp.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <a id="add_stamp" href="javascript:void(0);"
+                                    onclick="addBbsStampOnClick({{reply.id}},'reply');">+</a>
+                            </span>
+                        </div>
                     
-                    <div class="bbs-content-footer">
+                        <div class="bbs-content-footer">
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
