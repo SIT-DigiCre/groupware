@@ -32,10 +32,19 @@
                     </span>
                 </form>
                 <h5 class="mt-2">チャンネル</h5>
-                <div class="mt-2"></div>
-                {% for ch in channel_list %}
-                <li><a href="/bbs/{{ ch.name }}">{{ ch.name }}</a></li>
-                {% endfor %}
+                <div class="list-group mt-2">
+                    {% for ch in channel_list %}
+                        {% if ch.name == channel_name %}
+                        <a class="list-group-item list-group-item-action active" href="/bbs/{{ ch.name }}">
+                            {{ ch.name }}
+                        </a>
+                        {% else %}
+                        <a class="list-group-item list-group-item-action" href="/bbs/{{ ch.name }}">
+                            {{ ch.name }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
             </div>
             <div class="col-md-10">
