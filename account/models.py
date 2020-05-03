@@ -52,12 +52,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
     )
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    first_name = models.CharField(_('first name'), max_length=30, blank=False)
+    last_name = models.CharField(_('last name'), max_length=150, blank=False)
     # アイコン追加
     icon = models.ImageField(upload_to='user_icon/', default='defo.png')
     #icon_url = models.URLField(max_length=200,blank=True)
-    email = models.EmailField(_('email address'), blank=True, unique=True)
+    email = models.EmailField(_('email address'), blank=False, unique=True)
     student_id = models.CharField(max_length=7,blank=True)
     is_leaders = models.BooleanField(
         _('leaders status'),
