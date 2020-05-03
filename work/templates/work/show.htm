@@ -39,7 +39,7 @@
             <br>
             <h5>メンバー</h5>
             {%for user in work.users.all %}
-            <a href="/member/{{user.id}}" style="font-size:18px;">
+            <a href="/member/{{user.profile.id}}" style="font-size:18px;">
                 <img src="{{ user.icon.url }}" alt="User画像" style="width: 50px;">
                 {{user.username}}
             </a>
