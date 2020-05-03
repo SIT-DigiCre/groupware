@@ -56,13 +56,17 @@ def edit(request):
         
         # 同じページにリダイレクトするだけなので、もっと賢い書き方あるはず
         return redirect(to='/member/edit' )
+    exist_tools = []
+    for usertool in profile.usertool_set.all():
+        exist_tools.append(usertool.tool)
+    
     # GETアクセス時の処理
     params = {
         'add_usertool_form': UserToolForm(),
         'user_form':UserEditForm(instance=request.user),
         'profile_form':ProfileForm(instance=request.user.profile),
         'tools':Tool.objects.all(),
-        'usertools':UserTool.objects.filter(profile=profile),
+        'exist_tools':exist_tools,
         'divisions':Division.objects.all(),
         'profile':profile,
     }

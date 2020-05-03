@@ -41,13 +41,11 @@
                                 <p>ツール</p>
                                 <select name="toolchoice" id="toolchoice" required>
                                     {% for tool in tools %}
-                                    {% for usertool in usertools %}
-                                    {% if tool == usertool.tool %}
+                                    {% if tool in exist_tools %}
                                     <option value="{{tool.id}}">{{tool.name}}(レベル更新)</option>
                                     {% else %}
                                     <option value="{{tool.id}}">{{tool.name}}</option>
                                     {% endif %}
-                                    {% endfor %}
                                     {% endfor %}
                                 </select>
                                 <p>レベル(1~5)</p>
