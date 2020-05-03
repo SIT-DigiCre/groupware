@@ -49,19 +49,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         _('username'),
         max_length=150,
-        unique=True,
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
     )
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     # アイコン追加
     icon = models.ImageField(upload_to='user_icon/', default='defo.png')
     #icon_url = models.URLField(max_length=200,blank=True)
-    email = models.EmailField(_('email address'), blank=True)
+    email = models.EmailField(_('email address'), blank=True, unique=True)
     student_id = models.CharField(max_length=7,blank=True)
     is_leaders = models.BooleanField(
         _('leaders status'),
@@ -85,8 +81,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     EMAIL_FIELD = 'email'
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
         verbose_name = _('user')
