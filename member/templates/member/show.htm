@@ -5,24 +5,51 @@
 {% block content %}
 
 <div class="container">
-    
+    <div class="row mt-2">
+        {% if is_currentusers_data %}
+        <a type="button" class="btn btn-primary" href='/member/edit'>編集</a><br>
+        {% endif %}
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <img src="{{profile.user.icon.url}}" alt="アカウント画像" class="img-responsive center-block rounded-circle">
+        </div>
+        <div class="col-md-6">
+            <h1 class="border-bottom border-info">{{profile.user.username}}</h1>
+            <p >{{profile.message}}</p>
+            <br>
+            {% include 'tool/usertool.htm' %}
+            <br>
+            <h2 class="border-bottom border-info">作品一覧</h2>
+            <table class="table table-striped">
+                <tr>
+                    <td>#</td>
+                    <td>作品名</td>
+                </tr>
+                {% for work in profile.user.work_set.all %}
+                <tr>
+                    <th>
+                        {% if work.leader_user_id == profile.user.id %}
+                        ★
+                        {% endif %}
+                    </th>
+                    <th>
+                        <a href="/work/{{work.id}}">{{work.name}}</a>
+                    </th>
+                </tr>
+            
+            {% endfor %}
+            </table>
+            
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
-            <img src="" alt="" style="width: 500px; display: inline-block;">
+            
             <div>
-                {% if is_currentusers_data %}
-                <a type="button" class="btn btn-primary" href='/member/edit'>編集</a><br>
-                {% endif %}
-
-                <h1 class="border-bottom border-info">{{profile.user.username}}</h1>
-                <p >{{profile.message}}</p>
                 <br>
-                <p class="border-top border-info">{{ profile.formatted_markdown|safe }}</p>
+                <p>{{ profile.formatted_markdown|safe }}</p>
                 <br>
-                <br>
-                {% include 'tool/usertool.htm' %}
-                <br>
-                <h2 class="border-bottom border-info">作品一覧</h2>
             </div>
             
         </div>

@@ -8,7 +8,7 @@ from markdownx.utils import markdownify
 
 class Work(models.Model):
     name =  models.CharField(max_length=50)
-    tools = models.ManyToManyField(Tool)
+    tools = models.ManyToManyField(Tool,blank=True)
     users = models.ManyToManyField(User)
     leader_user_id = models.IntegerField(blank=True)
     main_image = models.ImageField(upload_to='work_main_image/', default='defo')

@@ -35,7 +35,8 @@ def edit(request,id):
                 print(student_id)
                 user = User.objects.filter(student_id=student_id)
                 if len(user.all()) != 0:
-                    work.users.add(user.first())
+                    if user not in work.users.filter(id = user.id):
+                        work.users.add(user.first())
             if 'edit-work-tools-form' in request.POST:
                 tool_choice = request.POST['toolchoice']
                 tool = Tool.objects.filter(id=tool_choice).first()

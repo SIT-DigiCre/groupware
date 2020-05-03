@@ -35,6 +35,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ profile.user.username }}</h5>
                         <p class="card-text">{{profile.message}}</p>
+                        <a href="" class="badge badge-pill badge-primary">{{profile.generation}}th</a>
+                        {% for division in profile.divisions.all %}
+                        <a href="" class="badge badge-pill badge-info">{{division.name}}</a>
+                        {% endfor %}
                         {% include 'tool/usertool.htm' %}
                         <br>
                         <a href="/member/{{profile.id}}" class="btn btn-primary">詳細</a>
