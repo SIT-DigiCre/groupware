@@ -1,11 +1,36 @@
 {% extends 'blog/header.htm' %}
 {% load static %}
-{% block title %}編集{% endblock %}
+{% block title %}{{article_tag.name}}{% endblock %}
 {% block content %}
 <div class="container">
-    <div class="col-md-12">
-        <h1>{{article_tag.name}}</h1>
-        <p class="mt-2">{{ article_tag.formatted_markdown|safe }}</p>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mt-3">
+                <h1 class="ml-2">{{article_tag.name}}</h1>
+                <p class="mt-2">{{ article_tag.formatted_markdown|safe }}</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-12">
+            <h3>タグのついた記事一覧</h3>
+            <table class="table table-striped">
+                <tr>
+                    <td>タイトル</td>
+                    <td>日</td>
+                    <td>著者</td>
+                </tr>
+                {% for article in article_tag.article_set.all %}
+                <tr>
+                    <th><a href="/blog/article/{{article.id}}">{{article.title}}</a></th>
+                    <th>{{article.pub_date}}</th>
+                    <th>{{article.member.username}}</th>
+                </tr>
+                {% endfor %}
+            </table>
+            
+        </div>
     </div>
 </div>
 {% endblock %}
