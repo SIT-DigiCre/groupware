@@ -23,7 +23,13 @@ def index(request, channel_name, page=1):
         return redirect(to='/bbs')
 
     # GETアクセス時の処理
-    channel_list = Channel.objects.all()
+    channel_list_tmp = []
+    channel_name_list = ['general','random']
+    channel_name_list.append(str(request.user.profile.generation)+'th')
+    #divisionも追加処理を書く
+    for channel_name_tmp in channel_name_list:
+        channel_list_tmp.append(Channel.objects.filter(name=channel_name_tmp).first())
+    channel_list = tuple(channel_list_tmp)
     channel_now = Channel.objects.filter(name=channel_name).first()
 
     if 'search_word' in request.GET:
