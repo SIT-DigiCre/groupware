@@ -21,7 +21,7 @@ class Login(LoginView):
     template_name = 'account/login.html'
 
 class Logout(LogoutView):
-    template_name = 'home/index.htm'
+    template_name = 'account/logout.html'
 
 # メール送信のテスト
 def send_email(request):
