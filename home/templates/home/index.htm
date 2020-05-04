@@ -3,7 +3,31 @@
 {% block title %}ホーム{% endblock %}
 {% block content %}
 <div class="container">
-    <p>スケジュール</p>
-    <iframe src="https://calendar.google.com/calendar/embed?src=sitdigicrecircle%40gmail.com&ctz=Asia%2FTokyo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <div class="row">
+        <div class="col-12">
+
+            <!-- アラート -->
+            {% if user.profile.message == "DefaultMessage" %} 
+            <div class="alert alert-warning" role="alert">
+                <button type="buttton" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                TIPS: 他の人にわかりやすいように、自分のプロフィールを設定しましょう。<a class="alert-link" href="{% url 'member.edit' %}">こちら</a>で設定できます。
+            </div>
+            {% endif %}
+            
+            {% if user.icon.url == "/media/defo.png" %}
+            <div class="alert alert-info" role="alert">
+                <button type="buttton" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                TIPS: アイコン画像がデフォルトのままみたいです。<a class="alert-link" href="{% url 'member.edit' %}">こちら</a>で設定できます。
+            </div>
+            {% endif %}
+
+            <p>スケジュール</p>
+            <iframe src="https://calendar.google.com/calendar/embed?src=sitdigicrecircle%40gmail.com&ctz=Asia%2FTokyo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
 </div>
 {% endblock %}
