@@ -26,9 +26,15 @@ def index(request, channel_name, page=1):
     channel_list_tmp = []
     channel_name_list = ['general','random']
     channel_name_list.append(str(request.user.profile.generation)+'th')
-    #divisionも追加処理を書く
+    for division in request.user.profile.divisions.all():
+        channel_name_list.append(division.name)
     for channel_name_tmp in channel_name_list:
-        channel_list_tmp.append(Channel.objects.filter(name=channel_name_tmp).first())
+        chan_tmp = Channel.objects.filter(name=channel_name_tmp).first()
+        if chan_tmp is None:
+            chan_tmp = Channel()
+            chan_tmp.name = channel_name_tmp
+            chan_tmp.save()
+        channel_list_tmp.append(chan_tmp)
     channel_list = tuple(channel_list_tmp)
     channel_now = Channel.objects.filter(name=channel_name).first()
 
