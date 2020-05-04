@@ -12,6 +12,9 @@ def jump(request):
     ch_first = Channel.objects.first()
     return redirect(to='./' + ch_first.name)
 
+def send_message_to_slack():
+    
+
 @login_required()
 def index(request, channel_name, page=1):
     # POSTアクセス時（新規スレッド作成）の処理
