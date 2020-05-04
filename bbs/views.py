@@ -6,14 +6,12 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
+from django_slack import slack_message
 
 @login_required()
 def jump(request):
     ch_first = Channel.objects.first()
     return redirect(to='./' + ch_first.name)
-
-def send_message_to_slack():
-    
 
 @login_required()
 def index(request, channel_name, page=1):
@@ -23,6 +21,16 @@ def index(request, channel_name, page=1):
         obj.member = request.user
         message = NewThreadForm(request.POST, instance=obj)
         message.save()
+
+        # チャンネルがgeneralの場合はslackにも送信
+        if channel_name == 'general':
+            attachments = [
+                {
+                    'title': request.POST['title'],
+                    'text': request.POST['content'],
+                },
+            ]
+            slack_message('bbs/slack_message.txt', {'owner': request.user.username}, attachments)
         return redirect(to='/bbs')
 
     # GETアクセス時の処理
