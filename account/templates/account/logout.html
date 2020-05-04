@@ -1,0 +1,12 @@
+{% extends "account/header.html" %}
+{% block title %}ログアウト{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>ログアウトしました</p>
+            <p><a class="btn btn-primary btn-lg" href="{% url 'account:login' %}">ログイン</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

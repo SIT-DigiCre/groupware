@@ -1,9 +1,10 @@
-{% extends "home/header.htm" %}
+{% extends "account/header.html" %}
 {% block title %}ユーザ登録{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <h2>ユーザ登録</h2>
             <form action="" method="POST">
                 {{ form.non_field_errors }}
                 {% for field in form %}
@@ -14,7 +15,8 @@
                 </div>
                 {% endfor %}
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary btn-lg">送信</button>
+                <button type="submit" class="btn btn-primary btn-lg">登録</button>
+                <p>※確認メールが送信されます</p>
             </form>
         </div>
     </div>
