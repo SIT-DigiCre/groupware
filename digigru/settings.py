@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # 3rd-party
     'markdownx',
     'sass_processor',
+    'django_slack',
 ]
 
 MIDDLEWARE = [

@@ -6,3 +6,4 @@ django-compressor
 django-sass-processor
 pillow
 mysqlclient == 1.4.6
+django-slack
