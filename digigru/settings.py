@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = '' # 外部ファイルに設定
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.environ.get('DEBUG') == 'False' else True
+DEBUG = False if str(os.environ.get('DEBUG')).lower() == 'false' else True
 
 ALLOWED_HOSTS = ['app','localhost']
 
