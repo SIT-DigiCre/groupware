@@ -1,0 +1,12 @@
+[{
+    "model": "member.profile",
+    "pk": 1,
+    "fields": {
+        "user" : 1,
+        "generation":16,
+        "message":"DefoMsg",
+        "intro":"",
+        "divisions":[],
+        "created_at":"2020-04-04T08:12:47.557Z"
+    }
+}]
