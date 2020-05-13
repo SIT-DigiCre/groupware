@@ -32,6 +32,9 @@
     margin-left: 25px;
     width: auto;
 }
+.bbs-content-header{
+    overflow: hidden;
+}
 .bbs-content-header h4{
     display: inline-block;
 }
