@@ -59,10 +59,19 @@ class MessageStamp(models.Model):
     users = models.ManyToManyField(User)
     def __str__(self):
         return self.message.title +':'+self.stamp.name
-
+    def return_names(self):
+        names = ""
+        for user in self.users.all():
+            names += user.username + " "
+        return names
 class ReplyStamp(models.Model):
     stamp = models.ForeignKey(Stamp,on_delete=models.CASCADE)
     reply = models.ForeignKey(Reply,on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
     def __str__(self):
         return self.stamp.name
+    def return_names(self):
+        names = ""
+        for user in self.users.all():
+            names += user.username + " "
+        return names

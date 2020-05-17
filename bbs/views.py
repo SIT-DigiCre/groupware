@@ -137,9 +137,9 @@ def message_stamp(request,message_id,stamp_id):
     message = Message.objects.filter(id=message_id).first()
     for st in message.messagestamp_set.all():
         tmp_http = '''
-        <a id="btn_{0}" href="javascript:void(0);" onclick="bbsStampOnClick('{1}',{2},'message');" class="badge badge-pill badge-secondary">
-        <img src="{3}" alt="" style="width: 15px;height:15px;">{4}</a>
-        '''.format(st.stamp.name,str(st.stamp.id),message.id,st.stamp.image.url,str(len(st.users.all())))
+        <a id="btn_{0}" data-toggle="tooltip" title="{1}" href="javascript:void(0);" onclick="bbsStampOnClick('{2}',{3},'message');" class="badge badge-pill badge-secondary">
+        <img src="{4}" alt="" style="width: 15px;height:15px;">{5}</a>
+        '''.format(st.stamp.name,st.return_names(),str(st.stamp.id),message.id,st.stamp.image.url,str(len(st.users.all())))
         http += tmp_http
     return HttpResponse(http)
 
@@ -171,8 +171,8 @@ def reply_stamp(request,reply_id,stamp_id):
     reply = Reply.objects.filter(id=reply_id).first()
     for st in reply.replystamp_set.all():
         tmp_http = '''
-        <a id="btn_{0}" href="javascript:void(0);" onclick="bbsStampOnClick('{1}',{2},'reply');" class="badge badge-pill badge-secondary">
-        <img src="{3}" alt="" style="width: 15px;height:15px;">{4}</a>
-        '''.format(st.stamp.name,str(st.stamp.id),reply.id,st.stamp.image.url,str(len(st.users.all())))
+        <a id="btn_{0}" data-toggle="tooltip" title="{1}" href="javascript:void(0);" onclick="bbsStampOnClick('{2}',{3},'reply');" class="badge badge-pill badge-secondary">
+        <img src="{4}" alt="" style="width: 15px;height:15px;">{5}</a>
+        '''.format(st.stamp.name,st.return_names(),str(st.stamp.id),reply.id,st.stamp.image.url,str(len(st.users.all())))
         http += tmp_http
     return HttpResponse(http)
