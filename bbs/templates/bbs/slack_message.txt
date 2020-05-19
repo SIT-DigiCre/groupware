@@ -1,5 +1,5 @@
 {% extends django_slack %}
 
 {% block text %}
-{{ owner }}がgeneralにスレッドを投稿しました！
+generalにスレッドが投稿されました！
 {% endblock %}

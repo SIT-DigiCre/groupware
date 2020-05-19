@@ -28,7 +28,10 @@ def index(request, channel_name, page=1):
             attachments = [
                 {
                     'title': request.POST['title'],
-                    'text': request.POST['content'],
+                    "title_link": "https://core.digicre.net/bbs/general/show/" + str(Message.objects.filter(channel=1).first().id),
+                    'text': request.POST['content'] + str(request.user.icon.url),
+                    "author_name": request.user.username,
+                    "author_icon": "https://core.digicre.net" + str(request.user.icon.url),
                 },
             ]
             slack_message('bbs/slack_message.txt', {'owner': request.user.username}, attachments)
