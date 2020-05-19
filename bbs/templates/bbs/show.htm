@@ -84,7 +84,7 @@
                         {#スタンプ#}
                         <div id="{{message.id}}_stamps">
                             {% for stamp in message.messagestamp_set.all %}
-                            <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                            <a id="btn_{{stamp.stamp.name}}" data-toggle="tooltip" title="{{stamp.return_names}}" href="javascript:void(0);"
                                 onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{message.id}},'message');"
                                 class="badge badge-pill badge-secondary">
                                 <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
@@ -128,7 +128,7 @@
                         {#返信スタンプ#}
                         <div id="r{{reply.id}}_stamps">
                             {% for stamp in reply.replystamp_set.all %}
-                            <a id="btn_{{stamp.stamp.name}}" href="javascript:void(0);"
+                            <a id="btn_{{stamp.stamp.name}}" data-toggle="tooltip" title="{{stamp.return_names}}" href="javascript:void(0);"
                                 onclick="bbsStampOnClick('{{stamp.stamp.id}}',{{reply.id}},'reply');"
                                 class="badge badge-pill badge-secondary">
                                 <img src="{{stamp.stamp.image.url}}" alt="" style="width: 15px;height:15px;">
@@ -229,6 +229,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
+    $('[data-toggle="tooltip"]').tooltip()
     function bbsStampOnClick(stamp_id, target_id = 0, kind = 'message') {
         url = '/bbs/' + kind + '_stamp/' + String(target_id) + '/' + stamp_id;
         if (kind == 'message') {
