@@ -7,6 +7,7 @@ from django.db.models import Q
 from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
 from django_slack import slack_message
+from .common import get_user_channel
 
 @login_required()
 def jump(request):
@@ -34,19 +35,7 @@ def index(request, channel_name, page=1):
         return redirect(to='/bbs')
 
     # GETアクセス時の処理
-    channel_list_tmp = []
-    channel_name_list = ['general','random']
-    channel_name_list.append(str(request.user.profile.generation)+'th')
-    for division in request.user.profile.divisions.all():
-        channel_name_list.append(division.name)
-    for channel_name_tmp in channel_name_list:
-        chan_tmp = Channel.objects.filter(name=channel_name_tmp).first()
-        if chan_tmp is None:
-            chan_tmp = Channel()
-            chan_tmp.name = channel_name_tmp
-            chan_tmp.save()
-        channel_list_tmp.append(chan_tmp)
-    channel_list = tuple(channel_list_tmp)
+    channel_list = get_user_channel(request)
     channel_now = Channel.objects.filter(name=channel_name).first()
 
     if 'search_word' in request.GET:
@@ -95,7 +84,7 @@ def show(request, channel_name, id=1):
         return redirect(to='/bbs/' + channel_name + '/show/' + str(id)) 
 
     # GETアクセス時の処理
-    channel_list = Channel.objects.all()
+    channel_list = get_user_channel(request)
     replys = Reply.objects.all().filter(parent=message).reverse() # 古いものが上に
     params = {
         'channel_list': channel_list,
