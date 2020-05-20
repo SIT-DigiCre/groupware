@@ -1,4 +1,5 @@
 {% extends 'home/header.htm' %}
+{% load markdown_extras %}
 {% load static %}
 {% load humanize %}
 {% block title %}ユーザーネーム{% endblock %}
@@ -51,9 +52,8 @@
         <div class="col-md-12">
             
             <div>
-                <br>
-                <p>{{ profile.formatted_markdown|safe }}</p>
-                <br>
+                <div id="content">{{ profile.intro|markdown|safe }}</div>
+                
             </div>
             
         </div>

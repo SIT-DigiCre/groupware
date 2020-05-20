@@ -4,6 +4,7 @@ from account.models import User
 from member.models import UserTool
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from mdeditor.fields import MDTextField
 # Create your models here.
 
 class Work(models.Model):
@@ -12,7 +13,7 @@ class Work(models.Model):
     users = models.ManyToManyField(User)
     leader_user_id = models.IntegerField(blank=True)
     main_image = models.ImageField(upload_to='work_main_image/', default='defo')
-    intro = MarkdownxField('intro')
+    intro = MDTextField('intro')
     STATUS_CHOICE =(
         ('planning','planning'),
         ('making','making'),

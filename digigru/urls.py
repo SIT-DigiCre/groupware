@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf.urls import url
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -29,6 +30,8 @@ urlpatterns = [
     path('work/',include('work.urls'), name="work"),
     path('blog/',include('blog.urls'), name="blog"),
     path('account/', include('account.urls'), name="account"),
+
+    url(r'mdeditor/', include('mdeditor.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -3,6 +3,8 @@ from django.db import models
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+from mdeditor.fields import MDTextField
+
 # Create your models here.
 from account.models import User
 
@@ -11,7 +13,7 @@ class Tool(models.Model):
     name = models.CharField(max_length=30)
     icon = models.ImageField(upload_to='tool_icon/', default='defo')
     kind = models.CharField(max_length=15)
-    intro = MarkdownxField('intro')
+    intro = MDTextField('intro')
     editor = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

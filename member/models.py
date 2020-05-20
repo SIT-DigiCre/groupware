@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+from mdeditor.fields import MDTextField
+
 # Create your models here.
 class Division(models.Model):
     name = models.CharField(max_length = 20) #PGなど班の情報
@@ -17,7 +19,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     generation = models.IntegerField(blank=True)
     message = models.CharField(max_length = 140)
-    intro = MarkdownxField('intro',blank=True)
+    intro = MDTextField('intro',blank=True)
     divisions = models.ManyToManyField(Division)
     created_at = models.DateTimeField(auto_now_add=True)
 

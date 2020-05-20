@@ -15,24 +15,7 @@ def jump(request):
 
 @login_required()
 def index(request, channel_name, page=1):
-    # POSTアクセス時（新規スレッド作成）の処理
-    if request.method == 'POST':
-        obj = Message()
-        obj.member = request.user
-        message = NewThreadForm(request.POST, instance=obj)
-        message.save()
-
-        # チャンネルがgeneralの場合はslackにも送信
-        if channel_name == 'general':
-            attachments = [
-                {
-                    'title': request.POST['title'],
-                    'text': request.POST['content'],
-                },
-            ]
-            slack_message('bbs/slack_message.txt', {'owner': request.user.username}, attachments)
-        return redirect(to='/bbs')
-
+    
     # GETアクセス時の処理
     channel_list_tmp = []
     channel_name_list = ['general','random']
@@ -62,7 +45,6 @@ def index(request, channel_name, page=1):
         'channel_list': channel_list,
         'channel_name': channel_name,
         'messages': data.get_page(page),
-        'form': NewThreadForm(),
         'stamps':Stamp.objects.all(),
         'result_message': result_message, 
     }
@@ -108,6 +90,55 @@ def show(request, channel_name, id=1):
     }
     
     return render(request, 'bbs/show.htm', params)
+
+@login_required(login_url='/admin/login/')
+def create(request):
+    # POSTアクセス時（新規スレッド作成）の処理
+    if request.method == 'POST':
+        obj = Message()
+        obj.member = request.user
+        message = NewThreadForm(request.POST, instance=obj)
+        message.save()
+
+        # チャンネルがgeneralの場合はslackにも送信
+        if request.POST['channel'] == 'general':
+            attachments = [
+                {
+                    'title': request.POST['title'],
+                    'text': request.POST['content'],
+                },
+            ]
+            slack_message('bbs/slack_message.txt', {'owner': request.user.username}, attachments)
+        return redirect(to='/bbs')
+
+    params = {
+        'form': NewThreadForm(),
+    }
+    return render(request, 'bbs/create.htm', params)
+
+@login_required()
+def edit(request, channel_name, id=1):
+    # 共通処理
+    message = Message.objects.filter(id=id).first()
+
+    # POSTアクセス時（返信時）の処理
+    if request.method == 'POST':
+        if request.user == message.member:
+            message_form = EditThreadForm(request.POST,instance=message)
+            edit_post = message_form.save(commit=False)
+            edit_post.member=request.user
+            edit_post.channel=message.channel
+            edit_post.title=message.title
+            edit_post.save()
+        # 同じページにリダイレクトするだけなので、もっと賢い書き方あるはず
+        return redirect(to='/bbs/' + channel_name + '/show/' + str(id)) 
+
+    params = {
+        'channel_name': channel_name,
+        'form':EditThreadForm(instance=message),
+    }
+    
+    return render(request, 'bbs/edit.htm', params)
 
 @login_required(login_url='/admin/login/')
 def message_stamp(request,message_id,stamp_id):

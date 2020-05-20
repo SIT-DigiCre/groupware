@@ -1,4 +1,5 @@
 {% extends 'home/header.htm' %}
+{% load markdown_extras %}
 {% load static %}
 {% load humanize %}
 {% block title %}掲示板{% endblock %}
@@ -23,8 +24,8 @@
         </div>
         <div class="row">
             <div class="col-md-2 shadow">
-                <button type="button" class=" btn btn-primary mt-2" data-toggle="modal" data-target="#modal1"><i
-                        class="fas fa-plus"></i>新規スレッド</button>
+                <a type="button" class=" btn btn-primary mt-2" href="/bbs/create"><i
+                        class="fas fa-plus"></i>新規スレッド</a>
                 <form action="" , method="GET" class="mt-2 input-group">
                     <input type="text" name="search_word" class="form-control inline-block">
                     <span class="input-group-btn">
@@ -62,9 +63,9 @@
                             </div>
                             <div class="float-blocker"></div>
                         </div>
-                        <p class="m-2 markdown-p">
-                            {{ message.formatted_markdown|safe }}
-                        </p>
+                        <div id="content">{{ message.content|markdown|safe }}</div>
+                        
+                        
                         {#スタンプ#}
                         <div id="{{message.id}}_stamps">
                             {% for stamp in message.messagestamp_set.all %}
@@ -140,9 +141,12 @@
                         </div>
                         <div class="float-blocker"></div>
                     </div>
-                    <p>
-                        {{ message.formatted_markdown|safe }}
-                    </p>
+                    <div>
+                        <div>
+                            {{ message.formatted_markdown|safe }}
+                        </div>
+                    </div>
+                        
                     <div class="bbs-content-footer">
                     </div>
                 </div>
@@ -166,29 +170,7 @@
 <a class="new-thread-btn-mobile new-thread-modal-open">
     <i class="fas fa-plus-circle"></i>
 </a>
-<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form action="" method="post">
-                {% csrf_token %}
-                <div class="modal-header">
-                    <h5 class="modal-title" id="label1">新規スレッドを作成</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ form.as_p }}
-                    <a href="">画像を貼り付ける</a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-                    <button type="submit" class="btn btn-primary">送信</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
     function bbsStampOnClick(stamp_id,target_id=0,kind = 'message'){
@@ -211,5 +193,4 @@
         bbsStampOnClick(stamp_id,target_id,kind)
     }
 </script>
-
 {% endblock %}

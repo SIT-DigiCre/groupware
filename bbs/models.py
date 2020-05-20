@@ -3,6 +3,8 @@ from account.models import User
 # マークダウン使用のため
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+# new md
+from mdeditor.fields import MDTextField
 
 class Channel(models.Model):
     name = models.CharField(max_length=64)
@@ -16,7 +18,7 @@ class Channel(models.Model):
 class Message(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    content = MarkdownxField('Contents')
+    content = MDTextField('Contents')
     pub_date = models.DateTimeField(auto_now_add=True)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
 
@@ -26,14 +28,12 @@ class Message(models.Model):
     def __str__(self):
         return self.title
 
-    def formatted_markdown(self):
-        return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
 
 # Messageとの共通要素多い感じがします
 class Reply(models.Model):
     parent = models.ForeignKey(Message, on_delete=models.CASCADE)
     member = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = MarkdownxField('Contents')
+    content = MDTextField('Contents')
     pub_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'markdownx',
     'sass_processor',
     'django_slack',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
@@ -124,6 +125,35 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'Asia/Tokyo'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+MDEDITOR_CONFIGS = {
+    'default':{
+        'language': 'en',
+        'heigth': 500,  # Custom edit box height
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h2", "h3","h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link",  "code", "code-block", "table",
+                    "html-entities","||","preview", "watch", "fullscreen"],  # custom edit box toolbar 
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # image upload format type
+        'image_folder': 'editor',  # image save the folder name
+        'theme': 'default',  # edit box theme, dark / default
+        'preview_theme': 'default',  # Preview area theme, dark / default
+        'editor_theme': 'default',  # edit area theme, pastel-on-dark / default
+        'toolbar_autofixed': True,  # Whether the toolbar capitals
+        'search_replace': True,  # Whether to open the search for replacement
+        'emoji': True,  # whether to open the expression function
+        'tex': True,  # whether to open the tex chart function
+        'flow_chart': True,  # whether to open the flow chart function
+        'sequence': True, # Whether to open the sequence diagram function
+        'watch': True,  # Live preview
+        'lineWrapping': False,  # lineWrapping
+        'lineNumbers': True  # lineNumbers
+    }
+}
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

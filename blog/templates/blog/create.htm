@@ -6,7 +6,8 @@
     <div class="col-md-12">
         <form action="{% url 'blog.create' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form }}
+            {{ form.media }}
+            {{ form.as_p }}
             <input type="submit" class="btn btn-primary mt-3" value="登録する">
         </form>
     </div>

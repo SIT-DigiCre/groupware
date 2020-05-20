@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet">
+    <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "home/css/defStyle.css" %}">
     {% block customCSS %}{% endblock %}
 
@@ -25,7 +27,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="{% static "home/js/def.js" %}"></script>
+        <script src="{% static "home/js/def.js" %}"></script>
     <title>{% block title %}{% endblock %} | デジクリ</title>
 </head>
 
@@ -84,6 +86,29 @@
     <footer class="text-center text-black-50">
         <small>©デジクリ/2020</small>
     </footer>
+    
+    <!-- <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script> -->
+    <!-- <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script> -->
+    <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    <script>
+        $(function () {
+            editormd.markdownToHTML("content", {
+                emoji: true,
+                taskList: true,
+                tex: true,
+                flowChart: true,
+                sequenceDiagram: true,
+            });
+            $(".reference-link").each(function (i, obj) {
+                console.log(obj)
+            })
+        })
+    </script>
 </body>
 
 </html>
