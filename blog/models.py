@@ -6,9 +6,11 @@ from work.models import Work
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+from mdeditor.fields import MDTextField
+
 class ArticleTag(models.Model):
     name = models.CharField(max_length=30)
-    content = MarkdownxField('Contents',default='')
+    content = MDTextField('Contents')
     pub_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
@@ -19,7 +21,7 @@ class ArticleTag(models.Model):
 class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    content = MarkdownxField('Contents')
+    content = MDTextField('Contents')
     article_image = models.ImageField(upload_to='article_image/', default='null')
     article_tags = models.ManyToManyField(ArticleTag,blank=True)
     relates_works=models.ManyToManyField(Work,blank=True)

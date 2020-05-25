@@ -22,6 +22,7 @@
                 <h2>プロファイルデータ編集</h2>
                 <form action="/member/edit" method="post">
                     {% csrf_token %}
+                    {{ profile_form.media }}
                     {{ profile_form.as_table }}
                     <input type="submit" value="Submit" name="profile-edit-form">
                 </form>

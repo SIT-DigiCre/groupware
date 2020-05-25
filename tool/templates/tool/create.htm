@@ -12,6 +12,7 @@
         <div class="col-md-12">
             <form action="{% url 'tool.create' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form.media }}
                 {{ form.as_p }}
                 <button type="submit">登録</button>
             </form>

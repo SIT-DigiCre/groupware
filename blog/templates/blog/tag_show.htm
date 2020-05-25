@@ -1,4 +1,5 @@
 {% extends 'blog/header.htm' %}
+{% load markdown_extras %}
 {% load static %}
 {% block title %}{{article_tag.name}}{% endblock %}
 {% block content %}
@@ -7,7 +8,9 @@
         <div class="col-md-12">
             <div class="card mt-3">
                 <h1 class="ml-2">{{article_tag.name}}</h1>
-                <p class="mt-2">{{ article_tag.formatted_markdown|safe }}</p>
+                <div>
+                    {{ article_tag.content|markdown|safe }}
+                </div>
             </div>
             
         </div>
