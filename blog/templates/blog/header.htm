@@ -97,29 +97,7 @@
     <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
     <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
     <script src="/static/mdeditor/languages/en.js"></script>
-    <script>
-        $(function () {
-            var count = 0;
-            for(;;){
-                var obj = document.getElementById('content')
-                if(obj == null)break;
-                obj.id = 'content'+String(count);
-                count++;
-            }
-            for(var n=0;n<count; n++){
-                editormd.markdownToHTML('content'+String(n), {
-                    emoji: true,
-                    taskList: true,
-                    tex: true,
-                    flowChart: true,
-                    sequenceDiagram: true,
-                });
-                $(".reference-link").each(function (i, obj) {
-                    console.log(obj);
-                });
-            }
-        })
-    </script>
+    
 </body>
 
 </html>

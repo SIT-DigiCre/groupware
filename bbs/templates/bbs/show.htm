@@ -54,7 +54,7 @@
                             </div>
                             <div class="float-blocker"></div>
                         </div>
-                        <div id="content">{{ message.content|markdown|safe }}</div>
+                        <div>{{ message.content|markdown|safe }}</div>
                         {#スタンプ#}
                         <div id="{{message.id}}_stamps">
                             {% for stamp in message.messagestamp_set.all %}
@@ -142,9 +142,11 @@
                         </div>
                         <div class="float-blocker"></div>
                     </div>
-                    <p>
+                    <div>
                         {{ message.content|markdown|safe }}
-                    </p>
+                    </div>
+                        
+                    
                     <div class="bbs-content-footer">
                     </div>
                 </div>
@@ -159,9 +161,10 @@
                         </div>
                         <div class="float-blocker"></div>
                     </div>
-                    <p>
+                    <div>
                         {{ reply.formatted_markdown|safe }}
-                    </p>
+                    </div>
+                        
                     <div class="bbs-content-footer">
                     </div>
                 </div>

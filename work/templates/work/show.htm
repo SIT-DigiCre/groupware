@@ -32,7 +32,7 @@
             {% if work.main_image.url !=  '/media/defo'%}
             <img src="{{work.main_image.url}}" class="card-image" alt="" style="height: 200px;">
             {% endif %}
-            <div id="content">
+            <div>
                 {{ work.intro|markdown|safe }}
             </div>
             <br>
