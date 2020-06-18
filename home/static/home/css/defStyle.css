@@ -45,3 +45,11 @@ header i{
     padding: 5px;
     border-radius: 5px;
 }
+
+.md ul{
+    padding-left: 1em;
+}
+
+.md ol{
+    padding-left: 1em;
+}

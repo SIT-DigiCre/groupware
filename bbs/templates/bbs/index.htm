@@ -63,7 +63,7 @@
                             </div>
                             <div class="float-blocker"></div>
                         </div>
-                        <div>{{ message.content|markdown|safe }}</div>
+                        <div class="md">{{ message.content|markdown|safe }}</div>
                         
                         
                         {#スタンプ#}
@@ -142,7 +142,7 @@
                         <div class="float-blocker"></div>
                     </div>
                     <div>
-                        <div>
+                        <div class="md">
                             {{ message.formatted_markdown|safe }}
                         </div>
                     </div>
