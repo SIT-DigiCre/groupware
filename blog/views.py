@@ -137,7 +137,6 @@ def edit_art_tags(request,id=1):
     }
     return render(request,'blog/article_tag_edit.htm',params)
 
-@login_required()
 def relay(request):
     month = 8
     year = 2020
