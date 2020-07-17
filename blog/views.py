@@ -192,6 +192,10 @@ def relay_add(request, year, month, day):
 
     return redirect(to='blog.relay')
 
+def event_index(request,event_name):
+    #ここにイベントページを用意する
+    pass
+
 @login_required(login_url='/admin/login/')
 def mypage(request):
     articles =Article.objects.filter(member=request.user)
