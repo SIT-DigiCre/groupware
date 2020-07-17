@@ -4,11 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.utils import timezone
 from .models import Article,ArticleTag
 from .forms import *
 # Create your views here.
 def index(request,page=1):
-    articles_data = Paginator(Article.objects.all(),10)
+    articles_data = Paginator(Article.objects.filter(is_active=True),10)
     params = {
         'articles':articles_data.get_page(page),
         'is_login_user':request.user.is_authenticated,
@@ -17,6 +18,8 @@ def index(request,page=1):
 
 def show(request,id=1):
     article = Article.objects.filter(id=id).first()
+    if article.is_active == False and article.member != request.user:
+        return redirect(to='/blog')
     params = {
         'article':article,
         'is_edit_user':request.user == article.member,
@@ -28,6 +31,11 @@ def show(request,id=1):
 def edit(request,id=1):
     article = Article.objects.filter(id=id).first()
     if request.method == 'POST' and request.user == article.member:
+        if 'save-pub-btn' in request.POST and article.is_active == False:
+            article.pub_date = timezone.now()
+            article.is_active = True
+        elif 'save-nopub-btn' in request.POST:
+            article.is_active = False
         article_form = EditArticleForm(request.POST,instance = article)
         article_post = article_form.save(commit=False)
         article_post.member=request.user
@@ -46,6 +54,10 @@ def create(request):
     if request.method=='POST':
         article = Article()
         article.member = request.user
+        article.is_active = False
+        if 'save-pub-btn' in request.POST:
+            article.pub_date = timezone.now()
+            article.is_active = True
         article_f = NewArticleForm(request.POST, instance=article)
         article_f.save()
         return redirect(to='/blog')
@@ -119,3 +131,15 @@ def edit_art_tags(request,id=1):
         'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/article_tag_edit.htm',params)
+
+@login_required(login_url='/admin/login/')
+def mypage(request):
+    articles =Article.objects.filter(member=request.user)
+    articles_pub = articles.filter(is_active=True)
+    articles_nopub = articles.filter(is_active=False)
+    params = {
+        'articles_pub':articles_pub,
+        'articles_nopub':articles_nopub,
+        'is_login_user':request.user.is_authenticated,
+    }
+    return render(request,'blog/mypage.htm',params)

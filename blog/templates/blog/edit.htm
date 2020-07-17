@@ -8,7 +8,8 @@
             {% csrf_token %}
             {{ form.media }}
             {{ form.as_p }}
-            <input type="submit" class="btn btn-primary mt-3" value="保存">
+            <input type="submit" class="btn btn-primary mt-3" value="保存して公開" name="save-pub-btn">
+            <input type="submit" class="btn btn-primary mt-3" value="非公開保存" name="save-nopub-btn">
         </form>
     </div>
 </div>
