@@ -7,7 +7,9 @@ from django.db.models import Q
 from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
 from .forms import NewThreadForm,ReplyForm,EditThreadForm
 from django_slack import slack_message
-from .common import get_user_channel
+from .common import get_user_channel,get_default_channel
+from home.models import Notice
+from home.common import make_notice
 
 @login_required()
 def jump(request):
@@ -90,7 +92,7 @@ def create(request):
         message.save()
 
         # チャンネルがgeneralの場合はslackにも送信
-        if request.POST['channel'] == 'general':
+        if request.POST['channel'] == get_user_channel(request):
             attachments = [
                 {
                     'title': request.POST['title'],

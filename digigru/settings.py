@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'django_slack',
     'mdeditor',
+    'webpush',
 ]
 
 MIDDLEWARE = [

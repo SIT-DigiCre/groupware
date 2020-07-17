@@ -14,3 +14,6 @@ def get_user_channel(request):
             chan_tmp.save()
         channel_list_tmp.append(chan_tmp)
     return tuple(channel_list_tmp)
+
+def get_default_channel():
+    return tuple(['general','random','定例会','form'])
