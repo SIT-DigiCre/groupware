@@ -25,8 +25,8 @@ class Article(models.Model):
     article_image = models.ImageField(upload_to='article_image/', default='null')
     article_tags = models.ManyToManyField(ArticleTag,blank=True)
     relates_works=models.ManyToManyField(Work,blank=True)
-    pub_date = models.DateTimeField(auto_now_add=True)
-
+    pub_date = models.DateTimeField(blank=True,null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-pub_date',) # 新着順にする
@@ -36,5 +36,8 @@ class Article(models.Model):
 
     def formatted_markdown(self):
         return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
+    
+    
+
 
 
