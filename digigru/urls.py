@@ -19,6 +19,7 @@ from django.conf.urls import url
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +31,8 @@ urlpatterns = [
     path('work/',include('work.urls'), name="work"),
     path('blog/',include('blog.urls'), name="blog"),
     path('account/', include('account.urls'), name="account"),
-
+    
+    url(r'^apilogin/', obtain_jwt_token),
     url(r'mdeditor/', include('mdeditor.urls')),
 ]
 

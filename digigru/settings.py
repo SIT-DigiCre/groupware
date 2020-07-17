@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'django_slack',
     'mdeditor',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -186,6 +187,25 @@ USE_L10N = False
 
 LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = 'home.index'
+
+JWT_AUTH = {
+    'JWT_VERIFY_EXPIRATION': False,
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+
+
+REST_FRAMEWORK = { 
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),  
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),  
+    'NON_FIELD_ERRORS_KEY': 'detail',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
+
+APPEND_SLASH=False
 
 # メール設定
 EMAIL_USE_TLS = True
