@@ -27,7 +27,6 @@ class Article(models.Model):
     relates_works=models.ManyToManyField(Work,blank=True)
     pub_date = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         ordering = ('-pub_date',) # 新着順にする
 
@@ -37,4 +36,16 @@ class Article(models.Model):
     def formatted_markdown(self):
         return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
 
+# ブログリレーなどのイベント
+class BlogEvent(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class EventArticle(models.Model):
+    event = models.ForeignKey(BlogEvent, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    release_date = models.DateField()
 
