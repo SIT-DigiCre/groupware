@@ -13,8 +13,9 @@ urlpatterns = [
     path('tag/<int:id>/edit',views.edit_tag,name='blog.edit_tag'),
     path('tag',views.index_tag,name='blog.index_tag'),
     path('article/<int:id>/tags',views.edit_art_tags,name='blog.edit_art_tags'),
-
+  
     path('relay_2020summer/', views.relay, name='blog.relay'),
     path('relay_2020summer/add_check/<int:year>/<int:month>/<int:day>', views.relay_add_check, name='blog.relay_add_check'),
     path('relay_2020summer/add/<int:year>/<int:month>/<int:day>', views.relay_add, name='blog.relay_add'),
+    path('mypage',views.mypage,name='blog.mypage'),
 ]

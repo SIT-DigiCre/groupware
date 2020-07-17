@@ -4,11 +4,28 @@
 {% block content %}
 <div class="container">
     <div class="row">
-
+        <h1>マイページ</h1>
     </div>
     <div class="row">
         <div class="col-md-12">
-            {% for article in articles %}
+            <h2>マイ記事</h2>
+            <h3>非公開</h3>
+            {% for article in articles_nopub %}
+            <div class="card mt-2">
+                {% if article.article_image.url == 'null' %}
+                <img class="card-img-top" src="{{article.article_image.url}}" alt="カードの画像">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/blog/article/{{article.id}}">{{article.title}}</a></h5>
+                    {% for tag in article.article_tags.all %}
+                    <a href="/blog/tag/{{tag.id}}" class="badge badge-primary badge-pill">{{ tag.name }}</a>
+                    {% endfor %}
+                    <p class="card-text"><small class="text-muted">{{article.pub_date}}</small></p>
+                </div>
+            </div>
+            {% endfor %}
+            <h3>公開済</h3>
+            {% for article in articles_pub %}
             <div class="card mt-2">
                 {% if article.article_image.url == 'null' %}
                 <img class="card-img-top" src="{{article.article_image.url}}" alt="カードの画像">
