@@ -152,20 +152,24 @@ def relay(request):
     ]
 
     # その日がすでに登録されているかどうか
-    # is_registerd = [False for s in range(32)]
+    is_registerd = [False for s in range(32)]
 
-    # for day in range(1, 32):
-    #     dt = datetime.datetime(year, month, day)
-    #     if EventArticle.objects.filter(release_date=dt).exists():
-    #         is_registerd = True
-    #     else:
-    #         is_registerd = False
+    for day in range(1, 32):
+        dt = datetime.datetime(year, month, day)
+        ea = EventArticle.objects.filter(release_date=dt)
+        if ea.exists():
+            is_registerd[day] = True
+        else:
+            is_registerd[day] = False
+        
+        print(str(day) + ": " + str(is_registerd[day]))
+
 
     params = {
         'year': year,
         'month': month,
         'aug_calender': aug_calender,
-        # 'is_registerd': is_registerd,
+        'is_registerd': is_registerd,
     }
     return render(request, 'blog/relay.htm', params)
 

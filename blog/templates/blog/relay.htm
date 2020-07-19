@@ -1,5 +1,6 @@
 {% extends 'blog/header.htm' %}
 {% load static %}
+{% load check %}
 {% block title %}ブログリレー2020summer{% endblock %}
 {% block content %}
 <div class="container">
@@ -26,12 +27,16 @@
                                 {% if day != 0 %}
                                     <td class="text-center">
                                         <p class="text-left">{{ day }}</p>
+                                        {% check is_registerd day as flag %}
+                                        {% if flag %}
                                         <p><img src="{{ user.icon.url }}" class="rounded-circle w-50" alt=""></p>
                                         <p>{{ user.username }}</p>
+                                        {% else %}
                                         <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-success btn-sm">登録</button>
                                         </form>
+                                        {% endif %}
                                     </td>
                                 {% else %}
                                     <td></td>
@@ -45,4 +50,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById()
+</script>
+
 {% endblock %}

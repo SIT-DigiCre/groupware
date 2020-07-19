@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                {% if request.user.is_authenticated %}
+                {% if user.is_authenticated %}
                 <div class="dropdown d-none d-md-inline-block">
                     <a href="#" class="dropdown-toggle header-userinfo" data-toggle="dropdown" role="button">
                         {% if user.icon.url != "/media/defo.png" %}

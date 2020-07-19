@@ -18,6 +18,6 @@ urlpatterns = [
     path('relay_2020summer/add_check/<int:year>/<int:month>/<int:day>', views.relay_add_check, name='blog.relay_add_check'),
     path('relay_2020summer/add/<int:year>/<int:month>/<int:day>', views.relay_add, name='blog.relay_add'),
 
-	path('event/<event_name>/',views.event_index,name='blog.event_index')
+	path('event/<event_name>/',views.event_index,name='blog.event_index'),
     path('mypage',views.mypage,name='blog.mypage'),
 ]
