@@ -52,4 +52,4 @@ class EventArticle(models.Model):
     event = models.ForeignKey(BlogEvent, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
     release_date = models.DateField()
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

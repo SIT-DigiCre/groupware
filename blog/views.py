@@ -158,7 +158,7 @@ def relay(request):
         dt = datetime.datetime(year, month, day)
         ea = EventArticle.objects.filter(release_date=dt)
         if ea.exists():
-            is_registerd[day] = True
+            is_registerd[day] = ea.first()
         else:
             is_registerd[day] = False
         
@@ -191,7 +191,7 @@ def relay_add(request, year, month, day):
     
     dt = datetime.datetime(year, month, day)
 
-    ea = EventArticle(event=event, release_date=dt)
+    ea = EventArticle(event=event, release_date=dt, user=request.user)
     ea.save()
 
     return redirect(to='blog.relay')

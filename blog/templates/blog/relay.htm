@@ -27,15 +27,17 @@
                                 {% if day != 0 %}
                                     <td class="text-center">
                                         <p class="text-left">{{ day }}</p>
-                                        {% check is_registerd day as flag %}
-                                        {% if flag %}
-                                        <p><img src="{{ user.icon.url }}" class="rounded-circle w-50" alt=""></p>
+                                        {% check is_registerd day as ea %}
+                                        {% if ea %}
+                                        <p><img src="{{ ea.user.icon.url }}" class="rounded-circle w-50" alt=""></p>
                                         <p>{{ user.username }}</p>
                                         {% else %}
-                                        <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-success btn-sm">登録</button>
-                                        </form>
+                                        <div class="my-5">
+                                            <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success btn-sm">登録</button>
+                                            </form>
+                                        </div>
                                         {% endif %}
                                     </td>
                                 {% else %}
