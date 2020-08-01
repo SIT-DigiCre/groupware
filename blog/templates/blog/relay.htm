@@ -1,0 +1,85 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% load check %}
+{% block title %}ブログリレー2020summer{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>ブログリレー2020summer</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 14%" class="text-center">SUN</th>
+                            <th scope="col" style="width: 14%" class="text-center">MON</th>
+                            <th scope="col" style="width: 14%" class="text-center">TUE</th>
+                            <th scope="col" style="width: 14%" class="text-center">WED</th>
+                            <th scope="col" style="width: 14%" class="text-center">THU</th>
+                            <th scope="col" style="width: 14%" class="text-center">FRI</th>
+                            <th scope="col" style="width: 14%" class="text-center">SAT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in aug_calender %}
+                        <tr>
+                            {% for day in week %}
+                                {% if day != 0 %}
+                                    <td class="text-center">
+                                        <p class="text-left">{{ day }}</p>
+                                        {% check is_registerd day as ea %}
+                                        {% if ea %}
+                                        <p><img src="{{ ea.user.icon.url }}" class="rounded-circle w-50" alt=""></p>
+                                        <p>
+                                            {{ ea.user.username }}
+                                            {% if ea.user == user %}
+                                            <a href="{% url 'blog.relay_edit' year month day %}">📝</a>
+                                            <a href="{% url 'blog.relay_delete' year month day %}">❌</a>
+                                            {% endif %}
+                                        </p>
+                                        {% else %}
+                                        <div class="my-5">
+                                            <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success btn-sm">登録</button>
+                                            </form>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for ev in event_article %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <h5>{{ ev.release_date | date:"m/d" }}</h5> 
+                        </div>
+                        <div class="col-md-11">
+                            <img src="{{ ev.user.icon.url }}" class="rounded-circle" style="height: 30px;" alt="">
+                            {{ ev.user.username }}
+                            <h4><a href="{% url 'blog.show' ev.article.id %}">{{ ev.article }}</a></h4>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById()
+</script>
+
+{% endblock %}

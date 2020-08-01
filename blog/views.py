@@ -5,7 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
-from .models import Article,ArticleTag
+
+
+import datetime
+from datetime import timedelta
+
+from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import *
 # Create your views here.
 def index(request,page=1):
@@ -132,9 +137,115 @@ def edit_art_tags(request,id=1):
     }
     return render(request,'blog/article_tag_edit.htm',params)
 
+def relay(request):
+    month = 8
+    year = 2020
+
+    # 8月のカレンダー（動的に生成したい）
+    aug_calender = [
+        [0, 0, 0, 0, 0, 0, 1],
+        [2, 3, 4, 5, 6, 7, 8],
+        [9, 10, 11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20, 21, 22],
+        [23, 24, 25, 26, 27, 28, 29],
+        [30, 31, 0, 0, 0, 0, 0],
+    ]
+
+    # その日がすでに登録されているかどうか
+    is_registerd = [False for s in range(32)]
+
+    for day in range(1, 32):
+        dt = datetime.datetime(year, month, day)
+        ea = EventArticle.objects.filter(release_date=dt)
+        if ea.exists():
+            is_registerd[day] = ea.first()
+        else:
+            is_registerd[day] = False
+        
+        print(str(day) + ": " + str(is_registerd[day]))
+
+
+    params = {
+        'year': year,
+        'month': month,
+        'aug_calender': aug_calender,
+        'is_registerd': is_registerd,
+        'event_article': EventArticle.objects.all(),
+    }
+    return render(request, 'blog/relay.htm', params)
+
+@login_required()
+def relay_add_check(request, year, month, day):
+    today = datetime.datetime(year, month, day)
+    form = EventArticleForm()
+    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+
+    params = {
+        'year': year,
+        'month': month,
+        'day': day,
+        'date': today,
+        'form': form,
+    }
+    return render(request, 'blog/relay_add_check.htm', params)
+
+@login_required()
+def relay_add(request, year, month, day):
+    if request.method=='POST':
+        dt = datetime.datetime(year, month, day)
+
+        # すでに登録されていたら
+        if EventArticle.objects.filter(event__id=1, release_date=dt).exists():
+            return HttpResponse("すでに他の人に登録されています")
+
+        ea = EventArticle()
+        # とりあえず1番目のイベントを取得
+        ea.event = BlogEvent.objects.get(id=1)
+        ea.release_date = dt
+        ea.user = request.user
+
+        form = EventArticleForm(request.POST, instance=ea)
+        ea_f = form.save(commit=False)
+        ea_f.save()
+
+    return redirect(to='blog.relay')
+
+@login_required()
+def relay_edit(request, year, month, day):
+    dt = datetime.datetime(year, month, day)
+    obj = EventArticle.objects.filter(release_date=dt).first()
+    form = EventArticleForm(instance=obj)
+    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+
+    if request.method=='POST':
+        form = EventArticleForm(request.POST, instance=obj)
+        form.save()
+        return redirect(to='blog.relay')
+
+    params = {
+        'year': year,
+        'month': month,
+        'day': day,
+        'form': form
+    }
+    return render(request,'blog/relay_edit.htm',params)
+
+@login_required()
+def relay_delete(request, year, month, day):
+    dt = datetime.datetime(year, month, day)
+    obj = EventArticle.objects.filter(release_date=dt).first()
+    obj.delete()
+
+    return redirect(to='blog.relay')
+
+
+def event_index(request,event_name):
+    #ここにイベントページを用意する
+    pass
+
 @login_required(login_url='/admin/login/')
 def mypage(request):
-    articles =Article.objects.filter(member=request.user)
+    articles = Article.objects.filter(member=request.user)
     articles_pub = articles.filter(is_active=True)
     articles_nopub = articles.filter(is_active=False)
     params = {

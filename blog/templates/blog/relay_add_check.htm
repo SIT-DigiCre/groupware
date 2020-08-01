@@ -1,0 +1,15 @@
+{% extends 'blog/header.htm' %}
+{% load static %}
+{% block title %}ブログリレー登録確認{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>ブログリレー登録確認</h1>
+    <p>{{ year }}/{{ month }}/{{ day }}に登録</p>
+    <form action="{% url 'blog.relay_add' year month day %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-success btn-large" value="はい">
+        <a type="button" class="btn btn-secondary btn-large" href="{% url 'blog.relay' %}">いいえ</a>
+    </form>
+</div>
+{% endblock %}

@@ -40,4 +40,22 @@ class Article(models.Model):
     
 
 
+# ブログリレーなどのイベント
+class BlogEvent(models.Model):
+    name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
+
+class EventArticle(models.Model):
+    event = models.ForeignKey(BlogEvent, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    release_date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('release_date',) # 日付順
+
+    def __str__(self):
+        return str(self.release_date)
