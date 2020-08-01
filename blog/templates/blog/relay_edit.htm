@@ -3,8 +3,8 @@
 {% block title %}ブログリレー編集{% endblock %}
 {% block content %}
 <div class="container">
-    <p>{{ year }}/{{ month }}/{{ day }}に編集</p>
-    <form action="{% url 'blog.relay_add' year month day %}" method="post">
+    <p>{{ year }}/{{ month }}/{{ day }}の記事を変更</p>
+    <form action="{% url 'blog.relay_edit' year month day %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="btn btn-success btn-large" value="はい">
