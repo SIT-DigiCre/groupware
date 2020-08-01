@@ -31,7 +31,13 @@
                                         {% check is_registerd day as ea %}
                                         {% if ea %}
                                         <p><img src="{{ ea.user.icon.url }}" class="rounded-circle w-50" alt=""></p>
-                                        <p>{{ ea.user.username }}</p>
+                                        <p>
+                                            {{ ea.user.username }}
+                                            {% if ea.user == user %}
+                                            <a href="{% url 'blog.relay_edit' year month day %}">📝</a>
+                                            <a href="{% url 'blog.relay_delete' year month day %}">❌</a>
+                                            {% endif %}
+                                        </p>
                                         {% else %}
                                         <div class="my-5">
                                             <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">

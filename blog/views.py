@@ -210,6 +210,35 @@ def relay_add(request, year, month, day):
 
     return redirect(to='blog.relay')
 
+@login_required()
+def relay_edit(request, year, month, day):
+    dt = datetime.datetime(year, month, day)
+    obj = EventArticle.objects.filter(release_date=dt).first()
+    form = EventArticleForm(instance=obj)
+    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+
+    if request.method=='POST':
+        form = EventArticleForm(request.POST, instance=obj)
+        form.save()
+        return redirect(to='blog.relay')
+
+    params = {
+        'year': year,
+        'month': month,
+        'day': day,
+        'form': form
+    }
+    return render(request,'blog/relay_edit.htm',params)
+
+@login_required()
+def relay_delete(request, year, month, day):
+    dt = datetime.datetime(year, month, day)
+    obj = EventArticle.objects.filter(release_date=dt).first()
+    obj.delete()
+
+    return redirect(to='blog.relay')
+
+
 def event_index(request,event_name):
     #ここにイベントページを用意する
     pass
