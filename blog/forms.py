@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article,ArticleTag
+from .models import *
 
 class NewArticleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -36,3 +36,12 @@ class EditArticleTagForm(forms.ModelForm):
     class Meta:
         model = ArticleTag
         fields = ['content',]
+
+class EventArticleForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(EventArticleForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["class"] = "form-control"
+    class Meta:
+        model = EventArticle
+        fields = ['article',]

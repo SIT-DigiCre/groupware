@@ -170,29 +170,43 @@ def relay(request):
         'month': month,
         'aug_calender': aug_calender,
         'is_registerd': is_registerd,
+        'event_article': EventArticle.objects.all(),
     }
     return render(request, 'blog/relay.htm', params)
 
 @login_required()
 def relay_add_check(request, year, month, day):
     today = datetime.datetime(year, month, day)
+    form = EventArticleForm()
+    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+
     params = {
         'year': year,
         'month': month,
         'day': day,
         'date': today,
+        'form': form,
     }
     return render(request, 'blog/relay_add_check.htm', params)
 
 @login_required()
 def relay_add(request, year, month, day):
-    # とりあえず1番目のイベントを取得
-    event = BlogEvent.objects.get(id=1)
-    
-    dt = datetime.datetime(year, month, day)
+    if request.method=='POST':
+        dt = datetime.datetime(year, month, day)
 
-    ea = EventArticle(event=event, release_date=dt, user=request.user)
-    ea.save()
+        # すでに登録されていたら
+        if EventArticle.objects.filter(event__id=1, release_date=dt).exists():
+            return HttpResponse("すでに他の人に登録されています")
+
+        ea = EventArticle()
+        # とりあえず1番目のイベントを取得
+        ea.event = BlogEvent.objects.get(id=1)
+        ea.release_date = dt
+        ea.user = request.user
+
+        form = EventArticleForm(request.POST, instance=ea)
+        ea_f = form.save(commit=False)
+        ea_f.save()
 
     return redirect(to='blog.relay')
 
@@ -202,7 +216,7 @@ def event_index(request,event_name):
 
 @login_required(login_url='/admin/login/')
 def mypage(request):
-    articles =Article.objects.filter(member=request.user)
+    articles = Article.objects.filter(member=request.user)
     articles_pub = articles.filter(is_active=True)
     articles_nopub = articles.filter(is_active=False)
     params = {

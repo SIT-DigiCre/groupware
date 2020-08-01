@@ -1,5 +1,6 @@
 {% extends 'blog/header.htm' %}
 {% load static %}
+{% load humanize %}
 {% load check %}
 {% block title %}ブログリレー2020summer{% endblock %}
 {% block content %}
@@ -30,7 +31,7 @@
                                         {% check is_registerd day as ea %}
                                         {% if ea %}
                                         <p><img src="{{ ea.user.icon.url }}" class="rounded-circle w-50" alt=""></p>
-                                        <p>{{ user.username }}</p>
+                                        <p>{{ ea.user.username }}</p>
                                         {% else %}
                                         <div class="my-5">
                                             <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
@@ -49,6 +50,24 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for ev in event_article %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <h5>{{ ev.release_date | date:"m/d" }}</h5> 
+                        </div>
+                        <div class="col-md-11">
+                            <img src="{{ ev.user.icon.url }}" class="rounded-circle" style="height: 30px;" alt="">
+                            {{ ev.user.username }}
+                            <h4><a href="{% url 'blog.show' ev.article.id %}">{{ ev.article }}</a></h4>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
