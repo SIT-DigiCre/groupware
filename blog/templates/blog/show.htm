@@ -24,7 +24,8 @@
             <div class="inline-block">
                 <div style="float: right;">
                     <img src="{{article.member.icon.url}}" alt="" style="height:50px; border-radius: 50%;">
-                    <a style="font-size:20px;margin-top:5px;" href="/member/{{article.member.profile.id}}">{{article.member.username}}</a>
+                    <a style="font-size:20px;margin-top:5px;"
+                        href="/member/{{article.member.profile.id}}">{{article.member.username}}</a>
                 </div>
                 <div class="text-center">
                     <h1 style="border-bottom: solid 2px #87CEFA;">{{article.title}}
@@ -34,18 +35,41 @@
                     </h1>
 
                 </div>
-                
+
             </div>
             {% for article_tag in article.article_tags.all %}
-                <a href="/blog/tag/{{article_tag.id}}" class="badge badge-pill badge-primary">{{article_tag.name}}</a>
+            <a href="/blog/tag/{{article_tag.id}}" class="badge badge-pill badge-primary">{{article_tag.name}}</a>
             {% endfor %}
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <div>{{ article.content|markdown|safe }}</div>
+            <div id="content">{{ article.content|markdown|safe }}</div>
         </div>
     </div>
-    
+
 </div>
+<script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+<script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+<script>
+    $(function () {
+        editormd.markdownToHTML("content", {
+            emoji: true,
+            taskList: true,
+            tex: true,
+            flowChart: true,
+            sequenceDiagram: true,
+        });
+        $(".reference-link").each(function (i, obj) {
+            console.log(obj)
+        })
+    })
+</script>
 {% endblock %}
