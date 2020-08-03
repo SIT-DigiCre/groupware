@@ -68,7 +68,11 @@
                         <div class="col-md-11">
                             <img src="{{ ev.user.icon.url }}" class="rounded-circle" style="height: 30px;" alt="">
                             {{ ev.user.username }}
+                            {% if ev.article.is_active %}
                             <h4><a href="{% url 'blog.show' ev.article.id %}">{{ ev.article }}</a></h4>
+                            {% else %}
+                            <h4>{{ ev.article }}</h4>
+                            {% endif %}
                         </div>
                     </div>
                 </li>
