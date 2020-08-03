@@ -137,6 +137,12 @@ def edit_art_tags(request,id=1):
     }
     return render(request,'blog/article_tag_edit.htm',params)
 
+def delete_art_tag(request,art_id,tag_id):
+    article = Article.objects.filter(id=art_id).first()
+    tag = ArticleTag.objects.filter(id=tag_id).first()
+    article.article_tags.remove(tag)
+    return redirect(to='/blog/article/'+str(article.id)+'/tags')
+
 def relay(request):
     month = 8
     year = 2020

@@ -27,7 +27,7 @@
                     <td><a href="/blog/tag/{{tag.id}}">{{tag.name}}</a></td>
                     <td>
                         {% if is_edit_user %}
-                        <a href="">削除</a>
+                        <a href="{% url 'blog.delete_art_tag' article.id tag.id %}">❌</a>
                         {% endif %}
                     </td>
                 </tr>
