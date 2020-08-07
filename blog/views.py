@@ -176,6 +176,7 @@ def relay(request):
         'aug_calender': aug_calender,
         'is_registerd': is_registerd,
         'event_article': EventArticle.objects.all(),
+        'event': BlogEvent.objects.all().first(),
     }
     return render(request, 'blog/relay.htm', params)
 

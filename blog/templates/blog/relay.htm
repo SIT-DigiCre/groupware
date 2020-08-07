@@ -1,11 +1,12 @@
 {% extends 'blog/header.htm' %}
+{% load markdown_extras %}
 {% load static %}
 {% load humanize %}
 {% load check %}
 {% block title %}ブログリレー2020summer{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>ブログリレー2020summer</h1>
+    {{ event.content | markdown | safe }}
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
