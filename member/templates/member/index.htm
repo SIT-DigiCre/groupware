@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="shadow p-3 mb-3">
                 <div style="width: 250px; display: inline-block;">
-                    <p style="display: inline-block; font-size: 22px;margin: 0;">メンバー覧</p>
+                    <p style="display: inline-block; font-size: 22px;margin: 0;">メンバー覧 ({{ num }}件)</p>
                 </div>
                 <a href="{% url 'work.index'%}" class="btn btn-primary">Work</a>
                 <a href="{% url 'member.index'%}" class="btn btn-primary">検索</a>
@@ -46,8 +46,28 @@
                 </div>
                 {% endfor %}
             </div>
-            
+            {# ペジネーション #}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if profiles.has_previous %}
+                        <li class="page-item"><a class="page-link" href="/member?page={{ profiles.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                    {% endif %}
+
+                    {% for page in profiles.paginator.page_range %}
+                        <li class="page-item {% if page == profiles.number %} active {% endif %}"><a class="page-link" href="/member?page={{ page }}">{{ page }}</a></li>
+                    {% endfor %}
+                    
+                    {% if profiles.has_next %}
+                        <li class="page-item"><a class="page-link" href="/member?page={{ profiles.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
+    
 </div>
 {% endblock %}
