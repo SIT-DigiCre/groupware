@@ -1,15 +1,15 @@
 {% extends 'blog/header.htm' %}
 {% load markdown_extras %}
 {% load static %}
-{% block title %}{{article_tag.name}}{% endblock %}
+{% block title %}{{ tag.name }}{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="card mt-3">
-                <h1 class="ml-2">{{article_tag.name}}</h1>
+                <h1 class="ml-2">{{ tag.name }}</h1>
                 <div>
-                    {{ article_tag.content|markdown|safe }}
+                    {{ tag.content | markdown | safe }}
                 </div>
             </div>
             
@@ -18,17 +18,18 @@
     <div class="row mt-2">
         <div class="col-md-12">
             <h3>タグのついた記事一覧</h3>
+            <p>{{ articles.count }}件</p>
             <table class="table table-striped">
                 <tr>
                     <td>タイトル</td>
-                    <td>日</td>
+                    <td>公開日</td>
                     <td>著者</td>
                 </tr>
-                {% for article in article_tag.article_set.all %}
+                {% for article in articles %}
                 <tr>
-                    <th><a href="/blog/article/{{article.id}}">{{article.title}}</a></th>
-                    <th>{{article.pub_date}}</th>
-                    <th>{{article.member.username}}</th>
+                    <th><a href="{% url 'blog.show' article.id %}">{{ article.title }}</a></th>
+                    <th>{{ article.pub_date | date:"Y年n月j日"}}</th>
+                    <th>{{ article.member.username }}</th>
                 </tr>
                 {% endfor %}
             </table>
