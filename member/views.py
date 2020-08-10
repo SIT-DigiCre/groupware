@@ -1,5 +1,6 @@
 from django.shortcuts import *
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from tool.models import *
 from .models import *
@@ -9,9 +10,18 @@ from account.forms import UserEditForm
 @login_required()
 def index(request):
     # GETアクセス時の処理
+    display_num = 30
+    if 'page' in request.GET:
+        page = request.GET['page']
+    else:
+        page = 1
+    
     profiles = Profile.objects.all()
+    num = profiles.count()
+    profiles_page = Paginator(profiles, display_num)
     params = {
-        'profiles':profiles,
+        'num': num,
+        'profiles': profiles_page.get_page(page),
     }
     return render(request, 'member/index.htm', params)
 
