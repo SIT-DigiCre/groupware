@@ -87,8 +87,10 @@ def create_tag(request):
 
 def show_tag(request,id=1):
     article_tag = ArticleTag.objects.filter(id=id).first()
+    articles = Article.objects.filter(article_tags=article_tag).filter(is_active=True)
     params = {
-        'article_tag':article_tag,
+        'articles': articles,
+        'tag': article_tag,
         'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/tag_show.htm',params)
