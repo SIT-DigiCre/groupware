@@ -149,8 +149,7 @@ def relay(request):
 
     # 8月のカレンダー（動的に生成したい）
     aug_calender = [
-        [0, 0, 0, 0, 0, 0, 1],
-        [2, 3, 4, 5, 6, 7, 8],
+        [0, 3, 4, 5, 6, 7, 8],
         [9, 10, 11, 12, 13, 14, 15],
         [16, 17, 18, 19, 20, 21, 22],
         [23, 24, 25, 26, 27, 28, 29],
@@ -177,6 +176,7 @@ def relay(request):
         'aug_calender': aug_calender,
         'is_registerd': is_registerd,
         'event_article': EventArticle.objects.all(),
+        'event': BlogEvent.objects.all().first(),
     }
     return render(request, 'blog/relay.htm', params)
 

@@ -43,9 +43,13 @@ class Article(models.Model):
 # ブログリレーなどのイベント
 class BlogEvent(models.Model):
     name = models.CharField(max_length=100)
+    content = MDTextField('Contents', default='')
 
     def __str__(self):
         return self.name
+
+    def formatted_markdown(self):
+        return markdownify(self.content) # モデルデータをMarkDown形式に変換してくれる
 
 
 class EventArticle(models.Model):

@@ -2,6 +2,16 @@
 {% load markdown_extras %}
 {% load static %}
 {% block title %}{{article.title}}{% endblock %}
+{% block customCSS %}
+<style>
+    #content{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    p, li{
+        font-size: medium;
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -28,14 +38,13 @@
                         href="/member/{{article.member.profile.id}}">{{article.member.username}}</a>
                 </div>
                 <div class="text-center">
-                    <h1 style="border-bottom: solid 2px #87CEFA;">{{article.title}}
+                    <h2 style="border-bottom: solid 2px #87CEFA;">
+                        {{article.title}}
                         {% if article.is_active == False %}
                         (非公開)
                         {% endif %}
-                    </h1>
-
+                    </h2>
                 </div>
-
             </div>
             {% for article_tag in article.article_tags.all %}
             <a href="/blog/tag/{{article_tag.id}}" class="badge badge-pill badge-primary">{{article_tag.name}}</a>
