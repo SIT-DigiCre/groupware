@@ -1,0 +1,46 @@
+{% extends 'home/header.htm' %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'issue:index' %}">費用申請</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ issue.id }}: {{ issue.title }}</h2>
+            <p>
+                <span class="badge badge-{{ issue.status.color }}">{{ issue.status }}</span>
+            </p>
+            <p>
+                {% if perms.issue.change_issue %}
+                <a href="{% url 'issue:edit' issue.id %}">📝編集する</a>
+                {% endif %}
+                {% if perms.issue.delete_issue %}
+                 | <a href="{% url 'issue:delete' issue.id %}">❌削除する</a>
+                {% endif %}
+            </p>
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <tr><th>詳細</th><td>{{ issue.content | linebreaksbr }}</td></tr>
+                    <tr><th>申請者</th><td>{{ issue.user.username }}</td></tr>
+                    <tr><th>担当者</th><td>{{ issue.assignee.username }}</td></tr>
+                    <tr><th>申請日時</th><td>{{ issue.created_at | date:"Y/m/d H:i" }}</td></tr>
+                    <tr><th>更新日時</th><td>{{ issue.updated_at | date:"Y/m/d H:i" }}</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

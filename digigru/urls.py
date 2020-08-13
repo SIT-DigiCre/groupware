@@ -30,6 +30,7 @@ urlpatterns = [
     path('work/',include('work.urls'), name="work"),
     path('blog/',include('blog.urls'), name="blog"),
     path('account/', include('account.urls'), name="account"),
+    path('issue/', include('issue.urls')),
 
     url(r'mdeditor/', include('mdeditor.urls')),
 ]

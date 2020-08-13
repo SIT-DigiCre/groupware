@@ -1,0 +1,28 @@
+{% extends 'home/header.htm' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home.index' %}">ホーム</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'issue:index' %}">費用一覧</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p>{{ issue.id }}: {{ issue.title }}を削除します。よろしいですか？</p>
+            <form action="{% url 'issue:delete' issue.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="削除する">
+            </form>
+    </div>
+    </div>
+</div>
+{% endblock %}
