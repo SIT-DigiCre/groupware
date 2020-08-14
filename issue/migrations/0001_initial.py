@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 
+def load_fixture(apps, schema_editor):
+    call_command('loaddata', 'issue/fixture/init.json', app_label='issue')
 
 class Migration(migrations.Migration):
 
@@ -61,4 +63,6 @@ class Migration(migrations.Migration):
                 'ordering': ('-created_at',),
             },
         ),
+        
+        migrations.RunPython(load_fixture),
     ]
