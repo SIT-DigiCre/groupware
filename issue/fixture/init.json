@@ -13,7 +13,7 @@
     "model": "issue.status",
     "pk": 2,
     "fields": {
-      "state_type": "進行中",
+      "name": "進行中",
       "order": 2,
       "is_completed": false,
       "color": "success"
