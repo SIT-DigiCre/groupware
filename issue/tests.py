@@ -90,7 +90,7 @@ class IssuePageTest(TestCase):
         self.assertNotIn(data["title"], response.content.decode())
         self.assertNotIn(data["content"], response.content.decode())
 
-    def test_delete_issue(self):
+    def test_edit_issue(self):
         # make authenticated superuser
         user, client = self.make_authenticated_superuser()
         self.assertTrue(user.is_active, True)
@@ -111,8 +111,8 @@ class IssuePageTest(TestCase):
 
         # send post request
         data = {
-            "title": "updated test data",
-            "category": "1", # number is set by fixture
+            "status": "2", # 進行中
+            "assignee": "1", # 自分
             "content": "updated test content"
         }
         self.assertContains(response, 'action="{0}"'.format('/issue/edit/1'))

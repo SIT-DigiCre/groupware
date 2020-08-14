@@ -38,7 +38,12 @@ def create(request):
         obj.user = request.user
         obj.status = Status.objects.all().first()
         issue = IssueForm(request.POST, instance=obj)
-        issue.save()
+        if issue.is_valid():
+            issue.save()
+        else:
+            # このエラー表示、ログに変えたほうがいいかもしれないです
+            # 以下同じく
+            print(issue.errors)
         return redirect(to='issue:index')
 
     # GETアクセス時の処理
@@ -59,7 +64,10 @@ def edit(request, id):
     # POSTアクセス時の処理
     if request.method == 'POST':
         issue = IssueEditForm(request.POST, instance=obj)
-        issue.save()
+        if issue.is_valid():
+            issue.save()
+        else:
+            print(issue.errors)
         return redirect(to='issue:index')
     
     # GETアクセス時の処理
