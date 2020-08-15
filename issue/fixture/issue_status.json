@@ -1,0 +1,52 @@
+[
+  {
+    "model": "issue.status",
+    "pk": 1,
+    "fields": {
+      "name": "未着手",
+      "order": 1,
+      "is_completed": false,
+      "color": "primary"
+    }
+  },
+  {
+    "model": "issue.status",
+    "pk": 2,
+    "fields": {
+      "name": "進行中",
+      "order": 2,
+      "is_completed": false,
+      "color": "success"
+    }
+  },
+  {
+    "model": "issue.status",
+    "pk": 3,
+    "fields": {
+      "name": "保留",
+      "order": 3,
+      "is_completed": false,
+      "color": "warning"
+    }
+  },
+  {
+    "model": "issue.status",
+    "pk": 4,
+    "fields": {
+      "name": "完了",
+      "order": 4,
+      "is_completed": true,
+      "color": "secondary"
+    }
+  },
+  {
+    "model": "issue.status",
+    "pk": 5,
+    "fields": {
+      "name": "取消",
+      "order": 5,
+      "is_completed": true,
+      "color": "secondary"
+    }
+  }
+]

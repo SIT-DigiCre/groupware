@@ -1,0 +1,26 @@
+[
+  {
+    "model": "issue.category",
+    "pk": 1,
+    "fields": {
+      "name": "バグ",
+      "color": "danger"
+    }
+  },
+  {
+    "model": "issue.category",
+    "pk": 2,
+    "fields": {
+      "name": "機能要望",
+      "color": ""
+    }
+  },
+  {
+    "model": "issue.category",
+    "pk": 3,
+    "fields": {
+      "name": "デザイン",
+      "color": ""
+    }
+  }
+]
