@@ -19,7 +19,7 @@ def index(request, page=1):
     issues_page = Paginator(issues, display_num)
 
     params = {
-        'title': 'バグ報告・機能改善',
+        'title': 'バグ報告・機能要望',
         'issues': issues_page.get_page(page),
         'uncompleted_statuses': Status.objects.filter(is_completed=False),
         'records_num': issues.count(),
