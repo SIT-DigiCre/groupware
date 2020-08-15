@@ -6,7 +6,8 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 def load_fixture(apps, schema_editor):
-    call_command('loaddata', 'issue/fixture/init.json', app_label='issue')
+    call_command('loaddata', 'issue/fixture/issue_category.json', app_label='issue')
+    call_command('loaddata', 'issue/fixture/issue_status.json', app_label='issue')
 
 class Migration(migrations.Migration):
 
