@@ -1,4 +1,4 @@
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase, Client
 from account.models import User
 from django.contrib.auth import get_user_model
 
