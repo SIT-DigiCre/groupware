@@ -69,8 +69,15 @@ $(echo "${OUTPUT}" | sed -e '$d')
 run_flake8() {
     set +e
 
-    OUTPUT=$(sh -c "flake8 . $*" 2>&1)
-    SUCCESS=$?
+    FILES=$(git diff master --name-only)
+
+    for FILE in ${FILES}; do
+	# 拡張子が.pyのときのみflakeを動かす
+	if [ "${FILE##*.}" = "py" ]; then
+	    OUTPUT=$(sh -c "flake8 ${FILE} $*" 2>&1)
+	    SUCCESS=$(($SUCCESS | $?))
+	fi
+    done
 
     set -e
 
