@@ -41,7 +41,7 @@ run_autopep8() {
     set +e
 
     # including auto format
-    OUTPUT=$(sh -c "autopep8 -r -i *.py $*" 2>&1)
+    OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
     SUCCESS=$?
 
     set -e
