@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from account.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import *
