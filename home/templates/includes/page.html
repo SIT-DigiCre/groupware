@@ -1,0 +1,24 @@
+{% load url_replace %}
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <!-- 前のページ -->
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+        {% endif %}
+
+        <!-- ページ数 -->
+        {% for page in page_obj.paginator.page_range %}
+            <li class="page-item {% if page == page_obj.number %} active {% endif %}"><a class="page-link" href="?{% url_replace request 'page' page %}">{{ page }}</a></li>
+        {% endfor %}
+        
+        <!-- 次のページ -->
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
