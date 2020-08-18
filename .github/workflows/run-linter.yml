@@ -10,8 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    
+    - name: run autopep8
+      uses: ./.github/actions/run-linters
+      with:
+        run: autopep8
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: run flake8
-      uses: ./.github/actions/run-linter
+      uses: ./.github/actions/run-linters
       with:
         run: flake8
         repo-token: ${{ secrets.GITHUB_TOKEN }}
