@@ -1,0 +1,17 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+name: Run Linter(flake8)
+
+jobs:
+  flake8:
+    name: flake8
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: run flake8
+      uses: ./.github/actions/run-linter
+      with:
+        run: flake8
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
