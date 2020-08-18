@@ -1,5 +1,8 @@
 FROM python:latest
 
+RUN apt update && \
+    apt -y install jq
+
 RUN pip install --upgrade pip
 RUN pip install autopep8 flake8
 
