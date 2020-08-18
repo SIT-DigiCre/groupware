@@ -3,7 +3,7 @@ author: 'task4233'
 description: 'execute linter'
 inputs:
   run:
-    description: 'execute commands. [flake8]'
+    description: 'execute commands. [autopep8/flake8]'
     required: true
   working-dir:
     description: 'package working directory.'

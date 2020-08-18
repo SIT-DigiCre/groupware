@@ -36,6 +36,34 @@ send_comment() {
 }
 
 
+# run_autopep8 for static analysis
+run_autopep8() {
+    set +e
+
+    # including auto format
+    OUTPUT=$(sh -c "autopep8 -r -i *.py $*" 2>&1)
+    SUCCESS=$?
+
+    set -e
+
+    # exit successfully
+    if [ ${SUCCESS} -eq 0 ]; then
+	return
+    fi
+
+    if [ "${SEND_COMMENT}" = "true" ]; then
+	COMMENT="## autopep8 failed
+<details><summary>Show Detail</summary>
+
+\`\`\`
+$(echo "${OUTPUT}" | sed -e '$d')
+\`\`\`
+</details>
+
+"
+    fi
+}
+
 
 # run_flake8 for static analysis
 run_flake8() {
@@ -69,6 +97,9 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # Main
 # ------------
 case ${RUN} in
+    "autopep8" )
+	run_autopep8
+	;;
     "flake8" )
 	run_flake8
 	;;
