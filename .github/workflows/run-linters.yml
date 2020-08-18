@@ -2,7 +2,7 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-name: Run Linter(flake8)
+name: Run Linters(autopep8/flake8)
 
 jobs:
   flake8:

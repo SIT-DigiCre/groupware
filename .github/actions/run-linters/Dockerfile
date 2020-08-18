@@ -1,6 +1,6 @@
 FROM python:latest
 
-RUN pip install --upgrade
+RUN pip install --upgrade pip
 RUN pip install autopep8 flake8
 
 COPY entrypoint.sh /entrypoint.sh
