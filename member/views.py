@@ -16,7 +16,12 @@ def index(request):
     else:
         page = 1
     
-    profiles = Profile.objects.all()
+    if 'search_word' in request.GET:
+        word = request.GET['search_word']
+        profiles = Profile.objects.filter(user__username__contains=word)
+    else:
+        profiles = Profile.objects.all()
+
     num = profiles.count()
     profiles_page = Paginator(profiles, display_num)
     params = {

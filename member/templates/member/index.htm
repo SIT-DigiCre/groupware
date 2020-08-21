@@ -22,7 +22,12 @@
                     <p style="display: inline-block; font-size: 22px;margin: 0;">メンバー覧 ({{ num }}件)</p>
                 </div>
                 <a href="{% url 'work.index'%}" class="btn btn-primary">Work</a>
-                <a href="{% url 'member.index'%}" class="btn btn-primary">検索</a>
+                <form action="" , method="GET" class="mt-2 input-group">
+                    <input type="text" name="search_word" class="form-control inline-block">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </span>
+                </form>
             </div>
         </div>
     </div>
