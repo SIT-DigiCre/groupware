@@ -10,6 +10,7 @@ RUN=$1
 WORKING_DIR=$2
 SEND_COMMENT=$3
 GITHUB_TOKEN=$4
+GITHUB_PR_NUM=$5
 COMMENT=""
 SUCCESS=0
 
@@ -69,7 +70,9 @@ $(echo "${OUTPUT}" | sed -e '$d')
 run_flake8() {
     set +e
 
-    FILES=$(git diff master --name-only)
+    # https://github.community/t/git-ambiguous-argument-master/17832/2
+    URL="https://api.github.com/repos/SIT-DigiCre/groupware/pulls/${GITHUB_PR_NUM}/files"
+    FILES=$(curl -s -X GET -G "${URL}" | jq -r '.[].filename')
 
     for FILE in ${FILES}; do
 	# 拡張子が.pyのときのみflakeを動かす
