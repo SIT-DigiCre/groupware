@@ -16,9 +16,11 @@ jobs:
       with:
         run: autopep8
         repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-num: ${{ github.event.pull_request.number }}
     
     - name: run flake8
       uses: ./.github/actions/run-linters
       with:
         run: flake8
         repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-num: ${{ github.event.pull_request.number }}
