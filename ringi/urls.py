@@ -7,5 +7,4 @@ urlpatterns = [
     path('show/<int:id>', views.show, name='ringi.show'),
     path('edit/<int:id>', views.edit, name='ringi.edit'),
     path('delete/<int:id>', views.delete, name='ringi.delete'),
-    path('<int:page>', views.index, name='ringi.index'),
 ]

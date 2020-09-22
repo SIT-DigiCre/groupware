@@ -7,7 +7,7 @@ from .models import Status, Issue
 from .forms import IssueForm, IssueEditForm
 
 @login_required()
-def index(request, page=1):
+def index(request):
     # GETアクセス時の処理
     display_num = 10 # 1ページに表示するレコードの件数
     
@@ -17,10 +17,11 @@ def index(request, page=1):
         issues = Issue.objects.all()
     
     issues_page = Paginator(issues, display_num)
+    page = request.GET.get('page')
 
     params = {
         'title': 'バグ報告・機能要望',
-        'issues': issues_page.get_page(page),
+        'page_obj': issues_page.get_page(page),
         'uncompleted_statuses': Status.objects.filter(is_completed=False),
         'records_num': issues.count(),
     }

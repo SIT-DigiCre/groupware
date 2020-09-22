@@ -14,9 +14,10 @@ def jump(request):
     return redirect(to='./' + ch_first.name)
 
 @login_required()
-def index(request, channel_name, page=1):
-    
+def index(request, channel_name):
     # GETアクセス時の処理
+    display_num = 5 # 1ページに表示するレコードの件数
+
     channel_list = get_user_channel(request)
     channel_now = Channel.objects.filter(name=channel_name).first()
 
@@ -28,11 +29,13 @@ def index(request, channel_name, page=1):
         messages = Message.objects.filter(channel=channel_now.id)
         result_message = 'すべてのスレッド（' + str(messages.count()) + '件）'
 
-    data = Paginator(messages, 5) # 1ページに5つスレッドを表示
+    data = Paginator(messages, display_num)
+    page = request.GET.get('page')
+
     params = {
         'channel_list': channel_list,
         'channel_name': channel_name,
-        'messages': data.get_page(page),
+        'page_obj': data.get_page(page),
         'stamps':Stamp.objects.all(),
         'result_message': result_message, 
     }
