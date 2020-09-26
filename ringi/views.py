@@ -6,7 +6,7 @@ from .models import Ringi, Status
 from .forms import RingiForm, RingiEditForm
 
 @login_required()
-def index(request, page=1):
+def index(request):
     # GETアクセス時の処理
     display_num = 10 # 1ページに表示するレコードの件数
     
@@ -16,10 +16,11 @@ def index(request, page=1):
         ringis = Ringi.objects.all()
     
     ringis_page = Paginator(ringis, display_num)
+    page = request.GET.get('page')
 
     params = {
         'title': '費用申請',
-        'ringis': ringis_page.get_page(page),
+        'page_obj': ringis_page.get_page(page),
         'uncompleted_statuses': Status.objects.filter(is_completed=False),
         'records_num': ringis.count(),
     }

@@ -11,13 +11,16 @@ from datetime import timedelta
 from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import *
 # Create your views here.
-def index(request,page=1):
-    articles_data = Paginator(Article.objects.filter(is_active=True),10)
+def index(request):
+    display_num = 30
+    page = request.GET.get('page')
+
+    articles_data = Paginator(Article.objects.filter(is_active=True), display_num)
     params = {
-        'articles':articles_data.get_page(page),
-        'is_login_user':request.user.is_authenticated,
+        'page_obj': articles_data.get_page(page),
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/index.htm',params)
+    return render(request, 'blog/index.htm', params)
 
 def show(request,id=1):
     article = Article.objects.filter(id=id).first()

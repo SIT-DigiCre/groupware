@@ -11,10 +11,7 @@ from account.forms import UserEditForm
 def index(request):
     # GETアクセス時の処理
     display_num = 30
-    if 'page' in request.GET:
-        page = request.GET['page']
-    else:
-        page = 1
+    page = request.GET.get('page')
     
     if 'search_word' in request.GET:
         word = request.GET['search_word']
@@ -26,7 +23,7 @@ def index(request):
     profiles_page = Paginator(profiles, display_num)
     params = {
         'num': num,
-        'profiles': profiles_page.get_page(page),
+        'page_obj': profiles_page.get_page(page),
     }
     return render(request, 'member/index.htm', params)
 
