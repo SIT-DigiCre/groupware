@@ -2,14 +2,12 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
 from django.utils import timezone
 
 import datetime
-from datetime import timedelta
 
 from .models import Article, ArticleTag, BlogEvent, EventArticle
-from .forms import *
+from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
 # Create your views here.
 def index(request):
     display_num = 30
@@ -24,7 +22,7 @@ def index(request):
 
 def show(request,id=1):
     article = Article.objects.filter(id=id).first()
-    if article.is_active == False and article.member != request.user:
+    if article.is_active is False and article.member != request.user:
         return redirect(to='/blog')
     params = {
         'article':article,
@@ -37,7 +35,7 @@ def show(request,id=1):
 def edit(request,id=1):
     article = Article.objects.filter(id=id).first()
     if request.method == 'POST' and request.user == article.member:
-        if 'save-pub-btn' in request.POST and article.is_active == False:
+        if 'save-pub-btn' in request.POST and article.is_active is False:
             article.pub_date = timezone.now()
             article.is_active = True
         elif 'save-nopub-btn' in request.POST:
