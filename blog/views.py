@@ -146,17 +146,26 @@ def delete_art_tag(request,art_id,tag_id):
     article.article_tags.remove(tag)
     return redirect(to='/blog/article/'+str(article.id)+'/tags')
 
-def relay(request):
-    month = 8
-    year = 2020
-
-    # 8月のカレンダー（動的に生成したい）
-    aug_calender = [
-        [0, 3, 4, 5, 6, 7, 8],
-        [9, 10, 11, 12, 13, 14, 15],
-        [16, 17, 18, 19, 20, 21, 22],
-        [23, 24, 25, 26, 27, 28, 29],
-        [30, 31, 0, 0, 0, 0, 0],
+def relay(request, id):
+    blogEvent = BlogEvent.objects.get(id=id)
+    month = blogEvent.month
+    year = blogEvent.year
+    
+    # カレンダー（動的に生成したい）
+    calender = [
+        [
+            [0, 3, 4, 5, 6, 7, 8],
+            [9, 10, 11, 12, 13, 14, 15],
+            [16, 17, 18, 19, 20, 21, 22],
+            [23, 24, 25, 26, 27, 28, 29],
+            [30, 31, 0, 0, 0, 0, 0],
+        ],
+        [
+            [0, 0, 1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10, 11, 12],
+            [13, 14, 15, 16, 17, 18, 19],
+            [20, 21, 22, 23, 24, 25, 0]
+        ]
     ]
 
     # その日がすでに登録されているかどうか
@@ -164,7 +173,7 @@ def relay(request):
 
     for day in range(1, 32):
         dt = datetime.datetime(year, month, day)
-        ea = EventArticle.objects.filter(release_date=dt)
+        ea = EventArticle.objects.filter(event__id=id, release_date=dt)
         if ea.exists():
             is_registerd[day] = ea.first()
         else:
@@ -174,22 +183,24 @@ def relay(request):
 
 
     params = {
+        'id': id,
         'year': year,
         'month': month,
-        'aug_calender': aug_calender,
+        'calender': calender[id-1],
         'is_registerd': is_registerd,
-        'event_article': EventArticle.objects.all(),
-        'event': BlogEvent.objects.all().first(),
+        'event_article': EventArticle.objects.filter(event__id=id),
+        'event': blogEvent,
     }
     return render(request, 'blog/relay.htm', params)
 
 @login_required()
-def relay_add_check(request, year, month, day):
+def relay_add_check(request, id, year, month, day):
     today = datetime.datetime(year, month, day)
     form = EventArticleForm()
     form.fields['article'].queryset = Article.objects.filter(member=request.user)
 
     params = {
+        'id': id,
         'year': year,
         'month': month,
         'day': day,
@@ -199,17 +210,16 @@ def relay_add_check(request, year, month, day):
     return render(request, 'blog/relay_add_check.htm', params)
 
 @login_required()
-def relay_add(request, year, month, day):
+def relay_add(request, id, year, month, day):
     if request.method=='POST':
         dt = datetime.datetime(year, month, day)
 
         # すでに登録されていたら
-        if EventArticle.objects.filter(event__id=1, release_date=dt).exists():
+        if EventArticle.objects.filter(event__id=id, release_date=dt).exists():
             return HttpResponse("すでに他の人に登録されています")
 
         ea = EventArticle()
-        # とりあえず1番目のイベントを取得
-        ea.event = BlogEvent.objects.get(id=1)
+        ea.event = BlogEvent.objects.get(id=id)
         ea.release_date = dt
         ea.user = request.user
 
@@ -217,21 +227,22 @@ def relay_add(request, year, month, day):
         ea_f = form.save(commit=False)
         ea_f.save()
 
-    return redirect(to='blog.relay')
+    return redirect(to='blog.relay', id=id)
 
 @login_required()
-def relay_edit(request, year, month, day):
+def relay_edit(request, id, year, month, day):
     dt = datetime.datetime(year, month, day)
-    obj = EventArticle.objects.filter(release_date=dt).first()
+    obj = EventArticle.objects.filter(event__id=id, release_date=dt).first()
     form = EventArticleForm(instance=obj)
     form.fields['article'].queryset = Article.objects.filter(member=request.user)
 
     if request.method=='POST':
         form = EventArticleForm(request.POST, instance=obj)
         form.save()
-        return redirect(to='blog.relay')
+        return redirect(to='blog.relay', id=id)
 
     params = {
+        'id': id,
         'year': year,
         'month': month,
         'day': day,
@@ -240,16 +251,16 @@ def relay_edit(request, year, month, day):
     return render(request,'blog/relay_edit.htm',params)
 
 @login_required()
-def relay_delete(request, year, month, day):
+def relay_delete(request, id, year, month, day):
     dt = datetime.datetime(year, month, day)
-    obj = EventArticle.objects.filter(release_date=dt).first()
+    obj = EventArticle.objects.filter(event__id=id, release_date=dt).first()
     obj.delete()
 
-    return redirect(to='blog.relay')
+    return redirect(to='blog.relay', id=id)
 
 
 def event_index(request,event_name):
-    #ここにイベントページを用意する
+    #ここにイベント一覧ページを用意する
     pass
 
 @login_required(login_url='/admin/login/')
