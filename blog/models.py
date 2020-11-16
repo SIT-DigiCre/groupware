@@ -44,6 +44,8 @@ class Article(models.Model):
 class BlogEvent(models.Model):
     name = models.CharField(max_length=100)
     content = MDTextField('Contents', default='')
+    year = models.IntegerField(default=2020)
+    month = models.IntegerField(default=8)
 
     def __str__(self):
         return self.name

@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for week in aug_calender %}
+                        {% for week in calender %}
                         <tr>
                             {% for day in week %}
                                 {% if day != 0 %}
@@ -35,13 +35,13 @@
                                         <p>
                                             {{ ea.user.username }}
                                             {% if ea.user == user %}
-                                            <a href="{% url 'blog.relay_edit' year month day %}">📝</a>
-                                            <a href="{% url 'blog.relay_delete' year month day %}">❌</a>
+                                            <a href="{% url 'blog.relay_edit' id year month day %}">📝</a>
+                                            <a href="{% url 'blog.relay_delete' id year month day %}">❌</a>
                                             {% endif %}
                                         </p>
                                         {% else %}
                                         <div class="my-5">
-                                            <form action="{% url 'blog.relay_add_check' year month day %}" method="POST">
+                                            <form action="{% url 'blog.relay_add_check' id year month day %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-success btn-sm">登録</button>
                                             </form>
