@@ -3,6 +3,8 @@
 {% load static %}
 {% block title %}{{article.title}}{% endblock %}
 {% block meta_tag %}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@sitdigicre" />
 <meta property="og:title" content="{{article.title}} | デジクリ" />
 <meta property="og:description" content="{{ article.content|markdown|striptags|truncatechars:100}}" />
 <meta property="og:image" content="{% static "home/img/favicon.ico" %}" />
@@ -15,7 +17,7 @@
     p, li{
         font-size: medium;
     }
-</style>
+</style>    
 {% endblock %}
 {% block content %}
 <div class="container">
