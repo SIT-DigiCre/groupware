@@ -2,6 +2,11 @@
 {% load markdown_extras %}
 {% load static %}
 {% block title %}{{article.title}}{% endblock %}
+{% block meta_tag %}
+<meta property="og:title" content="{{article.title}} | デジクリ" />
+<meta property="og:description" content="{{ article.content|markdown|striptags|truncatechars:100}}" />
+<meta property="og:image" content="{% static "home/img/favicon.ico" %}" />
+{% endblock %}
 {% block customCSS %}
 <style>
     #content{
@@ -51,7 +56,7 @@
             {% endfor %}
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-12">
             <div id="content">{{ article.content|markdown|safe }}</div>
         </div>
