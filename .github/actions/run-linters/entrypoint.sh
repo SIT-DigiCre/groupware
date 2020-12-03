@@ -82,8 +82,9 @@ run_flake8() {
 
 	    # エラーログがある場合は連結
 	    if [ ${SUCCESS} -ne 0 ]; then
-		OUTPUT="$OUTPUT
+		TMP2="$OUTPUT
 $TMP"
+		OUTPUT="$TMP2"
 	    fi
 	    # ログ出力(for debug)
 	    echo "file: ${FILE} checked."
