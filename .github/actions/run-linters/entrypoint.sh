@@ -39,7 +39,7 @@ send_comment() {
 
 # run_autopep8 for static analysis
 run_autopep8() {
-    set +e
+    set +xe
 
     # including auto format
     OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
@@ -51,7 +51,7 @@ run_autopep8() {
     echo "${OUTPUT}"
 
 
-    set -e
+    set -xe
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
@@ -74,7 +74,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 
 # run_flake8 for static analysis
 run_flake8() {
-    set +e
+    set +xe
 
     # https://github.community/t/git-ambiguous-argument-master/17832/2
     URL="https://api.github.com/repos/SIT-DigiCre/groupware/pulls/${GITHUB_PR_NUM}/files"
@@ -92,7 +92,7 @@ run_flake8() {
 	    echo "${TMP}"
 
 	    # エラーログがある場合は連結
-	    if [ ${STATUS} -ne 0 ]; then
+	    if [ -n "$TMP" ]; then
 		OUTPUT="$OUTPUT
 $TMP"
 	    fi
@@ -101,7 +101,7 @@ $TMP"
 	fi
     done
 
-    set -e
+    set -xe
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
