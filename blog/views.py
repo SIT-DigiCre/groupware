@@ -3,14 +3,13 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
-from django.http import *
 
 import datetime
 
 from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
 # Create your views here.
-def index(request)
+def index(request):
     display_num = 30
     page = request.GET.get('page')
 
