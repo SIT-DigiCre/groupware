@@ -13,7 +13,6 @@ GITHUB_TOKEN=$4
 GITHUB_PR_NUM=$5
 COMMENT=""
 SUCCESS=0
-LOG=""
 
 # if not set, assign default value
 if [ "$2" = "" ]; then
@@ -40,7 +39,7 @@ send_comment() {
 
 # run_autopep8 for static analysis
 run_autopep8() {
-    set +xe
+    set +e
 
     # including auto format
     OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
@@ -52,7 +51,7 @@ run_autopep8() {
     echo "${OUTPUT}"
 
 
-    set -xe
+    set -e
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
@@ -114,7 +113,7 @@ $TMP"
 <details><summary>Show Detail</summary>
 
 \`\`\`
-$(echo "${OUTPUT}" | sed -e '$d')
+$(echo "${OUTPUT}")
 \`\`\`
 </details>
 
@@ -126,6 +125,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # -------------
 # Main
 # ------------
+set +x
 case ${RUN} in
     "autopep8" )
 	run_autopep8
@@ -146,4 +146,5 @@ if [ ${SUCCESS} -ne 0 ]; then
     fi
 fi
 
+set -x
 exit ${SUCCESS}
