@@ -13,6 +13,7 @@ GITHUB_TOKEN=$4
 GITHUB_PR_NUM=$5
 COMMENT=""
 SUCCESS=0
+LOG=""
 
 # if not set, assign default value
 if [ "$2" = "" ]; then
@@ -39,13 +40,19 @@ send_comment() {
 
 # run_autopep8 for static analysis
 run_autopep8() {
-    set +e
+    set +xe
 
     # including auto format
     OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
     SUCCESS=$?
 
-    set -e
+    # for debug
+    # 調べたけどいい方法がなかったので, もっといい方法があったら修正してください
+    echo "$ autopep8 -r -i ."
+    echo "${OUTPUT}"
+
+
+    set -xe
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
@@ -78,17 +85,20 @@ run_flake8() {
 	# 拡張子が.pyのときのみflakeを動かす
 	if [ "${FILE##*.}" = "py" ]; then
 	    TMP=$(sh -c "flake8 ${FILE} $*" 2>&1)
-	    SUCCESS=$(($SUCCESS | $?))
+	    STATUS=$?
+
+	    # for debug
+	    # もっといい書き方があったら修正してください
+	    echo "flake ${FILE}"
+	    echo "${TMP}"
 
 	    # エラーログがある場合は連結
-	    if [ ${SUCCESS} -ne 0 ]; then
-		TMP2="$OUTPUT
+	    if [ ${STATUS} -ne 0 ]; then
+		OUTPUT="$OUTPUT
 $TMP"
-		OUTPUT="$TMP2"
 	    fi
-	    # ログ出力(for debug)
-	    echo "file: ${FILE} checked."
-	    echo "output: ${OUTPUT}"
+	    
+	    SUCCESS=$(($SUCCESS | $STATUS))
 	fi
     done
 
