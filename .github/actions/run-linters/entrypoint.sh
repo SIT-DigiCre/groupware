@@ -78,6 +78,8 @@ run_flake8() {
 	# 拡張子が.pyのときのみflakeを動かす
 	if [ "${FILE##*.}" = "py" ]; then
 	    OUTPUT=$(sh -c "flake8 ${FILE} $*" 2>&1)
+	    echo -e "${FILE} checked."
+	    echo -e "${OUTPUT}"
 	    SUCCESS=$(($SUCCESS | $?))
 	fi
     done
