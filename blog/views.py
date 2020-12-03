@@ -10,6 +10,7 @@ from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
 # Create your views here.
 def index(request):
+    print('hoge')
     display_num = 30
     page = request.GET.get('page')
 
