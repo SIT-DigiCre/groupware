@@ -38,10 +38,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            {% if article.article_image != 'null' %}
-            <img src="{{ article.article_image }}" alt="カードの画像">
-            {% endif %}
+        <div class="col-md-12">         
+            <!--
+                TODO: 表示する方法を考える
+                {% if article.article_image != 'null' %}
+                <img src="{{ article.article_image }}" alt="カードの画像">
+                {% endif %}
+            -->
             <div class="inline-block">
                 <div style="float: right;">
                     <img src="{{article.member.icon.url}}" alt="" style="height:50px; border-radius: 50%;">
@@ -92,4 +95,4 @@
         })
     })
 </script>
-{% endblock %}  
+{% endblock %}
