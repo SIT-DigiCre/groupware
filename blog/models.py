@@ -1,6 +1,5 @@
 from django.db import models
 from account.models import User
-from tool.models import Tool
 from work.models import Work
 # マークダウン使用のため
 from markdownx.models import MarkdownxField
