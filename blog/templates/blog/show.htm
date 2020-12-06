@@ -1,6 +1,7 @@
 {% extends 'blog/header.htm' %}
 {% load markdown_extras %}
 {% load static %}
+{% load sanitize %}
 {% block title %}{{article.title}}{% endblock %}
 {% block meta_tag %}
 <meta name="twitter:card" content="summary" />
@@ -60,7 +61,7 @@
     </div>
     <div class="row mb-5">
         <div class="col-12">
-            <div id="content">{{ article.content|markdown|safe }}</div>
+            <div id="content">{{ article.content|markdown|sanitize|safe }}</div>
         </div>
     </div>
 
