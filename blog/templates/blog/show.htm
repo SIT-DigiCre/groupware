@@ -7,7 +7,11 @@
 <meta name="twitter:site" content="@sitdigicre" />
 <meta property="og:title" content="{{article.title}} | デジクリ" />
 <meta property="og:description" content="{{ article.content|markdown|striptags|truncatechars:100}}" />
+{% if article.article_image != 'null' %}
+<meta property="og:image" content="{{ article.article_image }}" />
+{% else %}
 <meta property="og:image" content="{% static "home/img/favicon.ico" %}" />
+{% endif %}
 {% endblock %}
 {% block customCSS %}
 <style>
