@@ -2,7 +2,6 @@ from django.db import models
 from account.models import User
 from work.models import Work
 # マークダウン使用のため
-from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
 from mdeditor.fields import MDTextField
