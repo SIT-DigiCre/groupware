@@ -4,7 +4,8 @@
 /ssl_certs
 
 # Config dir
-/.conf
+/.conf/*
+!/.conf/*.sample
 
 # Created by https://www.gitignore.io/api/django
  

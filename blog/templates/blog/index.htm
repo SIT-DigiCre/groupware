@@ -10,8 +10,8 @@
         <div class="col-md-12">
             {% for article in page_obj %}
             <div class="card mt-2">
-                {% if article.article_image.url == 'null' %}
-                <img class="card-img-top" src="{{article.article_image.url}}" alt="カードの画像">
+                {% if article.article_image != 'null' %}
+                <img class="card-img-top" src="{{ article.article_image }}" alt="カードの画像">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title"><a href="/blog/article/{{article.id}}">{{article.title}}</a></h5>

@@ -1,9 +1,7 @@
 from django.db import models
 from account.models import User
-from tool.models import Tool
 from work.models import Work
 # マークダウン使用のため
-from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
 from mdeditor.fields import MDTextField
@@ -22,7 +20,7 @@ class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = MDTextField('Contents', blank=True)
-    article_image = models.ImageField(upload_to='article_image/', default='null')
+    article_image = models.URLField(verbose_name='サムネイル画像URL', default='null')
     article_tags = models.ManyToManyField(ArticleTag,blank=True)
     relates_works=models.ManyToManyField(Work,blank=True)
     pub_date = models.DateTimeField(blank=True,null=True)

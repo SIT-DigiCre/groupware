@@ -39,13 +39,19 @@ send_comment() {
 
 # run_autopep8 for static analysis
 run_autopep8() {
-    set +e
+    set +xe
 
     # including auto format
     OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
     SUCCESS=$?
 
-    set -e
+    # for debug
+    # 調べたけどいい方法がなかったので, もっといい方法があったら修正してください
+    echo "$ autopep8 -r -i ."
+    echo "${OUTPUT}"
+
+
+    set -xe
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
@@ -68,7 +74,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 
 # run_flake8 for static analysis
 run_flake8() {
-    set +e
+    set +xe
 
     # https://github.community/t/git-ambiguous-argument-master/17832/2
     URL="https://api.github.com/repos/SIT-DigiCre/groupware/pulls/${GITHUB_PR_NUM}/files"
@@ -77,12 +83,25 @@ run_flake8() {
     for FILE in ${FILES}; do
 	# 拡張子が.pyのときのみflakeを動かす
 	if [ "${FILE##*.}" = "py" ]; then
-	    OUTPUT=$(sh -c "flake8 ${FILE} $*" 2>&1)
-	    SUCCESS=$(($SUCCESS | $?))
+	    TMP=$(sh -c "flake8 ${FILE} $*" 2>&1)
+	    STATUS=$?
+
+	    # for debug
+	    # もっといい書き方があったら修正してください
+	    echo "flake ${FILE}"
+	    echo "${TMP}"
+
+	    # エラーログがある場合は連結
+	    if [ -n "$TMP" ]; then
+		OUTPUT="$OUTPUT
+$TMP"
+	    fi
+	    
+	    SUCCESS=$(($SUCCESS | $STATUS))
 	fi
     done
 
-    set -e
+    set -xe
 
     # exit successfully
     if [ ${SUCCESS} -eq 0 ]; then
@@ -94,7 +113,7 @@ run_flake8() {
 <details><summary>Show Detail</summary>
 
 \`\`\`
-$(echo "${OUTPUT}" | sed -e '$d')
+$(echo "${OUTPUT}")
 \`\`\`
 </details>
 
@@ -106,6 +125,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # -------------
 # Main
 # ------------
+set +x
 case ${RUN} in
     "autopep8" )
 	run_autopep8
@@ -126,4 +146,5 @@ if [ ${SUCCESS} -ne 0 ]; then
     fi
 fi
 
+set -x
 exit ${SUCCESS}
