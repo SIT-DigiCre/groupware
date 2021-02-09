@@ -1,5 +1,5 @@
 from django import forms
-from .models import *
+from .models import Article, ArticleTag, EventArticle
 
 class NewArticleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
