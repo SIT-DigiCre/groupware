@@ -97,7 +97,10 @@ if not DEBUG:
         'NAME': os.environ.get('MYSQL_DATABASE'),
         'USER': os.environ.get('MYSQL_USER'),
         'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': 'db'
+        'HOST': 'db',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
     }
 
 
