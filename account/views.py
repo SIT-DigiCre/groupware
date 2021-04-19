@@ -1,7 +1,12 @@
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView,
+    PasswordChangeView,
+    PasswordChangeDoneView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -9,9 +14,14 @@ from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import LoginForm, UserCreateForm
+from .forms import (
+    LoginForm,
+    UserCreateForm,
+    MyPasswordChangeForm
+)
 from member.models import Profile
 
 User = get_user_model()
@@ -115,3 +125,13 @@ class UserCreateComplete(generic.TemplateView):
                     return super().get(request, **kwargs)
 
         return HttpResponseBadRequest()
+
+# パスワード変更
+class PasswordChange(PasswordChangeView):
+    form_class = MyPasswordChangeForm
+    success_url = reverse_lazy('account:password_change_done')
+    template_name = 'account/password_change.html'
+
+# パスワード変更完了
+class PasswordChangeDone(PasswordChangeDoneView):
+    template_name = 'account/password_change_done.html'
