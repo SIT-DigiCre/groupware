@@ -2,10 +2,10 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import (
-    LoginView,
-    LogoutView,
-    PasswordChangeView,
-    PasswordChangeDoneView
+    LoginView,LogoutView,
+    PasswordChangeView, PasswordChangeDoneView,
+    PasswordResetView, PasswordResetDoneView,
+    PasswordResetConfirmView, PasswordResetCompleteView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -20,7 +20,9 @@ from django.views import generic
 from .forms import (
     LoginForm,
     UserCreateForm,
-    MyPasswordChangeForm
+    MyPasswordChangeForm,
+    MyPasswordResetForm,
+    MySetPasswordForm
 )
 from member.models import Profile
 
@@ -135,3 +137,25 @@ class PasswordChange(PasswordChangeView):
 # パスワード変更完了
 class PasswordChangeDone(PasswordChangeDoneView):
     template_name = 'account/password_change_done.html'
+
+# パスワード変更用URLの送付ページ
+class PasswordReset(PasswordResetView):
+    subject_template_name = 'account/mail_template/password_reset/subject.txt'
+    email_template_name = 'account/mail_template/password_reset/message.txt'
+    template_name = 'account/password_reset_form.html'
+    form_class = MyPasswordResetForm
+    success_url = reverse_lazy('account:password_reset_done')
+
+# パスワード変更用URLを送りましたページ
+class PasswordResetDone(PasswordResetDoneView):
+    template_name = 'account/password_reset_done.html'
+
+# 新パスワード入力ページ
+class PasswordResetConfirm(PasswordResetConfirmView):
+    form_class = MySetPasswordForm
+    success_url = reverse_lazy('account:password_reset_complete')
+    template_name = 'account/password_reset_confirm.html'
+
+# 新パスワード設定しましたページ
+class PasswordResetComplete(PasswordResetCompleteView):
+    template_name = 'account/password_reset_complete.html'
