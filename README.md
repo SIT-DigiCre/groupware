@@ -1,6 +1,6 @@
 # DigiCore
 
-![CI](https://github.com/SIT-DigiCre/groupware/workflows/CI(autopep8/flake8)/badge.svg)
+![CI](https://github.com/SIT-DigiCre/groupware/workflows/CI/badge.svg)
 ![CD](https://github.com/SIT-DigiCre/groupware/workflows/CD/badge.svg)
 
 DigiCoreは、[デジクリ](https://digicre.net/)で利用されているグループウェアです。Digicoreを用いることで、アカウントや企画、稟議の管理、掲示板やブログを一括管理することが出来ます。
