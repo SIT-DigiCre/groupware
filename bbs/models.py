@@ -1,7 +1,7 @@
 from django.db import models
 from account.models import User
 # マークダウン使用のため
-from markdownx.models import MarkdownxField
+# from markdownx.models import MarkdownxField # 利用していないのでコメントアウト
 from markdownx.utils import markdownify
 # new md
 from mdeditor.fields import MDTextField
