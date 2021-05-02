@@ -147,15 +147,16 @@ def message_stamp(request, message_id, stamp_id):
     stamp = Stamp.objects.filter(id=stamp_id).first()
     http = ""
     if len(message.messagestamp_set.filter(stamp=stamp).all()) != 0:
-        if request.user in message.messagestamp_set.filter(stamp=stamp).first().users.all():
-            print('stamp:'+str(stamp.id)+':user find!')
+        if request.user in message.messagestamp_set.filter(
+                stamp=stamp).first().users.all():
+            print('stamp:' + str(stamp.id) + ':user find!')
             tr_stmp = message.messagestamp_set.filter(stamp=stamp).first()
             tr_stmp.users.remove(request.user)
             if len(tr_stmp.users.all()) == 0:
                 print('user:0')
                 tr_stmp.delete()
         else:
-            print('stamp:'+str(stamp.id)+':user not find!')
+            print('stamp:' + str(stamp.id) + ':user not find!')
             message.messagestamp_set.filter(
                 stamp=stamp).first().users.add(request.user)
     else:
@@ -171,7 +172,7 @@ def message_stamp(request, message_id, stamp_id):
         tmp_http = '''
         <a id="btn_{0}" data-toggle="tooltip" title="{1}" href="javascript:void(0);" onclick="bbsStampOnClick('{2}',{3},'message');" class="badge badge-pill badge-secondary">
         <img src="{4}" alt="" style="width: 15px;height:15px;">{5}</a>
-        '''.format(st.stamp.name,st.return_names(),str(st.stamp.id),message.id,st.stamp.image.url,str(len(st.users.all())))
+        '''.format(st.stamp.name, st.return_names(), str(st.stamp.id), message.id, st.stamp.image.url, str(len(st.users.all())))
         http += tmp_http
     return HttpResponse(http)
 
@@ -183,15 +184,16 @@ def reply_stamp(request, reply_id, stamp_id):
     stamp = Stamp.objects.filter(id=stamp_id).first()
     http = ""
     if len(reply.replystamp_set.filter(stamp=stamp).all()) != 0:
-        if request.user in reply.replystamp_set.filter(stamp=stamp).first().users.all():
-            print('stamp:'+str(stamp.id)+':user find!')
+        if request.user in reply.replystamp_set.filter(
+                stamp=stamp).first().users.all():
+            print('stamp:' + str(stamp.id) + ':user find!')
             tr_stmp = reply.replystamp_set.filter(stamp=stamp).first()
             tr_stmp.users.remove(request.user)
             if len(tr_stmp.users.all()) == 0:
                 print('user:0')
                 tr_stmp.delete()
         else:
-            print('stamp:'+str(stamp.id)+':user not find!')
+            print('stamp:' + str(stamp.id) + ':user not find!')
             reply.replystamp_set.filter(
                 stamp=stamp).first().users.add(request.user)
     else:
@@ -207,6 +209,6 @@ def reply_stamp(request, reply_id, stamp_id):
         tmp_http = '''
         <a id="btn_{0}" data-toggle="tooltip" title="{1}" href="javascript:void(0);" onclick="bbsStampOnClick('{2}',{3},'reply');" class="badge badge-pill badge-secondary">
         <img src="{4}" alt="" style="width: 15px;height:15px;">{5}</a>
-        '''.format(st.stamp.name,st.return_names(),str(st.stamp.id),reply.id,st.stamp.image.url,str(len(st.users.all())))
+        '''.format(st.stamp.name, st.return_names(), str(st.stamp.id), reply.id, st.stamp.image.url, str(len(st.users.all())))
         http += tmp_http
     return HttpResponse(http)

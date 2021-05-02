@@ -6,8 +6,10 @@ import django.db.models.deletion
 import markdownx.models
 from django.core.management import call_command
 
+
 def load_fixture(apps, schema_editor):
     call_command('loaddata', 'bbs/fixture/init.json', app_label='bbs')
+
 
 class Migration(migrations.Migration):
 
@@ -21,7 +23,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Channel',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=64)),
                 ('icon_url', models.URLField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -30,12 +33,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Message',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('content', markdownx.models.MarkdownxField(verbose_name='Contents')),
                 ('pub_date', models.DateTimeField(auto_now_add=True)),
-                ('channel', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Channel')),
-                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('channel', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Channel')),
+                ('member', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('-pub_date',),
@@ -44,7 +50,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Stamp',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=64)),
                 ('img_url', models.URLField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -53,11 +60,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Reply',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', markdownx.models.MarkdownxField(verbose_name='Contents')),
                 ('pub_date', models.DateTimeField(auto_now_add=True)),
-                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Message')),
+                ('member', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('parent', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Message')),
             ],
             options={
                 'ordering': ('-pub_date',),

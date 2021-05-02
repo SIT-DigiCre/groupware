@@ -63,7 +63,7 @@ class MessageStamp(models.Model):
     users = models.ManyToManyField(User)
 
     def __str__(self):
-        return self.message.title + ':'+self.stamp.name
+        return self.message.title + ':' + self.stamp.name
 
     def return_names(self):
         names = ""
