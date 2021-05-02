@@ -42,7 +42,8 @@ run_autopep8() {
     set +xe
 
     # including auto format
-    OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
+    # aggressive にすることで、すこしキツめにlintingする
+    OUTPUT=$(sh -c "autopep8 --aggressive -r -i . $*" 2>&1)
     SUCCESS=$?
 
     # for debug
