@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Channel,Message,Reply,Stamp,MessageStamp,ReplyStamp
+from .models import Channel, Message, Reply, Stamp, MessageStamp, ReplyStamp
 
 # Register your models here.
 admin.site.register(Channel)
