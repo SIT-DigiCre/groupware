@@ -42,7 +42,8 @@ run_autopep8() {
     set +xe
 
     # including auto format
-    OUTPUT=$(sh -c "autopep8 -r -i . $*" 2>&1)
+    # aggressive にすることで、すこしキツめにlintingする
+    OUTPUT=$(sh -c "autopep8 --aggressive -r -i . $*" 2>&1)
     SUCCESS=$?
 
     # for debug
@@ -83,7 +84,9 @@ run_flake8() {
     for FILE in ${FILES}; do
 	# 拡張子が.pyのときのみflakeを動かす
 	if [ "${FILE##*.}" = "py" ]; then
-	    TMP=$(sh -c "flake8 ${FILE} $*" 2>&1)
+        # E501 は1行の長さ制限をするもの
+        # templateを使う場合は超過するので、これは無効化する
+	    TMP=$(sh -c "flake8 --ignore=E501 ${FILE} $*" 2>&1)
 	    STATUS=$?
 
 	    # for debug
