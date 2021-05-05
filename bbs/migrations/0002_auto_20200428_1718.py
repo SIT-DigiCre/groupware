@@ -25,18 +25,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReplyStamp',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reply', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Reply')),
-                ('stamp', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Stamp')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('reply', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Reply')),
+                ('stamp', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Stamp')),
                 ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='MessageStamp',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('message', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Message')),
-                ('stamp', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bbs.Stamp')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('message', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Message')),
+                ('stamp', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='bbs.Stamp')),
                 ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
