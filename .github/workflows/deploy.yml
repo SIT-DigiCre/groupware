@@ -1,4 +1,4 @@
-name: groupware auto deploy
+name: CD
 
 on:
   push:
