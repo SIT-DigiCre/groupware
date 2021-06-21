@@ -2,7 +2,7 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-name: Run Linters(autopep8/flake8)
+name: CI
 
 jobs:
   exec:
