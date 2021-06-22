@@ -1,10 +1,10 @@
-from django.shortcuts import *
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from tool.models import *
-from .models import *
-from .forms import *
+from tool.models import Tool
+from .models import Division, Profile, UserTool
+from .forms import UserToolForm, ProfileForm
 from account.forms import UserEditForm
 
 @login_required()

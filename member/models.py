@@ -1,15 +1,10 @@
 from django.db import models
 from account.models import User
 from tool.models import Tool
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 # マークダウン使用のため
-from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
-
 from mdeditor.fields import MDTextField
 
-# Create your models here.
 class Division(models.Model):
     name = models.CharField(max_length = 20) #PGなど班の情報
     def __str__(self):
@@ -33,7 +28,6 @@ class UserTool(models.Model):
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return self.tool.name
