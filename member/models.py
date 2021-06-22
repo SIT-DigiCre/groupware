@@ -18,8 +18,8 @@ class Division(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     generation = models.IntegerField(blank=True)
-    message = models.CharField(max_length = 140)
-    intro = MDTextField('intro',blank=True)
+    message = models.CharField(verbose_name='ひとこと', max_length = 140)
+    intro = MDTextField('自己紹介',blank=True)
     divisions = models.ManyToManyField(Division)
     created_at = models.DateTimeField(auto_now_add=True)
 
