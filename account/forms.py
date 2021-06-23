@@ -69,3 +69,22 @@ class MySetPasswordForm(SetPasswordForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
+
+# メールアドレス変更フォーム
+class EmailChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email[-17:] != 'shibaura-it.ac.jp':
+            raise forms.ValidationError('登録はshibauraドメインにのみ制限されています！')
+
+        User.objects.filter(email=email, is_active=False).delete()
+        return email

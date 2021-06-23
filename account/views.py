@@ -1,6 +1,7 @@
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LoginView,LogoutView,
     PasswordChangeView, PasswordChangeDoneView,
@@ -9,6 +10,7 @@ from django.contrib.auth.views import (
 )
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
+from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -20,7 +22,8 @@ from .forms import (
     UserCreateForm,
     MyPasswordChangeForm,
     MyPasswordResetForm,
-    MySetPasswordForm
+    MySetPasswordForm,
+    EmailChangeForm
 )
 from member.models import Profile
 
@@ -157,3 +160,60 @@ class PasswordResetConfirm(PasswordResetConfirmView):
 # 新パスワード設定しましたページ
 class PasswordResetComplete(PasswordResetCompleteView):
     template_name = 'account/password_reset_complete.html'
+
+
+# メールアドレスの変更
+class EmailChange(LoginRequiredMixin, generic.FormView):
+    template_name = 'account/email_change_form.html'
+    form_class = EmailChangeForm
+
+    def form_valid(self, form):
+        user = self.request.user
+        new_email = form.cleaned_data['email']
+
+        # URLの送付
+        current_site = get_current_site(self.request)
+        domain = current_site.domain
+        context = {
+            'protocol': 'https' if self.request.is_secure() else 'http',
+            'domain': domain,
+            'token': dumps(new_email),
+            'user': user,
+        }
+
+        subject = render_to_string('account/mail_template/email_change/subject.txt', context)
+        message = render_to_string('account/mail_template/email_change/message.txt', context)
+        send_mail(subject, message, None, [new_email])
+
+        return redirect('account:email_change_done')
+
+
+# メールアドレスの変更メール送信しましたページ
+class EmailChangeDone(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'account/email_change_done.html'
+
+
+# 送られたリンクから飛ぶメールアドレス変更ページ
+class EmailChangeComplete(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'account/email_change_complete.html'
+    timeout_seconds = getattr(settings, 'ACTIVATION_TIMEOUT_SECONDS', 60*60*24)  # デフォルトでは1日以内
+
+    def get(self, request, **kwargs):
+        token = kwargs.get('token')
+        try:
+            new_email = loads(token, max_age=self.timeout_seconds)
+
+        # 期限切れ
+        except SignatureExpired:
+            return HttpResponseBadRequest()
+
+        # tokenが間違っている
+        except BadSignature:
+            return HttpResponseBadRequest()
+
+        # tokenは問題なし
+        else:
+            User.objects.filter(email=new_email, is_active=False).delete()
+            request.user.email = new_email
+            request.user.save()
+            return super().get(request, **kwargs)

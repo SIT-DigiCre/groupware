@@ -1,0 +1,25 @@
+{% extends "account/header.html" %}
+{% block title %}メールアドレス変更{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                ※変更後のメールアドレスを入力してください
+            </p>
+            <form action="" method="POST">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg">送信</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

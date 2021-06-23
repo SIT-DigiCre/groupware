@@ -9,7 +9,8 @@
     <div class="row mt-2">
         {% if is_currentusers_data %}
         <a type="button" class="btn btn-primary" href='/member/edit'>編集</a>
-        <a type="button" class="btn btn-secondary ml-1" href="{% url 'account:password_change' %}">パスワード変更</a><br>
+        <a type="button" class="btn btn-secondary ml-1" href="{% url 'account:password_change' %}">パスワード変更</a>
+        <a type="button" class="btn btn-secondary ml-1" href="{% url 'account:email_change' %}">メールアドレス変更</a>
         {% endif %}
     </div>
     <div class="row mt-2">

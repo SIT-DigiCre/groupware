@@ -1,0 +1,7 @@
+{{ user.username }} 様
+
+下記URLよりサイトにアクセスすると、メールアドレスの変更が完了します。
+
+{{ protocol }}://{{ domain }}{% url 'account:email_change_complete' token %}
+
+デジクリ
