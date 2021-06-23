@@ -8,8 +8,8 @@
 <div class="container">
     <div class="row mt-2">
         {% if is_currentusers_data %}
-        <a type="button" class="btn btn-primary" href='/member/edit'>編集</a>&nbsp;
-        <a type="button" class="btn btn-secondary" href="{% url 'account:password_change' %}">パスワード変更</a><br>
+        <a type="button" class="btn btn-primary" href='/member/edit'>編集</a>
+        <a type="button" class="btn btn-secondary ml-1" href="{% url 'account:password_change' %}">パスワード変更</a><br>
         {% endif %}
     </div>
     <div class="row mt-2">
