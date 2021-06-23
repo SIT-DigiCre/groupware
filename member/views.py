@@ -1,10 +1,10 @@
-from django.shortcuts import *
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from tool.models import *
-from .models import *
-from .forms import *
+from tool.models import Tool
+from .models import Division, Profile, UserTool
+from .forms import UserToolForm, ProfileForm
 from account.forms import UserEditForm
 
 @login_required()
@@ -43,6 +43,7 @@ def edit(request):
     profile = Profile.objects.filter(user=request.user).first()
     # POSTアクセス時（返信時）の処理
     if request.method == 'POST':
+        # ツールの編集
         if 'add-usertool-form' in request.POST:
             toolid = request.POST['toolchoice']
             tool = Tool.objects.filter(id=toolid).first()
@@ -55,19 +56,22 @@ def edit(request):
             usertool.tool = tool
             usertool.level = int(request.POST['toollevel'])
             usertool.save()
+
+        # 班の編集
         if 'add-division-form' in request.POST:
             divisionid = int(request.POST['divisionchoice'])
             division = Division.objects.filter(id=divisionid).first()
             profile.divisions.add(division)
+
+        # ユーザーデータ編集
         if 'user-edit-form' in request.POST:
             user_form = UserEditForm(request.POST,request.FILES,instance = request.user)
             user_form.save()
-        if 'profile-edit-form' in request.POST:
             profile_form = ProfileForm(request.POST,request.FILES,instance = request.user.profile)
             profile = profile_form.save(commit=True)
         
-        # 同じページにリダイレクトするだけなので、もっと賢い書き方あるはず
-        return redirect(to='/member/edit' )
+        # 自分のプロフィールにリダイレクト
+        return redirect(to='/member/me')
     exist_tools = []
     for usertool in profile.usertool_set.all():
         exist_tools.append(usertool.tool)
