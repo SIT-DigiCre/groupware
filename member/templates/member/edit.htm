@@ -12,20 +12,17 @@
             <div>
                 <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#add-usertool-modal">ツールの追加</button>
                 <button type="button" class=" btn btn-info" data-toggle="modal" data-target="#add-division-modal">班の追加</button>
-                <h2>ユーザーデータ編集</h2>
+                
                 <form action="/member/edit" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ user_form.as_table }}
-                    <br>
-                    <input type="submit" value="Submit" name="user-edit-form">
-                </form>
-                <h2>プロファイルデータ編集</h2>
-                <form action="/member/edit" method="post">
-                    {% csrf_token %}
+                    {{ user_form.as_p }}
+
                     {{ profile_form.media }}
-                    {{ profile_form.as_table }}
-                    <input type="submit" value="Submit" name="profile-edit-form">
+                    {{ profile_form.as_p }}
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="更新" name="user-edit-form">
                 </form>
+                
                 <div class="modal fade" id="add-usertool-modal" tabindex="-1" role="dialog" aria-labelledby="usertool-label"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">

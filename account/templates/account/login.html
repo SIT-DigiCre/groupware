@@ -12,6 +12,7 @@
                     <hr>
                 {% endfor %}
                 <button type="submit" class="btn btn-primary btn-lg btn-block" >ログイン</button>
+                <a href="{% url 'account:password_reset' %}" class="btn btn-success btn-lg btn-block" >パスワードを忘れた方</a>
                 <input type="hidden" name="next" value="{{ next }}" />
                 {% csrf_token %}
             </form>
