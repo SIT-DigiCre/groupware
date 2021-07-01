@@ -18,6 +18,8 @@ services:
     env_file:
       - .conf/docker.env
     restart: always
+    networks:
+      - internal_network
   web:
     image: nginx:1.17
     volumes:
@@ -31,17 +33,9 @@ services:
     environment:
       TZ: Asia/Tokyo
     restart: always
-  https-portal:
-    image: steveltn/https-portal:1
-    volumes:
-      - ./ssl_certs:/var/lib/https-portal
-    ports:
-      - 80:80
-      - 443:443
-    environment:
-      DOMAINS: "core.digicre.net -> http://web:80"
-      STAGE: "production"
-    restart: always
+    networks:
+      - internal_network
+      - https_network
   db:
     image: mariadb:10.4
     volumes:
@@ -50,6 +44,14 @@ services:
       - .conf/docker.env
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
+    networks:
+      - internal_network
 
 volumes:
   staticfiles:
+
+networks:
+  internal_network:
+    internal: true
+  https_network:
+    external: true
