@@ -9,6 +9,5 @@ mysqlclient == 1.4.6
 django-slack
 django-mdeditor
 Markdown
-Markdown
 djangorestframework
 django-filter
