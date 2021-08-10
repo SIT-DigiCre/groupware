@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'sass_processor',
     'django_slack',
     'mdeditor',
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

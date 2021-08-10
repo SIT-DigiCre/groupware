@@ -4,10 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
 
+import django_filters
+from rest_framework import viewsets,filters
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import IsOwnerOrReadOnly
+
 import datetime
 
 from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
+from .serializer import ArticleSerializer,ArticleTagSerializer
 # Create your views here.
 def index(request):
     display_num = 30
@@ -272,3 +278,15 @@ def mypage(request):
         'is_login_user':request.user.is_authenticated,
     }
     return render(request,'blog/mypage.htm',params)
+
+# REST_APIs
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+
+class ArticleTagViewSet(viewsets.ModelViewSet):
+    queryset = ArticleTag.objects.all()
+    serializer_class = ArticleTagSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)

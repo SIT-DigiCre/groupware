@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from rest_framework import routers
 
 urlpatterns = [
     #path('', views.index, name='index'),
@@ -23,3 +24,7 @@ urlpatterns = [
 	# path('event/<event_name>/',views.event_index,name='blog.event_index'),
     path('mypage',views.mypage,name='blog.mypage'),
 ]
+
+router = routers.DefaultRouter()
+router.register(r'articles', views.ArticleViewSet)
+router.register(r'article_tag',views.ArticleTagViewSet)
