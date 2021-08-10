@@ -20,6 +20,8 @@ from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from blog.urls import router as blog_router
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls'), name="home"),
@@ -33,6 +35,7 @@ urlpatterns = [
     path('issue/', include('issue.urls')),
 
     url(r'mdeditor/', include('mdeditor.urls')),
+    url(r'^api/blog/',include(blog_router.urls))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
