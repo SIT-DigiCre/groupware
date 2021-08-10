@@ -7,8 +7,8 @@
     "type-check": "tsc",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format": "prettier --check './**/*.{ts,tsx}'",
-    "format:fix": "prettier --write './**/*.{ts,tsx}'",
+    "format": "prettier --check './**/*.{ts,tsx,css}'",
+    "format:fix": "prettier --write './**/*.{ts,tsx,css}'",
     "check": "yarn lint && yarn format",
     "fix": "yarn lint:fix && yarn format:fix"
   },
