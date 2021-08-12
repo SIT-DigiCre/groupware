@@ -1,21 +1,14 @@
 import Header from '../components/Header'
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { Component } from 'react';
-import Head from "next/head";
+import Head from 'next/head';
+import 'highlightjs/styles/vs2015.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <div>
       <Head>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-          crossOrigin="anonymous"
-        />
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-          crossOrigin="anonymous"></script>
       </Head>
       <Header/>
       <Component {...pageProps} />
