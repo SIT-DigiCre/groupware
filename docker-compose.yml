@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    build: .
+    build: backend
     ports:
       - 8000:8000
     volumes:
@@ -17,6 +17,11 @@ services:
       TZ: Asia/Tokyo
     env_file:
       - .conf/docker.env
+    restart: always
+  blog_next:
+    build: blog-next
+    ports:
+      - 3000:3000
     restart: always
   web:
     image: nginx:1.17
