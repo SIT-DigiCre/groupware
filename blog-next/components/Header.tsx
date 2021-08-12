@@ -1,12 +1,13 @@
-import { Navbar } from "react-bootstrap";
+import { Navbar, Container } from "react-bootstrap";
 
 const Header = () => {
   return (
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="/">
-        
-        デジコアブログ
-      </Navbar.Brand>
+    <Navbar bg="primary" variant="dark">
+      <Container>
+        <Navbar.Brand href="/">
+          デジコアブログ
+        </Navbar.Brand>
+      </Container>
     </Navbar>
   )
 }
