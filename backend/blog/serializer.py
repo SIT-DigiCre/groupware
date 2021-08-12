@@ -5,7 +5,7 @@ from .models import Article, ArticleTag
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('id', 'member', 'title', 'content', 'article_tags',  'pub_date')
+        fields = ('id', 'member', 'title', 'content', 'article_tags', 'is_active',  'pub_date')
 
 
 class ArticleTagSerializer(serializers.ModelSerializer):

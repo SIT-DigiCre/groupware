@@ -13,14 +13,19 @@ const IndexPage = (props: { data: Article[] }) => (
     <PageHead title='デジコアブログ' description='芝浦工業大学 デジクリのブログサイト' />
     <Container className='mt-2'>
       {props.data.map(article => (
-        <Link href={'/article/' + String(article.id)}>
-          <Card>
-            <Card.Body>
-              <Card.Title>{article.title}</Card.Title>
-              <Card.Text>{getPreviewText(article.content, 120)}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Link>
+        <div>
+          {article.is_active ? (
+            <Link href={'/article/' + String(article.id)}>
+            <Card>
+              <Card.Body>
+                <Card.Title>{article.title}</Card.Title>
+                <Card.Text>{getPreviewText(article.content, 120)}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Link>
+          ):<div></div>}
+        </div>
+        
       ))}
 
     </Container>
