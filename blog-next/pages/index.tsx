@@ -6,20 +6,23 @@ import { Article } from '../interfaces'
 import { Container, Card } from 'react-bootstrap';
 import { Markdown } from '../components/Markdown';
 import PageHead from '../components/PageHead';
+import { getPreviewText } from '../utils/markdown-util'
 
 const IndexPage = (props: { data: Article[] }) => (
   <div>
     <PageHead title='デジコアブログ' description='芝浦工業大学 デジクリのブログサイト' />
-    <Container>
+    <Container className='mt-2'>
       {props.data.map(article => (
-        <Link href={'/article/'+String(article.id)}>
+        <Link href={'/article/' + String(article.id)}>
           <Card>
-            <Card.Title>{article.title}</Card.Title>
-            <Card.Body>{article.content}</Card.Body>
+            <Card.Body>
+              <Card.Title>{article.title}</Card.Title>
+              <Card.Text>{getPreviewText(article.content, 120)}</Card.Text>
+            </Card.Body>
           </Card>
         </Link>
       ))}
-      
+
     </Container>
   </div>
 )
