@@ -4,7 +4,24 @@
 //
 // import { User } from 'path/to/interfaces';
 
+// ↓後で消す
 export type User = {
   id: number
   name: string
+}
+
+export type Article = {
+  id: number
+  member: number
+  title: string
+  content: string
+  article_tags: number[]
+  pub_date: string
+}
+
+export type ArticleTag = {
+  id: number
+  name: string
+  content: string
+  pub_date: string
 }
