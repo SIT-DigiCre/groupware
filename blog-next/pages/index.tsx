@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { GetStaticProps } from 'next'
-import Layout from '../components/Layout'
+import { GetServerSideProps } from 'next'
+import { axios } from '../utils/axios'
+import { string } from 'prop-types'
 
 const IndexPage = () => (
   <div>
