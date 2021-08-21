@@ -3,6 +3,8 @@
 # SSL certs dir
 /ssl_certs
 
+font.ttf
+
 # Config dir
 /.conf/*
 !/.conf/*.sample

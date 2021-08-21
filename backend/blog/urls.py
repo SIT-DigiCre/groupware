@@ -33,6 +33,7 @@ urlpatterns = [
     path('event/<int:id>/delete/<int:year>/<int:month>/<int:day>',
          views.relay_delete, name='blog.relay_delete'),
 
+    path('article/<int:id>/ogp_image', views.GenOGPImageAPIView.as_view(), name='blog.ogp_image'),
     # path('event/<event_name>/',views.event_index,name='blog.event_index'),
     path('mypage', views.mypage, name='blog.mypage'),
 ]
