@@ -6,7 +6,7 @@ marked.setOptions({
   highlight: (code, lang) => {
     return highlight.highlightAuto(code, [lang]).value;
   },
-  breaks: false,
+  breaks: true,
   langPrefix: 'hljs language-'
 });
 

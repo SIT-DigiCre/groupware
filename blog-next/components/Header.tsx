@@ -5,7 +5,7 @@ const Header = () => {
     <Navbar bg="primary" variant="dark">
       <Container>
         <Navbar.Brand href="/">
-          デジコアブログ
+          デジクリブログ
         </Navbar.Brand>
       </Container>
     </Navbar>

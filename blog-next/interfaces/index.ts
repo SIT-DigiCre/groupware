@@ -15,6 +15,7 @@ export type Article = {
   member: number
   title: string
   content: string
+  article_image: string
   article_tags: number[]
   is_active: boolean
   pub_date: string
