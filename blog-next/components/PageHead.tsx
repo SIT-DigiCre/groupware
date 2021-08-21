@@ -13,6 +13,8 @@ const PageHead = ({ title, description, img }:PageHeadProps) => {
   }
   return (
     <Head>
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       <meta name="description" content={title} />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
