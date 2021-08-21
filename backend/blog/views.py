@@ -338,7 +338,7 @@ class GenOGPImageAPIView(APIView):
             (img_w - textbox_width) / 2,
             200,
             textbox_width,
-            3,
+            4,
             title,
             70,
             (0, 0, 0),
@@ -347,7 +347,7 @@ class GenOGPImageAPIView(APIView):
         img = add_text_to_image(
             img,
             (img_w - textbox_width) / 2,
-            450,
+            500,
             textbox_width,
             2,
             member_username,
