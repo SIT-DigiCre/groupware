@@ -366,7 +366,7 @@ class GenOGPImageAPIView(APIView):
 # REST_APIs
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
+    queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
