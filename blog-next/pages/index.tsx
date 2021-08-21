@@ -19,8 +19,7 @@ const IndexPage = (props: { data: Article[] }) => (
       <Row>
         {props.data.map(article => (
           <Col md={4} sm={6} className='mt-2'>
-            {article.is_active ? (
-              <Link href={'/article/' + String(article.id)}>
+            <Link href={'/article/' + String(article.id)}>
                 <Card>
                 <Card.Img src={article.article_image !== '' ? article.article_image : `${baseURL}/blog/article/${article.id}/ogp_image`} height={200} style={{objectFit:'cover'}}></Card.Img>
                   <Card.Body>
@@ -29,9 +28,7 @@ const IndexPage = (props: { data: Article[] }) => (
                   </Card.Body>
                 </Card>
               </Link>
-            ) : <div></div>}
           </Col>
-
         ))}
       </Row>
     </Container>
