@@ -1,9 +1,9 @@
 import Head from 'next/head'
 
 type PageHeadProps = {
-	title: string
-	description: string
-	img?: string
+  title: string
+  description: string
+  img?: string
 }
 
 const PageHead = ({title,description,img}:PageHeadProps) => {
