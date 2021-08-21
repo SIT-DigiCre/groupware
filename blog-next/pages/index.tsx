@@ -3,31 +3,34 @@ import { GetServerSideProps } from 'next'
 import { axios } from '../utils/axios'
 import { string } from 'prop-types'
 import { Article } from '../interfaces'
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Col, Row } from 'react-bootstrap';
 import { Markdown } from '../components/Markdown';
 import PageHead from '../components/PageHead';
 import { getPreviewText } from '../utils/markdown-util'
+import { baseURL } from '../utils/common'
 
 const IndexPage = (props: { data: Article[] }) => (
   <div>
-    <PageHead title='デジコアブログ' description='芝浦工業大学 デジクリのブログサイト' />
+    <PageHead title='デジクリブログ' description='芝浦工業大学 デジクリのブログサイト' />
     <Container className='mt-2'>
-      {props.data.map(article => (
-        <div>
-          {article.is_active ? (
+      <Row>
+        <h3>デジクリブログ最新記事</h3>
+      </Row>
+      <Row>
+        {props.data.map(article => (
+          <Col md={4} sm={6} className='mt-2'>
             <Link href={'/article/' + String(article.id)}>
-            <Card>
-              <Card.Body>
-                <Card.Title>{article.title}</Card.Title>
-                <Card.Text>{getPreviewText(article.content, 120)}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Link>
-          ):<div></div>}
-        </div>
-        
-      ))}
-
+                <Card>
+                <Card.Img src={article.article_image !== '' ? article.article_image : `${baseURL}/blog/article/${article.id}/ogp_image`} height={200} style={{objectFit:'cover'}}></Card.Img>
+                  <Card.Body>
+                    <Card.Title>{article.title}</Card.Title>
+                    <Card.Text>{getPreviewText(article.content, 120)}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
+          </Col>
+        ))}
+      </Row>
     </Container>
   </div>
 )
