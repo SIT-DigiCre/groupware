@@ -1,5 +1,4 @@
 from django.conf.urls import include
-from django.db import router
 from django.urls import path
 from blog import views as blog_views
 from rest_framework import routers
