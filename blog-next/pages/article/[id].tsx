@@ -28,10 +28,10 @@ export default ArticlePage
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const id = params?.id;
-    const resData = axios.get('/blog/articles/' + String(id))
+    const resData = axios.get('/v1/blog/articles/' + String(id))
     const data: Article = (await resData).data;
-    const tags: ArticleTag[] = await Promise.all(data.article_tags.map(async tagId =>
-      (await axios.get('/blog/article_tag/' + String(tagId))).data
+    const tags: ArticleTag[] = await Promise.all(data.article_tags.map(async tagId=>
+      (await axios.get('/v1/blog/article_tag/' + String(tagId))).data
     ))
     return { props: { data, tags } }
   } catch (error) {

@@ -37,7 +37,3 @@ urlpatterns = [
     # path('event/<event_name>/',views.event_index,name='blog.event_index'),
     path('mypage', views.mypage, name='blog.mypage'),
 ]
-
-router = routers.DefaultRouter()
-router.register(r'articles', views.ArticleViewSet)
-router.register(r'article_tag', views.ArticleTagViewSet)
