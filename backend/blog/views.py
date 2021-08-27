@@ -372,6 +372,7 @@ class ArticleResultsPagination(pagination.PageNumberPagination):
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
+    pagination_class = ArticleResultsPagination
 
 class MyArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
