@@ -39,7 +39,7 @@ export default IndexPage
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
-    const resData = axios.get('/blog/articles');
+    const resData = axios.get('/v1/blog/articles');
     const data: Article[] = (await resData).data;
     console.log(data)
     return { props: { data } }
