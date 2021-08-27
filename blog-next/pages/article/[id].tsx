@@ -11,13 +11,13 @@ const baseURL = process.env.NODE_ENV === 'production' ? 'https://core.digicre.ne
 const ArticlePage = (props: ArticlePageProps) => (
   <Container>
     <PageHead title={props.data.title} description={props.data.content} img={`${baseURL}/blog/article/${props.data.id}/ogp_image`} />
-    <Row>
-    <h1 style={{borderBottom: 'solid 2px #87CEFA'}}>{props.data.title}</h1>
-    </Row>
-    <Row style={{display:'inline-block', marginLeft:'10px'}}>
-      {props.tags.map(tag=>(
-        <span className='badge rounded-pill bg-primary'>{tag.name}</span>
-      ))}
+    <Row style={{ borderBottom: 'solid 2px #87CEFA' }}>
+      <h1>{props.data.title}</h1>
+      <div style={{ display: 'inline', marginLeft: '8px', marginBottom:'3px'}}>
+        {props.tags.map(tag => (
+          <span className='badge rounded-pill bg-primary' style={{ display: 'inline', marginLeft: '1px' }} >{tag.name}</span>
+        ))}
+      </div>
     </Row>
     <Markdown md={props.data.content}></Markdown>
   </Container>

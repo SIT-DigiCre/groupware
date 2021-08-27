@@ -4,6 +4,7 @@ import { Component } from 'react';
 import Head from 'next/head';
 import 'highlightjs/styles/vs2015.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/common.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
