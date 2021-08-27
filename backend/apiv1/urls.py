@@ -5,6 +5,7 @@ from rest_framework import routers
 
 blog_router = routers.DefaultRouter()
 blog_router.register('articles', blog_views.ArticleViewSet)
+blog_router.register('my_article', blog_views.MyArticlesViewSet)
 blog_router.register('article_tag', blog_views.ArticleTagViewSet)
 
 urlpatterns = [

@@ -1,11 +1,13 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse, FileResponse
+from os import stat
+from django.shortcuts import get_object_or_404, render,redirect
+from django.http import HttpResponse, FileResponse, response
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
-from rest_framework import viewsets,filters
+from rest_framework import request, viewsets, filters, status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly
 
 import datetime
@@ -17,8 +19,8 @@ from typing import List
 from enum import Enum
 
 from .models import Article, ArticleTag, BlogEvent, EventArticle
-from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
-from .serializer import ArticleSerializer,ArticleTagSerializer
+from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm, EventArticleForm
+from .serializer import ArticleSerializer, ArticleTagSerializer
 # Create your views here.
 def index(request):
     display_num = 30
@@ -365,10 +367,19 @@ class GenOGPImageAPIView(APIView):
 
 # REST_APIs
 
-class ArticleViewSet(viewsets.ModelViewSet):
+class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+
+class MyArticlesViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    def get_queryset(self):
+        return Article.objects.filter(member=self.request.user).order_by('-pub_date')
+    def perform_create(self, serializer):
+        return serializer.save(member=self.request.user)
+    def perform_update(self, serializer):
+        return serializer.save(member=self.request.user)
 
 class ArticleTagViewSet(viewsets.ModelViewSet):
     queryset = ArticleTag.objects.all()
