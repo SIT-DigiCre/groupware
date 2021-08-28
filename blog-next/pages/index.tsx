@@ -30,12 +30,12 @@ const IndexPage = (props: { data: ArticleList }) => {
         <Row>
           <h3>デジクリブログ最新記事</h3>
         </Row>
-        <Row>
-          <InfiniteScroll
-            loadMore={loadNext}
-            hasMore={articleNextUrl !== null}
-            loading={loader}
-          >
+        <InfiniteScroll
+          loadMore={loadNext}
+          hasMore={articleNextUrl !== null}
+          loading={loader}
+        >
+          <Row>
             {articles.map(article => (
               <Col md={4} sm={6} className='mt-2'>
                 <Link href={'/article/' + String(article.id)}>
@@ -49,8 +49,8 @@ const IndexPage = (props: { data: ArticleList }) => {
                 </Link>
               </Col>
             ))}
-          </InfiniteScroll>
-        </Row>
+          </Row>
+        </InfiniteScroll>
       </Container>
     </div>
   )
