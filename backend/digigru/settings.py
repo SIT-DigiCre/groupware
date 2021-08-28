@@ -97,6 +97,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://blog.digicre.net',
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
