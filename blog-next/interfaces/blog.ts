@@ -1,5 +1,3 @@
-import ArticlePage from "../pages/article/[id]"
-
 export type Article = {
   id: number
   member: number
