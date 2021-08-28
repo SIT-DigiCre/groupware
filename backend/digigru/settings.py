@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if str(os.environ.get('DEBUG')).lower() == 'false' else True
 
-ALLOWED_HOSTS = ['app','localhost']
+ALLOWED_HOSTS = ['core.digicre.net', 'app', 'localhost']
 
 
 # Application definition
