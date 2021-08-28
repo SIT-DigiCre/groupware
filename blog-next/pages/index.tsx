@@ -13,14 +13,14 @@ import InfiniteScroll from "react-infinite-scroller"
 
 const IndexPage = (props: { data: ArticleList }) => {
   const [articles, setArticles] = useState<Article[]>(props.data.results)
-  let articleNextUrl = props.data.next
+  const [articleNextUrl, setArticleNextUrl] = useState(props.data.next)
   console.log(articleNextUrl)
   const loader = <div className="loader" key={0}>Loading ...</div>;
   const loadNext = async () => {
     console.log(articleNextUrl)
     const resData = axios.get(articleNextUrl);
     const data: ArticleList = (await resData).data;
-    articleNextUrl = data.next
+    setArticleNextUrl(data.next)
     setArticles(articles.concat(data.results))
   }
   return (
@@ -35,7 +35,6 @@ const IndexPage = (props: { data: ArticleList }) => {
             loadMore={loadNext}
             hasMore={articleNextUrl !== null}
             loading={loader}
-            style={{ display: 'inline-block' }}
           >
             {articles.map(article => (
               <Col md={4} sm={6} className='mt-2'>
