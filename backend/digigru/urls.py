@@ -14,28 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf.urls import url
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from blog.urls import router as blog_router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls'), name="home"),
     path('bbs/', include('bbs.urls'), name="bbs"),
     path('ringi/', include('ringi.urls'), name="ringi"),
-    path('member/',include('member.urls'), name="member"),
-    path('tool/',include('tool.urls'), name="tool"),
-    path('work/',include('work.urls'), name="work"),
-    path('blog/',include('blog.urls'), name="blog"),
+    path('member/', include('member.urls'), name="member"),
+    path('tool/', include('tool.urls'), name="tool"),
+    path('work/', include('work.urls'), name="work"),
+    path('blog/', include('blog.urls'), name="blog"),
     path('account/', include('account.urls'), name="account"),
     path('issue/', include('issue.urls')),
 
     url(r'mdeditor/', include('mdeditor.urls')),
-    url(r'^api/blog/',include(blog_router.urls))
+    path('api/auth/', include('rest_framework.urls')),
+    path('api/v1/', include('apiv1.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

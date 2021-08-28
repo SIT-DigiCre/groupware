@@ -8,7 +8,7 @@ type MarkdownProps = {
 export const Markdown = ({ md }: MarkdownProps) => {
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: convertToHtml(md) }}></div>
+      <div className='markdown-area' dangerouslySetInnerHTML={{ __html: convertToHtml(md) }}></div>
     </div>
   );
 }

@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     'mdeditor',
     'rest_framework',
     'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +84,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'digigru.wsgi.application'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://blog.digicre.net',
+]
 
 
 # Database
