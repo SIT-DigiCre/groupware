@@ -1,9 +1,8 @@
-import axiosBase from "axios";
-
-const isProduction = process.env.NODE_ENV === "production";
+import axiosBase from 'axios';
+import { baseURL } from './common'
 
 export const axios = axiosBase.create({
-  baseURL: isProduction ? 'https://core.digicre.net/api' : 'http://localhost:8000/api',
+  baseURL: baseURL + '/api',
   headers:{
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
