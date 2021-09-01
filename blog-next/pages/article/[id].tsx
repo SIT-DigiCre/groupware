@@ -18,6 +18,7 @@ const ArticlePage = (props: ArticlePageProps) => (
           <span className='badge rounded-pill bg-primary' style={{ display: 'inline', marginLeft: '1px' }} >{tag.name}</span>
         ))}
       </div>
+      <div> 公開日：{props.data.pub_date}  閲覧数：{props.data.view_count}</div>
     </Row>
     <Markdown md={props.data.content}></Markdown>
   </Container>
