@@ -25,6 +25,7 @@ class Article(models.Model):
     relates_works=models.ManyToManyField(Work,blank=True)
     pub_date = models.DateTimeField(blank=True,null=True)
     is_active = models.BooleanField(default=True)
+    view_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-pub_date',) # 新着順にする
