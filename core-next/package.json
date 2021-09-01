@@ -7,8 +7,14 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/highlightjs": "^9.12.2",
+    "@types/marked": "^3.0.0",
     "@types/react-bootstrap": "^0.32.26",
+    "axios": "^0.21.1",
     "bootstrap": "^5.1.0",
+    "highlightjs": "^9.16.2",
+    "isomorphic-dompurify": "^0.15.0",
+    "marked": "^3.0.2",
     "next": "latest",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
