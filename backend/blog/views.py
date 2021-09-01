@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
 from rest_framework import viewsets, pagination
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
@@ -373,6 +374,12 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
     pagination_class = ArticleResultsPagination
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.view_count += 1
+        instance.save()
+        serializer = ArticleSerializer(instance=instance)
+        return Response(serializer.data)
 
 class MyArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
