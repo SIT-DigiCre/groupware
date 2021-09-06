@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router'
+import { useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -90,9 +91,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MiniDrawer = (props) => {
+  const router = useRouter()
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -172,7 +174,10 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary='Member' />
           </ListItem>
-          <ListItem button key='blog'>
+          <ListItem button key='blog' onClick={(e)=>{
+            e.preventDefault()
+            router.push('/blog')
+          }} >
             <ListItemIcon>
               <DescriptionIcon />
             </ListItemIcon>
