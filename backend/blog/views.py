@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
 from rest_framework import viewsets, pagination
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
@@ -373,6 +374,12 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
     pagination_class = ArticleResultsPagination
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.view_count += 1
+        instance.save()
+        serializer = ArticleSerializer(instance=instance)
+        return Response(serializer.data)
 
 class MyArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
@@ -381,8 +388,13 @@ class MyArticlesViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Article.objects.filter(member=self.request.user).order_by('-pub_date')
     def perform_create(self, serializer):
+        if serializer.validated_data['is_active']:
+            return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
         return serializer.save(member=self.request.user)
     def perform_update(self, serializer):
+        current_article = get_object_or_404(Article, id=serializer.validated_data['id'])
+        if serializer.validated_data['is_active'] and not current_article.is_active:
+            return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
         return serializer.save(member=self.request.user)
 
 class ArticleTagViewSet(viewsets.ModelViewSet):

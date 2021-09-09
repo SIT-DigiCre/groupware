@@ -7,6 +7,7 @@ export type Article = {
   article_tags: number[]
   is_active: boolean
   pub_date: string
+  view_count: number
 }
 
 export type ArticleTag = {
