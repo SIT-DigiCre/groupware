@@ -7,7 +7,6 @@ const LoginCheck = () => {
 
   useEffect(() => {
     if (router.pathname !== "/login") {
-      console.log(localStorage.getItem("jwt"));
       if (localStorage.getItem("jwt") == null) {
         router.push("/login");
         return;
@@ -25,13 +24,12 @@ const LoginCheck = () => {
               router.push("/login");
             })
             .then((res: any) => {
-              console.log(res.data);
               localStorage.setItem("jwt", res.data.access);
             })
         );
     }
   }, []);
-  return <div></div>;
+  return <></>;
 };
 
 export default LoginCheck;
