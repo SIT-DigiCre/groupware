@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/common.css";
 import dynamic from "next/dynamic";
 
-const LoginCheck = dynamic(() => import("../components/LoginCheck"));
+const LoginCheck = dynamic(() => import("../components/LoginCheck"), {
+  ssr: false,
+});
 
 const App = ({ Component, pageProps }) => {
   return (
