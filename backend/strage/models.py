@@ -15,3 +15,4 @@ class FileObject(models.Model):
     )
     kind = models.CharField(max_length=10, choices=KIND_CHOICE, default=0)
     file_url = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
