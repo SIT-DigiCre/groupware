@@ -33,7 +33,8 @@ urlpatterns = [
     path('issue/', include('issue.urls')),
 
     url(r'mdeditor/', include('mdeditor.urls')),
-    path('api/auth/', include('rest_framework.urls')),
+    #path('api/auth/', include('rest_framework.urls')),
+    path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/', include('apiv1.urls')),
 ]
 
