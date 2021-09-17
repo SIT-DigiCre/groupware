@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'work',
     'blog',
     'issue',
+    'strage',
 
     # 3rd-party
     'markdownx',
