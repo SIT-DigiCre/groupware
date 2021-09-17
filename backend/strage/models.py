@@ -2,7 +2,7 @@ from django.db import models
 from account.models import User
 
 
-class Object(models.Model):
+class FileObject(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     file_name = models.CharField(max_length=64)
     KIND_CHOICE = (
