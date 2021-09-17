@@ -5,7 +5,7 @@ from digigru.local_settings import CONOHA_IDENTITY_SERVER_URL, CONOHA_OBJECT_STR
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from home.permissions import IsOwnerOrReadOnly
+from home.permissions import IsOwnerOrReadOnlyUser
 
 from . import object_strage
 from .serializer import FileObjectSerializer
@@ -15,7 +15,7 @@ from .models import FileObject
 class FileObjectViewSet(viewsets.ModelViewSet):
     queryset = FileObject.objects.all()
     serializer_class = FileObjectSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnlyUser,)
 
 
 class UploadFileObjectView(APIView):
