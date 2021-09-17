@@ -1,5 +1,5 @@
 import { TextField, Grid, Card, Button } from "@material-ui/core";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { baseURL } from "../utils/common";
 import { useRouter } from "next/dist/client/router";
@@ -10,15 +10,19 @@ const LoginPage = () => {
   const [onLogin, setOnLogin] = useState(false);
   const [emailField, setEmailField] = useState("");
   const [passwdField, setPasswdField] = useState("");
-  const handleOnChangeEmailField = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailField(e.target.value);
-  };
-  const handleOnChangePasswdField = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPasswdField(e.target.value);
-  };
-  const login = () => {
+  const handleOnChangeEmailField = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmailField(e.target.value);
+    },
+    []
+  );
+  const handleOnChangePasswdField = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswdField(e.target.value);
+    },
+    []
+  );
+  const login = useCallback(() => {
     axios
       .post(baseURL + "/api/v1/auth/jwt/create", {
         email: emailField,
@@ -32,7 +36,7 @@ const LoginPage = () => {
       .catch((error) => {
         if (error.response.status === 401) setIsError(true);
       });
-  };
+  }, [emailField, passwdField]);
   return (
     <Grid container alignItems="center" justify="center" className="mt-2">
       <Grid item xs={8}>
