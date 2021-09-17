@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'work',
     'blog',
     'issue',
+    'strage',
 
     # 3rd-party
     'markdownx',
@@ -150,16 +151,17 @@ TIME_ZONE = 'Asia/Tokyo'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 MDEDITOR_CONFIGS = {
-    'default':{
+    'default': {
         'language': 'en',
         'heigth': 500,  # Custom edit box height
         'toolbar': ["undo", "redo", "|",
                     "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                    "h2", "h3","h4", "h5", "h6", "|",
+                    "h2", "h3", "h4", "h5", "h6", "|",
                     "list-ul", "list-ol", "hr", "|",
-                    "image","link",  "code", "code-block", "table",
-                    "html-entities","||","preview", "watch", "fullscreen"],  # custom edit box toolbar 
-        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # image upload format type
+                    "image", "link",  "code", "code-block", "table",
+                    "html-entities", "||", "preview", "watch", "fullscreen"],  # custom edit box toolbar
+        # image upload format type
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         'image_folder': 'editor',  # image save the folder name
         'theme': 'default',  # edit box theme, dark / default
         'preview_theme': 'default',  # Preview area theme, dark / default
@@ -169,7 +171,7 @@ MDEDITOR_CONFIGS = {
         'emoji': True,  # whether to open the expression function
         'tex': True,  # whether to open the tex chart function
         'flow_chart': True,  # whether to open the flow chart function
-        'sequence': True, # Whether to open the sequence diagram function
+        'sequence': True,  # Whether to open the sequence diagram function
         'watch': True,  # Live preview
         'lineWrapping': False,  # lineWrapping
         'lineNumbers': True  # lineNumbers
@@ -194,7 +196,7 @@ STATIC_ROOT = '/static'
 
 AUTH_USER_MODEL = 'account.User'
 STATICFILES_DIRS = (
-os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.(sass|scss)$'
@@ -212,7 +214,7 @@ LOGIN_REDIRECT_URL = 'home.index'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'sitdigicrecircle@gmail.com'
-#EMAIL_HOST_PASSWORD = '' # 外部ファイルに設定
+# EMAIL_HOST_PASSWORD = '' # 外部ファイルに設定
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
