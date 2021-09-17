@@ -63,25 +63,27 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               <ChatIcon />
             </ListItemIcon>
-            <ListItemText primary="Chat" />
+            <ListItemText primary="×Chat" />
           </ListItem>
           <ListItem button key="ringi">
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="Ringi" />
+            <ListItemText primary="×Ringi" />
           </ListItem>
-          <ListItem button key="work">
-            <ListItemIcon>
-              <CreateIcon />
-            </ListItemIcon>
-            <ListItemText primary="Work" />
-          </ListItem>
+          <Link href="/work">
+            <ListItem button key="work">
+              <ListItemIcon>
+                <CreateIcon />
+              </ListItemIcon>
+              <ListItemText primary="Work" />
+            </ListItem>
+          </Link>
           <ListItem button key="member">
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>
-            <ListItemText primary="Member" />
+            <ListItemText primary="×Member" />
           </ListItem>
           <Link href="/blog">
             <ListItem button key="blog">
@@ -98,7 +100,7 @@ const MiniDrawer = (props) => {
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary="Setting" />
+            <ListItemText primary="×Setting" />
           </ListItem>
           <ListItem button key="logout">
             <ListItemIcon>
