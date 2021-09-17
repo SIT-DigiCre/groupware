@@ -20,11 +20,11 @@ const LoginCheck = () => {
             .post(baseURL + "/api/v1/auth/jwt/refresh", {
               refresh: localStorage.getItem("refresh-jwt"),
             })
-            .catch((error) => {
-              router.push("/login");
-            })
             .then((res: any) => {
               localStorage.setItem("jwt", res.data.access);
+            })
+            .catch((error) => {
+              router.push("/login");
             })
         );
     }
