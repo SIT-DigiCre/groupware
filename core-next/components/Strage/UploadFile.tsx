@@ -23,6 +23,7 @@ const UploadFile = (props: Props) => {
       )
       .then((res) => {
         const fileObject: FileObject = {
+          id: res.data.id,
           file_name: res.data.file_name,
           file_url: res.data.file_url,
           kind: res.data.kind,
