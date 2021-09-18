@@ -1,7 +1,11 @@
-const FilePreview = (props: { fileUrl: string; fileKind: string }) => {
+const FilePreview = (props: {
+  fileUrl: string;
+  fileKind: string;
+  fileName: string;
+}) => {
   switch (props.fileKind) {
     case "image":
-      return <img src={props.fileUrl} />;
+      return <img src={props.fileUrl} style={{ maxWidth: "100%" }} />;
     case "pptx":
       return (
         <iframe
@@ -14,6 +18,8 @@ const FilePreview = (props: { fileUrl: string; fileKind: string }) => {
           frameBorder="0"
         />
       );
+    case "other":
+      return <a href={props.fileUrl}>{props.fileName}</a>;
   }
 };
 
