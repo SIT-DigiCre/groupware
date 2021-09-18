@@ -20,8 +20,10 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import GroupIcon from "@material-ui/icons/Group";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import { useRouter } from "next/dist/client/router";
 
 const MiniDrawer = (props) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -102,7 +104,15 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="×Setting" />
           </ListItem>
-          <ListItem button key="logout">
+          <ListItem
+            button
+            key="logout"
+            onClick={() => {
+              localStorage.removeItem("jwt");
+              localStorage.removeItem("refresh-jwt");
+              router.push("/login");
+            }}
+          >
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
