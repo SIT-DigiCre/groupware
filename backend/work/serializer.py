@@ -6,11 +6,11 @@ from .models import WorkTag, WorkItem
 class WorkTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkTag
-        fields = ('name', 'intro')
+        fields = ('id', 'name', 'intro')
 
 
 class WorkItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkItem
-        fields = ('name', 'intro', 'user', 'tools',
+        fields = ('id', 'name', 'intro', 'user', 'tools',
                   'tags', 'files', 'created_at')

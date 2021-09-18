@@ -39,4 +39,4 @@ class UploadFileObjectView(APIView):
             user=request.user, file_name=request.data['file_name'], kind=request.data['kind'], file_url=file_url)
         fileObject.save()
         os.remove('upload_temp/'+temp_file_name)
-        return Response({'file_name': fileObject.file_name, 'kind': fileObject.kind, 'file_url': fileObject.file_url}, status=status.HTTP_201_CREATED)
+        return Response({'id': fileObject.id, 'file_name': fileObject.file_name, 'kind': fileObject.kind, 'file_url': fileObject.file_url}, status=status.HTTP_201_CREATED)
