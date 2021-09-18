@@ -3,6 +3,7 @@ from django.urls import path
 from blog import views as blog_views
 from strage import views as strage_views
 from work import views as work_views
+from account import views as account_views
 from rest_framework import routers
 
 blog_router = routers.DefaultRouter()
@@ -17,9 +18,13 @@ work_router = routers.DefaultRouter()
 work_router.register('item', work_views.WorkItemViewSet)
 work_router.register('tag', work_views.WorkTagViewSet)
 
+account_router = routers.DefaultRouter()
+account_router.register('userinfo', account_views.MyUserViewSet)
+
 urlpatterns = [
     path('blog/', include(blog_router.urls)),
     path('strage/', include(strage_router.urls)),
     path('strage/fileobject/upload', strage_views.UploadFileObjectView.as_view()),
     path('work/', include(work_router.urls)),
+    path('account/', include(account_router.urls)),
 ]
