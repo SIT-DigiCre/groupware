@@ -1,6 +1,6 @@
 import { TextField, Grid, Card, Button } from "@material-ui/core";
 import { useCallback, useState } from "react";
-import axios from "axios";
+import { axios } from "../utils/axios";
 import { baseURL } from "../utils/common";
 import { useRouter } from "next/dist/client/router";
 
@@ -24,19 +24,29 @@ const LoginPage = () => {
   );
   const login = useCallback(() => {
     axios
-      .post(baseURL + "/api/v1/auth/jwt/create", {
+      .post("/v1/auth/jwt/create", {
         email: emailField,
         password: passwdField,
       })
       .then((res) => {
         localStorage.setItem("jwt", res.data.access);
         localStorage.setItem("refresh-jwt", res.data.refresh);
-        router.push("/");
+        axios
+          .get("/v1/account/userinfo/", {
+            headers: {
+              Authorization: "JWT " + res.data.access,
+            },
+          })
+          .then((rtn) => {
+            localStorage.setItem("user-info", JSON.stringify(rtn.data[0]));
+            router.push("/");
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => {
         if (error.response.status === 401) setIsError(true);
       });
-  }, [emailField, passwdField]);
+  }, [emailField, passwdField, router]);
   return (
     <Grid container alignItems="center" justify="center" className="mt-2">
       <Grid item xs={8}>

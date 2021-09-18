@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Badge from "@material-ui/core/Badge";
@@ -21,9 +21,12 @@ import GroupIcon from "@material-ui/icons/Group";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useRouter } from "next/dist/client/router";
+import { Avatar, Button } from "@material-ui/core";
+import { UserInfo } from "../interfaces/account";
 
 const MiniDrawer = (props) => {
   const router = useRouter();
+  const [userInfo, setUserInfo] = useState<UserInfo>(null);
   const [open, setOpen] = useState(false);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -37,6 +40,11 @@ const MiniDrawer = (props) => {
 
       setOpen(open);
     };
+  useEffect(() => {
+    const json = localStorage.getItem("user-info");
+    if (json === undefined) return;
+    setUserInfo(JSON.parse(json));
+  }, []);
   return (
     <div>
       <AppBar position="static">
@@ -52,11 +60,20 @@ const MiniDrawer = (props) => {
             ﾃﾞｼﾞｺｱ2.0ﾌﾟﾛﾄﾀｲﾌﾟ
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
+          {userInfo !== null ? (
+            <Avatar alt={userInfo.username} src={userInfo.icon} />
+          ) : (
+            <Button variant="contained" color="secondary" href="/login">
+              ログイン
+            </Button>
+          )}
+          {/*
           <IconButton color="inherit">
             <Badge badgeContent={17} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          */}
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
