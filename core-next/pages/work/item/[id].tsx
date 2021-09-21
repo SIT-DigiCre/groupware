@@ -10,8 +10,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
 import { useTheme } from "@mui/material/styles";
+import { useRouter } from "next/dist/client/router";
+import { route } from "next/dist/server/router";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
+  const router = useRouter();
   const theme = useTheme();
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
@@ -37,7 +40,27 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     setEditFiles([...editFiles, fileObject]);
   };
   const onSave = () => {
-    axios;
+    const putData: WorkItem = {
+      id: props.data.id,
+      name: nameField,
+      intro: introField,
+      user: props.data.user,
+      tools: [],
+      tags: [],
+      files: editFiles.map((file) => file.id),
+    };
+    axios
+      .put(`/v1/work/item/${props.data.id}/`, putData, {
+        headers: {
+          Authorization: "JWT " + localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        router.reload();
+      })
+      .catch((error) => {
+        alert(`保存に失敗 ${error.message}`);
+      });
   };
   return (
     <Grid container alignItems="center" justifyContent="center">
@@ -111,9 +134,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
                 right: 16,
               }}
               color="primary"
-              onClick={() => {
-                setEditMode(false);
-              }}
+              onClick={onSave}
             >
               <SaveIcon />
             </Fab>
