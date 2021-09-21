@@ -35,11 +35,12 @@ export default FilePreview;
 export const getFileKind = (fileName: string) => {
   const tmp = fileName.split(".");
   const ext = tmp[tmp.length - 1];
-  if (ext in imageExtList) return "image";
-  else if (ext in officeExtList) return "office";
-  else if (ext in videoExtList) return "video";
-  else if (ext in audioExtList) return "audio";
-  else if (ext in exeExtList) return "exe";
+  console.log(ext);
+  if (imageExtList.indexOf(ext) !== -1) return "image";
+  else if (officeExtList.indexOf(ext) !== -1) return "office";
+  else if (videoExtList.indexOf(ext) !== -1) return "video";
+  else if (audioExtList.indexOf(ext) !== -1) return "audio";
+  else if (exeExtList.indexOf(ext) !== -1) return "exe";
   return "other";
 };
 
