@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class StrageConfig(AppConfig):
-    name = 'strage'
+    name = 'storage'

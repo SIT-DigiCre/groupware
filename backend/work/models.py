@@ -5,7 +5,7 @@ from member.models import UserTool
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 from mdeditor.fields import MDTextField
-from strage.models import FileObject
+from storage.models import FileObject
 
 # そのうち廃止
 
