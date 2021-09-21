@@ -1,7 +1,7 @@
 import requests
 import json
 from digigru.local_settings import CONOHA_IDENTITY_SERVER_URL, CONOHA_API_USERNAME, CONOHA_API_PASSWORD, CONOHA_OBJECT_STRAGE_SERVER_URL, CONOHA_TENANT_ID
-
+from django.conf import settings
 
 def getToken():
     """
@@ -37,7 +37,8 @@ def uploadObject(path, container, fileName):
         'Accept': 'application/json',
         'X-Auth-Token': getToken(),
     }
+    testmode_str = 'TEST_' if settings.DEBUG else ''
     with open(path, 'rb') as file:
         response = requests.put(
-            CONOHA_OBJECT_STRAGE_SERVER_URL + '/' + container + '/' + fileName, headers=headers, data=file)
+            CONOHA_OBJECT_STRAGE_SERVER_URL + '/' + testmode_str + container + '/' + fileName, headers=headers, data=file)
     return response
