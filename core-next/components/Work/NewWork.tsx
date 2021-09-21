@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import { TextField, Button, Grid, Box } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { Tool } from "../../interfaces/tool";
@@ -44,9 +43,9 @@ const NewWork = () => {
   };
   return (
     <>
-      <Row>
+      <Grid>
         <h1>New Work</h1>
-      </Row>
+      </Grid>
       <Grid className="mt-2">
         <TextField
           required
@@ -73,10 +72,10 @@ const NewWork = () => {
         ))}
       </Grid>
 
-      <Row className="mt-2">
+      <Grid className="mt-2">
         <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
-      </Row>
-      <Row className="mt-2">
+      </Grid>
+      <Grid className="mt-2">
         <Button
           variant="contained"
           color="primary"
@@ -86,7 +85,7 @@ const NewWork = () => {
         >
           Save
         </Button>
-      </Row>
+      </Grid>
     </>
   );
 };

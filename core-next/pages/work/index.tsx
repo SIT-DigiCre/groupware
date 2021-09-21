@@ -2,12 +2,20 @@ import { axios } from "../../utils/axios";
 import Link from "next/link";
 import { useState } from "react";
 import { makeStyles, useTheme } from "@mui/material/styles";
-import { Container, Row, Col, Card } from "react-bootstrap";
 import { WorkItem, WorkTag, WorkItemList } from "../../interfaces/work";
 import InfiniteScroll from "react-infinite-scroller";
 import TagList from "../../components/Work/TagList";
 import { GetServerSideProps } from "next";
-import { Fab, IconButton, Button, Zoom } from "@mui/material";
+import {
+  Fab,
+  IconButton,
+  Button,
+  Zoom,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ArrowBack } from "@mui/icons-material";
 import NewWork from "../../components/Work/NewWork";
@@ -34,38 +42,38 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
     setWorkItems(workItems.concat(data.results));
   };
   return (
-    <Container>
+    <Grid>
       {newMode ? (
         <>
           <NewWork />
         </>
       ) : (
         <>
-          <Row>
+          <Grid>
             <h1>Work</h1>
-          </Row>
+          </Grid>
           <InfiniteScroll
             loadMore={loadNext}
             hasMore={workNextUrl !== null}
             loading={loader}
           >
-            <Row>
+            <Grid>
               {workItems.map((workItem) => (
-                <Col md={4} sm={6} className="mt-2" key={workItem.id}>
+                <Grid key={workItem.id}>
                   <Link href={"/work/item/" + String(workItem.id)}>
-                    <Card>
-                      <Card.Body>
-                        <Card.Title>{workItem.name}</Card.Title>
+                    <Card sx={{ minWidth: 275 }}>
+                      <CardContent>
+                        <Typography variant="h5">{workItem.name}</Typography>
                         <div>
                           {String(workItem.tags)}
                           <TagList tagIds={workItem.tags} />
                         </div>
-                      </Card.Body>
+                      </CardContent>
                     </Card>
                   </Link>
-                </Col>
+                </Grid>
               ))}
-            </Row>
+            </Grid>
           </InfiniteScroll>
         </>
       )}
@@ -115,7 +123,7 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
           </Fab>
         </Zoom>
       </>
-    </Container>
+    </Grid>
   );
 };
 

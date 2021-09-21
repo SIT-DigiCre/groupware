@@ -1,12 +1,11 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import FilePreview from "../../../components/Storage/FilePreview";
 import { FileObject } from "../../../interfaces/storage";
 import { WorkItem, WorkTag } from "../../../interfaces/work";
 import { UserInfo } from "../../../interfaces/account";
 import { axios } from "../../../utils/axios";
-import { Button, Fab, makeStyles, TextField } from "@mui/material";
+import { Button, Fab, TextField, Grid } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
@@ -35,13 +34,13 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     axios;
   };
   return (
-    <Container>
+    <Grid container>
       {editMode ? (
         <>
-          <Row>
+          <Grid>
             <h1>Edit Work</h1>
-          </Row>
-          <Row>
+          </Grid>
+          <Grid>
             <TextField
               required
               label="作品名"
@@ -49,8 +48,8 @@ const WorkItemPage = (props: WorkItemPageProps) => {
               onChange={handleOnChangeNameField}
               defaultValue={nameField}
             />
-          </Row>
-          <Row>
+          </Grid>
+          <Grid>
             <TextField
               required
               label="作品説明"
@@ -60,16 +59,16 @@ const WorkItemPage = (props: WorkItemPageProps) => {
               onChange={handleOnChangeIntroField}
               defaultValue={introField}
             />
-          </Row>
-          <Row>
+          </Grid>
+          <Grid>
             {editFiles.map((file) => (
               <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
             ))}
-          </Row>
+          </Grid>
 
-          <Row className="mt-2">
+          <Grid className="mt-2">
             <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
-          </Row>
+          </Grid>
           <Fab
             color="primary"
             aria-label="add"
@@ -83,7 +82,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
         </>
       ) : (
         <>
-          <Row>
+          <Grid>
             <h1>{props.data.name}</h1>
             <div
               style={{
@@ -101,10 +100,10 @@ const WorkItemPage = (props: WorkItemPageProps) => {
                 </span>
               ))}
             </div>
-          </Row>
-          <Row>
+          </Grid>
+          <Grid>
             <p>{props.data.intro}</p>
-          </Row>
+          </Grid>
           {props.files.map((file) => (
             <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
           ))}
@@ -124,7 +123,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
           )}
         </>
       )}
-    </Container>
+    </Grid>
   );
 };
 export default WorkItemPage;
