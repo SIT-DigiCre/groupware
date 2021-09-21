@@ -1,7 +1,7 @@
 import { axios } from "../../utils/axios";
 import Link from "next/link";
 import { useState } from "react";
-import { makeStyles, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import { WorkItem, WorkTag, WorkItemList } from "../../interfaces/work";
 import InfiniteScroll from "react-infinite-scroller";
 import TagList from "../../components/Work/TagList";
@@ -42,40 +42,40 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
     setWorkItems(workItems.concat(data.results));
   };
   return (
-    <Grid>
+    <>
       {newMode ? (
         <>
           <NewWork />
         </>
       ) : (
-        <>
-          <Grid>
+        <Grid container alignItems="center" justifyContent="center">
+          <Grid item xs={11}>
             <h1>Work</h1>
+            <InfiniteScroll
+              loadMore={loadNext}
+              hasMore={workNextUrl !== null}
+              loading={loader}
+            >
+              <Grid>
+                {workItems.map((workItem) => (
+                  <Grid key={workItem.id}>
+                    <Link href={"/work/item/" + String(workItem.id)}>
+                      <Card sx={{ minWidth: 275 }}>
+                        <CardContent>
+                          <Typography variant="h5">{workItem.name}</Typography>
+                          <div>
+                            {String(workItem.tags)}
+                            <TagList tagIds={workItem.tags} />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </Grid>
+                ))}
+              </Grid>
+            </InfiniteScroll>
           </Grid>
-          <InfiniteScroll
-            loadMore={loadNext}
-            hasMore={workNextUrl !== null}
-            loading={loader}
-          >
-            <Grid>
-              {workItems.map((workItem) => (
-                <Grid key={workItem.id}>
-                  <Link href={"/work/item/" + String(workItem.id)}>
-                    <Card sx={{ minWidth: 275 }}>
-                      <CardContent>
-                        <Typography variant="h5">{workItem.name}</Typography>
-                        <div>
-                          {String(workItem.tags)}
-                          <TagList tagIds={workItem.tags} />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </Grid>
-              ))}
-            </Grid>
-          </InfiniteScroll>
-        </>
+        </Grid>
       )}
       <>
         <Zoom
@@ -123,7 +123,7 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
           </Fab>
         </Zoom>
       </>
-    </Grid>
+    </>
   );
 };
 

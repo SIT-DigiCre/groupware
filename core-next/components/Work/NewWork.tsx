@@ -42,20 +42,17 @@ const NewWork = () => {
     });
   };
   return (
-    <>
-      <Grid>
+    <Grid container spacing={2} alignItems="center" justifyContent="center">
+      <Grid item xs={11}>
         <h1>New Work</h1>
-      </Grid>
-      <Grid className="mt-2">
         <TextField
           required
           label="作品名"
           onChange={handleOnChangeNameField}
           variant="outlined"
           fullWidth
+          className="mt-2"
         />
-      </Grid>
-      <Grid className="mt-2">
         <TextField
           required
           label="作品説明"
@@ -64,29 +61,27 @@ const NewWork = () => {
           onChange={handleOnChangeIntroField}
           variant="outlined"
           fullWidth
+          className="mt-2"
         />
-      </Grid>
-      <Grid>
-        {files.map((file) => (
-          <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
-        ))}
-      </Grid>
-
-      <Grid className="mt-2">
+        <div className="mt-2">
+          {files.map((file) => (
+            <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
+          ))}
+        </div>
         <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
-      </Grid>
-      <Grid className="mt-2">
         <Button
           variant="contained"
           color="primary"
           size="large"
           startIcon={<SaveIcon />}
           onClick={onSave}
+          className="mt-2"
+          fullWidth
         >
           Save
         </Button>
       </Grid>
-    </>
+    </Grid>
   );
 };
 export default NewWork;

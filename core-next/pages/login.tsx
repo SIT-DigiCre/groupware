@@ -54,7 +54,7 @@ const LoginPage = () => {
       justifyContent="center"
       className="mt-2"
     >
-      <Grid item xs={8}>
+      <Grid item xs={8} maxWidth="sm">
         <Card style={{ padding: "10px" }}>
           <h1 className="text-center">デジコアログイン</h1>
           <TextField
