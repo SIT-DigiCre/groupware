@@ -1,5 +1,5 @@
-import { TextField, Button } from "@material-ui/core";
-import { CloudUpload } from "@material-ui/icons";
+import { TextField, Button } from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
 import { FileObject } from "../../interfaces/storage";
 import FileInputComponent from "react-file-input-previews-base64";
 import { axios } from "../../utils/axios";
@@ -48,7 +48,7 @@ const UploadFile = (props: Props) => {
         buttonComponent={
           <Button
             variant="contained"
-            color="default"
+            color="primary"
             startIcon={<CloudUpload />}
           >
             Upload

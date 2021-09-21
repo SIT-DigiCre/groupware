@@ -6,13 +6,12 @@ import { FileObject } from "../../../interfaces/storage";
 import { WorkItem, WorkTag } from "../../../interfaces/work";
 import { UserInfo } from "../../../interfaces/account";
 import { axios } from "../../../utils/axios";
-import { Button, Fab, makeStyles, TextField } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
+import { Button, Fab, makeStyles, TextField } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
-  const classes = useStyles();
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [nameField, setNameField] = useState(props.data.name);
@@ -74,7 +73,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
           <Fab
             color="primary"
             aria-label="add"
-            className={classes.fab}
+            style={{ position: "absolute", bottom: "16", right: "16" }}
             onClick={() => {
               setEditMode(true);
             }}
@@ -113,7 +112,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
             <Fab
               color="primary"
               aria-label="add"
-              className={classes.fab}
+              style={{ position: "absolute", bottom: "16", right: "16" }}
               onClick={() => {
                 setEditMode(true);
               }}
@@ -160,10 +159,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 };
 
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-}));
+const fab = {
+  position: "absolute",
+  bottom: "16",
+  right: "16",
+};

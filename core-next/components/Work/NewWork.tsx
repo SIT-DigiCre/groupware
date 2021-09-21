@@ -1,13 +1,13 @@
 import { Row, Col } from "react-bootstrap";
-import { TextField, Button } from "@material-ui/core";
-import { CloudUpload } from "@material-ui/icons";
+import { TextField, Button, Grid, Box } from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
 import { Tool } from "../../interfaces/tool";
 import React, { useState } from "react";
 import { WorkTag, WorkItem } from "../../interfaces/work";
 import { FileObject } from "../../interfaces/storage";
 import UploadFile from "../Storage/UploadFile";
 import FilePreview from "../Storage/FilePreview";
-import SaveIcon from "@material-ui/icons/Save";
+import SaveIcon from "@mui/icons-material/Save";
 import { axios } from "../../utils/axios";
 const NewWork = () => {
   const [tools, setTools] = useState<Tool[]>([]);
@@ -47,29 +47,31 @@ const NewWork = () => {
       <Row>
         <h1>New Work</h1>
       </Row>
-      <Row>
+      <Grid className="mt-2">
         <TextField
           required
           label="作品名"
-          fullWidth
           onChange={handleOnChangeNameField}
+          variant="outlined"
+          fullWidth
         />
-      </Row>
-      <Row>
+      </Grid>
+      <Grid className="mt-2">
         <TextField
           required
           label="作品説明"
-          fullWidth
           multiline
           maxRows={4}
           onChange={handleOnChangeIntroField}
+          variant="outlined"
+          fullWidth
         />
-      </Row>
-      <Row>
+      </Grid>
+      <Grid>
         {files.map((file) => (
           <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
         ))}
-      </Row>
+      </Grid>
 
       <Row className="mt-2">
         <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
