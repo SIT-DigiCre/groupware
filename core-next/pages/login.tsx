@@ -3,9 +3,14 @@ import { useCallback, useState } from "react";
 import { axios } from "../utils/axios";
 import { baseURL } from "../utils/common";
 import { useRouter } from "next/dist/client/router";
+import { useDispatch } from "react-redux";
+import { tokenSlice } from "../store/token";
+import { userInfoSlice } from "../store/user";
 
 const LoginPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [isError, setIsError] = useState(false);
   const [onLogin, setOnLogin] = useState(false);
   const [emailField, setEmailField] = useState("");
@@ -29,8 +34,12 @@ const LoginPage = () => {
         password: passwdField,
       })
       .then((res) => {
-        localStorage.setItem("jwt", res.data.access);
-        localStorage.setItem("refresh-jwt", res.data.refresh);
+        dispatch(
+          tokenSlice.actions.updateToken({
+            jwt: res.data.access,
+            refresh: res.data.refresh,
+          })
+        );
         axios
           .get("/v1/account/userinfo/", {
             headers: {
@@ -38,7 +47,15 @@ const LoginPage = () => {
             },
           })
           .then((rtn) => {
-            localStorage.setItem("user-info", JSON.stringify(rtn.data[0]));
+            dispatch(
+              userInfoSlice.actions.updateUser({
+                id: rtn.data[0].id,
+                username: rtn.data[0].username,
+                email: rtn.data[0].email,
+                student_id: rtn.data[0].student_id,
+                icon: rtn.data[0].icon,
+              })
+            );
             router.push("/");
           })
           .catch((error) => console.log(error));

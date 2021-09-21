@@ -20,12 +20,18 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GroupIcon from "@mui/icons-material/Group";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { tokenSlice } from "../store/token";
+import { userInfoSlice } from "../store/user";
 import { useRouter } from "next/dist/client/router";
 import { Avatar, Button } from "@mui/material";
 import { UserInfo } from "../interfaces/account";
 
 const MiniDrawer = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<UserInfo>(null);
   const [open, setOpen] = useState(false);
   const toggleDrawer =
@@ -41,9 +47,7 @@ const MiniDrawer = (props) => {
       setOpen(open);
     };
   useEffect(() => {
-    const json = localStorage.getItem("user-info");
-    if (json === undefined) return;
-    setUserInfo(JSON.parse(json));
+    setUserInfo(user.user);
   }, []);
   return (
     <div>
@@ -60,7 +64,7 @@ const MiniDrawer = (props) => {
             ﾃﾞｼﾞｺｱ2.0ﾌﾟﾛﾄﾀｲﾌﾟ
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
-          {userInfo !== null ? (
+          {userInfo !== null && 0 <= userInfo.id ? (
             <Avatar alt={userInfo.username} src={userInfo.icon} />
           ) : (
             <Button variant="contained" color="secondary" href="/login">
@@ -125,8 +129,8 @@ const MiniDrawer = (props) => {
             button
             key="logout"
             onClick={() => {
-              localStorage.removeItem("jwt");
-              localStorage.removeItem("refresh-jwt");
+              dispatch(userInfoSlice.actions.reset());
+              dispatch(tokenSlice.actions.reset());
               router.push("/login");
             }}
           >

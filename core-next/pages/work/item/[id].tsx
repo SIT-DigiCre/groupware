@@ -1,5 +1,8 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import FilePreview from "../../../components/Storage/FilePreview";
 import { FileObject } from "../../../interfaces/storage";
 import { WorkItem, WorkTag } from "../../../interfaces/work";
@@ -20,6 +23,8 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
+  const user = useSelector((state: RootState) => state.user);
+  const classes = useStyles();
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [nameField, setNameField] = useState(props.data.name);
@@ -30,9 +35,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
   const handleOnChangeIntroField = (e: React.ChangeEvent<HTMLInputElement>) =>
     setIntroField(e.target.value);
   useEffect(() => {
-    const json = localStorage.getItem("user-info");
-    if (json === undefined) return;
-    const userInfo: UserInfo = JSON.parse(json);
+    const userInfo: UserInfo = user.user;
     if (props.data.user === userInfo.id) setEditable(true);
   }, []);
   const onUploaded = (fileObject: FileObject) => {
