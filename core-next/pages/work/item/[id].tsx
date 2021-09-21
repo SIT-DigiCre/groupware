@@ -1,15 +1,15 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import FilePreview from "../../../components/Strage/FilePreview";
-import { FileObject } from "../../../interfaces/strage";
+import FilePreview from "../../../components/Storage/FilePreview";
+import { FileObject } from "../../../interfaces/storage";
 import { WorkItem, WorkTag } from "../../../interfaces/work";
 import { UserInfo } from "../../../interfaces/account";
 import { axios } from "../../../utils/axios";
 import { Button, Fab, makeStyles, TextField } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
-import UploadFile from "../../../components/Strage/UploadFile";
+import UploadFile from "../../../components/Storage/UploadFile";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
   const classes = useStyles();
@@ -32,12 +32,15 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     console.log(fileObject.file_name);
     setEditFiles([...editFiles, fileObject]);
   };
+  const onSave = () => {
+    axios;
+  };
   return (
     <Container>
       {editMode ? (
         <>
           <Row>
-            <h1>New Work</h1>
+            <h1>Edit Work</h1>
           </Row>
           <Row>
             <TextField
@@ -61,11 +64,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
           </Row>
           <Row>
             {editFiles.map((file) => (
-              <FilePreview
-                fileKind={file.kind}
-                fileUrl={file.file_url}
-                fileName={file.file_name}
-              />
+              <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
             ))}
           </Row>
 
@@ -108,11 +107,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
             <p>{props.data.intro}</p>
           </Row>
           {props.files.map((file) => (
-            <FilePreview
-              fileKind={file.kind}
-              fileUrl={file.file_url}
-              fileName={file.file_name}
-            />
+            <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
           ))}
           {editable ? (
             <Fab
@@ -155,7 +150,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       data.files.map(
         async (fileId) =>
           (
-            await axios.get("/v1/strage/fileobject/" + String(fileId))
+            await axios.get("/v1/storage/fileobject/" + String(fileId))
           ).data
       )
     );

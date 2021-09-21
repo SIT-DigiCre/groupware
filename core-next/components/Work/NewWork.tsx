@@ -4,9 +4,9 @@ import { CloudUpload } from "@material-ui/icons";
 import { Tool } from "../../interfaces/tool";
 import React, { useState } from "react";
 import { WorkTag, WorkItem } from "../../interfaces/work";
-import { FileObject } from "../../interfaces/strage";
-import UploadFile from "../Strage/UploadFile";
-import FilePreview from "../Strage/FilePreview";
+import { FileObject } from "../../interfaces/storage";
+import UploadFile from "../Storage/UploadFile";
+import FilePreview from "../Storage/FilePreview";
 import SaveIcon from "@material-ui/icons/Save";
 import { axios } from "../../utils/axios";
 const NewWork = () => {
@@ -67,11 +67,7 @@ const NewWork = () => {
       </Row>
       <Row>
         {files.map((file) => (
-          <FilePreview
-            fileKind={file.kind}
-            fileUrl={file.file_url}
-            fileName={file.file_name}
-          />
+          <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
         ))}
       </Row>
 

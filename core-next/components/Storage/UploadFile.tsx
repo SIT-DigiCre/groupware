@@ -1,6 +1,6 @@
 import { TextField, Button } from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
-import { FileObject } from "../../interfaces/strage";
+import { FileObject } from "../../interfaces/storage";
 import FileInputComponent from "react-file-input-previews-base64";
 import { axios } from "../../utils/axios";
 
@@ -8,11 +8,11 @@ const UploadFile = (props: Props) => {
   const upload = (file) => {
     axios
       .post(
-        "/v1/strage/fileobject/upload",
+        "/v1/storage/fileobject/upload",
         {
           file_name: file.name,
           target_container: props.targetContainer,
-          kind: checkKind(file.type),
+          is_download_only: false,
           file: file.base64.split(",")[1],
         },
         {
@@ -26,7 +26,7 @@ const UploadFile = (props: Props) => {
           id: res.data.id,
           file_name: res.data.file_name,
           file_url: res.data.file_url,
-          kind: res.data.kind,
+          is_download_only: res.data.is_download_only,
         };
         props.onUploaded(fileObject);
       })
@@ -65,24 +65,3 @@ type Props = {
 };
 
 export default UploadFile;
-
-const checkKind = (input: string) => {
-  switch (input) {
-    case "application.pdf":
-      return "pdf";
-    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-      return "pptx";
-    default:
-      const kind = input.split("/")[0];
-      switch (kind) {
-        case "video":
-          return "video";
-        case "image":
-          return "image";
-        case "audio":
-          "audio";
-        default:
-          return "other";
-      }
-  }
-};

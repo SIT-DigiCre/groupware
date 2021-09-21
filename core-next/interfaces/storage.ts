@@ -2,8 +2,7 @@ export type FileObject = {
   id?: number;
   user?: number;
   file_name: string;
-  kind: string;
+  is_download_only: boolean;
   file_url: string;
   created_at?: string;
 }
-export const kindList = ['image','video','pptx','pdf','music','other']
