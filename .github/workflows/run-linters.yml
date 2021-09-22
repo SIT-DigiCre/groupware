@@ -33,7 +33,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: yarn install
-      run: yarn install
+      run: |
+        cd blog-next
+        yarn install
 
     - name: run ESLint
       uses: ./.github/actions/run-blog-next-linters
