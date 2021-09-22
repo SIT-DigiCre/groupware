@@ -13,9 +13,20 @@
     "fix": "yarn lint:fix && yarn format:fix"
   },
   "dependencies": {
+    "@types/highlightjs": "^9.12.2",
+    "@types/marked": "^2.0.4",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.1.0",
+    "highlightjs": "^9.16.2",
+    "isomorphic-dompurify": "^0.15.0",
+    "marked": "^2.1.3",
+    "net": "^1.0.2",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-bootstrap": "^1.6.1",
+    "react-dom": "^17.0.2",
+    "react-infinite-scroller": "^1.2.4",
+    "tls": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",

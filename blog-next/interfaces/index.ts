@@ -4,7 +4,10 @@
 //
 // import { User } from 'path/to/interfaces';
 
+// ↓後で消す
 export type User = {
   id: number
   name: string
 }
+
+

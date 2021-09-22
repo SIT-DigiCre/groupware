@@ -1,17 +1,26 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from os import stat
+from django.shortcuts import get_object_or_404, render,redirect
+from django.http import HttpResponse, FileResponse, response
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
-from rest_framework import viewsets,filters
+from rest_framework import viewsets, pagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 
 import datetime
 
+# Image draw
+import io
+from PIL import Image, ImageDraw, ImageFont
+from typing import List
+from enum import Enum
+
 from .models import Article, ArticleTag, BlogEvent, EventArticle
-from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm,EventArticleForm
-from .serializer import ArticleSerializer,ArticleTagSerializer
+from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm, EventArticleForm
+from .serializer import ArticleSerializer, ArticleTagSerializer
 # Create your views here.
 def index(request):
     display_num = 30
@@ -277,12 +286,116 @@ def mypage(request):
     }
     return render(request,'blog/mypage.htm',params)
 
+class TextAlign(Enum):
+    Left = 1
+    Center = 2
+    Right = 3
+
+def wrap_text(img, text: str, font, max_width: int) -> List[str]:
+    draw = ImageDraw.Draw(img)
+    text_list = [text]
+    while max_width < draw.textsize(text_list[-1], font=font)[0]:
+        test_text = text_list[-1]
+        while max_width < draw.textsize(test_text, font=font)[0]:
+            test_text = test_text[:-1]
+        text_list.append(text_list[-1][len(test_text):])
+        text_list[-2] = test_text
+    return text_list
+
+def add_text_to_image(img, x: int, y: int, width: int, lines: int, text: str, font_size, font_color, text_align: TextAlign):
+    font = ImageFont.truetype("blog/font.ttf", font_size)
+    draw = ImageDraw.Draw(img)
+    wrapped_text = wrap_text(img, text, font, width)
+    if lines < len(wrapped_text):
+        wrapped_text = wrapped_text[:lines]
+        wrapped_text[-1] += '…'
+    w, h = img.size
+    for i, t in enumerate(wrapped_text):
+        if text_align == TextAlign.Center:
+            position = (x + width / 2 - draw.textsize(t, font=font)[0] / 2, y + i * font_size)
+        elif text_align == TextAlign.Right:
+            position = (x + width - draw.textsize(t, font=font)[0], y + i * font_size)
+        else:
+            position = (x, y + i * font_size)
+        draw.text(position, t, font_color, font=font)
+    return img
+
+class GenOGPImageAPIView(APIView):
+    def get(self, request, id):
+        img = Image.open('blog/blog_ogp.png')
+        article = Article.objects.filter(id=id)
+        if len(article) == 0:
+            title = 'Not Found'
+            member_username = ''
+        else:
+            title = article[0].title
+            member = article[0].member
+            member_username = member.username
+            # member_icon = mamber.icon
+
+        textbox_width = 800
+        img_w, img_h = img.size
+        img = add_text_to_image(
+            img,
+            (img_w - textbox_width) / 2,
+            200,
+            textbox_width,
+            4,
+            title,
+            70,
+            (0, 0, 0),
+            TextAlign.Left
+        )
+        img = add_text_to_image(
+            img,
+            (img_w - textbox_width) / 2,
+            500,
+            textbox_width,
+            2,
+            member_username,
+            50,
+            (0, 0, 0),
+            TextAlign.Right
+        )
+        file_obj = io.BytesIO()
+        img.save(file_obj, 'PNG')
+        file_obj.seek(0)
+        fr = FileResponse(file_obj)
+        fr['Content-Type'] = 'image/PNG'
+        return fr
+
+
 # REST_APIs
 
-class ArticleViewSet(viewsets.ModelViewSet):
+class ArticleResultsPagination(pagination.PageNumberPagination):
+    page_size = 15
+
+class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
+    serializer_class = ArticleSerializer
+    pagination_class = ArticleResultsPagination
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.view_count += 1
+        instance.save()
+        serializer = ArticleSerializer(instance=instance)
+        return Response(serializer.data)
+
+class MyArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    pagination_class = ArticleResultsPagination
+    def get_queryset(self):
+        return Article.objects.filter(member=self.request.user).order_by('-pub_date')
+    def perform_create(self, serializer):
+        if serializer.validated_data['is_active']:
+            return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
+        return serializer.save(member=self.request.user)
+    def perform_update(self, serializer):
+        current_article = get_object_or_404(Article, id=serializer.validated_data['id'])
+        if serializer.validated_data['is_active'] and not current_article.is_active:
+            return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
+        return serializer.save(member=self.request.user)
 
 class ArticleTagViewSet(viewsets.ModelViewSet):
     queryset = ArticleTag.objects.all()

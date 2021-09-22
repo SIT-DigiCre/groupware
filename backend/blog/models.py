@@ -20,11 +20,12 @@ class Article(models.Model):
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = MDTextField('Contents', blank=True)
-    article_image = models.URLField(verbose_name='サムネイル画像URL', default='null')
+    article_image = models.URLField(verbose_name='サムネイル画像URL', blank=True)
     article_tags = models.ManyToManyField(ArticleTag,blank=True)
     relates_works=models.ManyToManyField(Work,blank=True)
     pub_date = models.DateTimeField(blank=True,null=True)
     is_active = models.BooleanField(default=True)
+    view_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-pub_date',) # 新着順にする

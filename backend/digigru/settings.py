@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if str(os.environ.get('DEBUG')).lower() == 'false' else True
 
-ALLOWED_HOSTS = ['app','localhost']
+ALLOWED_HOSTS = ['core.digicre.net', 'app', 'localhost']
 
 
 # Application definition
@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     'mdeditor',
     'rest_framework',
     'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +85,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'digigru.wsgi.application'
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://blog.digicre.net',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

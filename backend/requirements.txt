@@ -11,3 +11,5 @@ django-mdeditor
 Markdown
 djangorestframework
 django-filter
+django-cors-headers
+
