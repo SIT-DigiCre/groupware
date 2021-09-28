@@ -31,8 +31,7 @@ import { UserInfo } from "../interfaces/account";
 const MiniDrawer = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const [userInfo, setUserInfo] = useState<UserInfo>(null);
+  const userInfo = useSelector((state: RootState) => state.user.user);
   const [open, setOpen] = useState(false);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -46,9 +45,6 @@ const MiniDrawer = (props) => {
 
       setOpen(open);
     };
-  useEffect(() => {
-    setUserInfo(user.user);
-  }, []);
   return (
     <div>
       <AppBar position="static">
@@ -64,7 +60,7 @@ const MiniDrawer = (props) => {
             ﾃﾞｼﾞｺｱ2.0ﾌﾟﾛﾄﾀｲﾌﾟ
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
-          {userInfo !== null && 0 <= userInfo.id ? (
+          {userInfo !== null ? (
             <Avatar alt={userInfo.username} src={userInfo.icon} />
           ) : (
             <Button variant="contained" color="secondary" href="/login">

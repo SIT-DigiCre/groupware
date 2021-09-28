@@ -22,8 +22,8 @@ export const tokenSlice = createSlice({
     updateToken(state, action: PayloadAction<Token>) {
       state.token = action.payload;
     },
-    reset(): TokenState {
-      return initialState;
+    reset(state) {
+      state.token = initialState.token;
     },
   },
 });

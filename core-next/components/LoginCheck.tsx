@@ -7,29 +7,29 @@ import { baseURL } from "../utils/common";
 import { useEffect } from "react";
 const LoginCheck = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.token);
+  const token = useSelector((state: RootState) => state.token.token);
   const router = useRouter();
 
   useEffect(() => {
     if (router.pathname !== "/login") {
-      if (token.token.jwt == null) {
+      if (token.jwt == null) {
         router.push("/login");
         return;
       }
       axios
         .post(baseURL + "/api/v1/auth/jwt/verify", {
-          token: token.token.jwt,
+          token: token.jwt,
         })
         .catch((error) =>
           axios
             .post(baseURL + "/api/v1/auth/jwt/refresh", {
-              refresh: token.token.refresh,
+              refresh: token.refresh,
             })
             .then((res: any) => {
               dispatch(
                 tokenSlice.actions.updateToken({
                   jwt: res.data.access,
-                  refresh: token.token.refresh,
+                  refresh: token.refresh,
                 })
               );
             })

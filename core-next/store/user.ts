@@ -6,13 +6,7 @@ export type UserState = {
 };
 
 const initialState: UserState = {
-  user: {
-    id: -1,
-    username: "",
-    email: "",
-    student_id: "",
-    icon: "",
-  },
+  user: null,
 };
 
 export const userInfoSlice = createSlice({
@@ -22,8 +16,8 @@ export const userInfoSlice = createSlice({
     updateUser(state, action: PayloadAction<UserInfo>) {
       state.user = action.payload;
     },
-    reset() {
-      return initialState;
+    reset(state) {
+      state.user = initialState.user;
     },
   },
 });
