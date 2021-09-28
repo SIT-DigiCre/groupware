@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { TextField, Button, Grid, Box } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { Tool } from "../../interfaces/tool";
@@ -9,6 +11,7 @@ import FilePreview from "../Storage/FilePreview";
 import SaveIcon from "@mui/icons-material/Save";
 import { axios } from "../../utils/axios";
 const NewWork = () => {
+  const token = useSelector((state: RootState) => state.token.token);
   const [tools, setTools] = useState<Tool[]>([]);
   const [tags, setTags] = useState<WorkTag[]>([]);
   const [files, setFiles] = useState<FileObject[]>([]);
@@ -37,7 +40,7 @@ const NewWork = () => {
     console.log(item);
     axios.post("/v1/work/item/", item, {
       headers: {
-        Authorization: "JWT " + localStorage.getItem("jwt"),
+        Authorization: "JWT " + token.jwt,
       },
     });
   };
