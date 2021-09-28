@@ -5,22 +5,50 @@ on:
 name: CI
 
 jobs:
-  exec:
+  backend:
     name: flake8
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     
     - name: run autopep8
-      uses: ./.github/actions/run-linters
+      uses: ./.github/actions/run-backend-linters
       with:
         run: autopep8
+        working-dir: backend
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         pr-num: ${{ github.event.pull_request.number }}
     
     - name: run flake8
-      uses: ./.github/actions/run-linters
+      uses: ./.github/actions/run-backend-linters
       with:
         run: flake8
+        working-dir: backend
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-num: ${{ github.event.pull_request.number }}
+
+  blog_next:
+    name: ESLint / prettier
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: yarn install
+      run: |
+        cd blog-next
+        yarn install
+
+    - name: run ESLint
+      uses: ./.github/actions/run-blog-next-linters
+      with:
+        run: lint
+        working-dir: blog-next
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-num: ${{ github.event.pull_request.number }}
+
+    - name: run prettier
+      uses: ./.github/actions/run-blog-next-linters
+      with:
+        run: format
+        working-dir: blog-next
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         pr-num: ${{ github.event.pull_request.number }}
