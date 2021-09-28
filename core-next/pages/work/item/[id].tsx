@@ -22,6 +22,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     exit: theme.transitions.duration.leavingScreen,
   };
   const user = useSelector((state: RootState) => state.user);
+  const token = useSelector((state: RootState) => state.token.token);
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [nameField, setNameField] = useState(props.data.name);
@@ -52,7 +53,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     axios
       .put(`/v1/work/item/${props.data.id}/`, putData, {
         headers: {
-          Authorization: "JWT " + localStorage.getItem("jwt"),
+          Authorization: "JWT " + token.jwt,
         },
       })
       .then((res) => {

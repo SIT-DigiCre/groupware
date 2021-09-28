@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { TextField, Button } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { FileObject } from "../../interfaces/storage";
@@ -5,6 +7,7 @@ import FileInputComponent from "react-file-input-previews-base64";
 import { axios } from "../../utils/axios";
 
 const UploadFile = (props: Props) => {
+  const token = useSelector((state: RootState) => state.token.token);
   const upload = (file) => {
     axios
       .post(
@@ -17,7 +20,7 @@ const UploadFile = (props: Props) => {
         },
         {
           headers: {
-            Authorization: "JWT " + localStorage.getItem("jwt"),
+            Authorization: "JWT " + token.jwt,
           },
         }
       )
