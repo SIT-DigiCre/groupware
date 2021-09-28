@@ -17,7 +17,6 @@ def getToken():
     }
     data = '{"auth":{"passwordCredentials":{"username":"%s","password":"%s"},"tenantId":"%s"}}' % (
         CONOHA_API_USERNAME, CONOHA_API_PASSWORD, CONOHA_TENANT_ID)
-    print(CONOHA_IDENTITY_SERVER_URL)
     response = requests.post(CONOHA_IDENTITY_SERVER_URL,
                              headers=headers, data=data)
     data = response.json()
@@ -34,7 +33,6 @@ def uploadObject(path, container, fileName):
     :param fileName:
     :return:
     """
-    print(getToken())
     headers = {
         'Accept': 'application/json',
         'X-Auth-Token': getToken(),
