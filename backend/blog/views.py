@@ -1,5 +1,5 @@
 from os import stat
-from django.shortcuts import get_object_or_404, render,redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, FileResponse, response
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -8,7 +8,6 @@ from rest_framework import viewsets, pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .permissions import IsOwnerOrReadOnly
 
 import datetime
 
@@ -22,30 +21,35 @@ from .models import Article, ArticleTag, BlogEvent, EventArticle
 from .forms import NewArticleForm, EditArticleForm, NewArticleTagForm, EditArticleTagForm, EventArticleForm
 from .serializer import ArticleSerializer, ArticleTagSerializer
 # Create your views here.
+
+
 def index(request):
     display_num = 30
     page = request.GET.get('page')
 
-    articles_data = Paginator(Article.objects.filter(is_active=True), display_num)
+    articles_data = Paginator(
+        Article.objects.filter(is_active=True), display_num)
     params = {
         'page_obj': articles_data.get_page(page),
         'is_login_user': request.user.is_authenticated,
     }
     return render(request, 'blog/index.htm', params)
 
-def show(request,id=1):
+
+def show(request, id=1):
     article = Article.objects.filter(id=id).first()
     if article.is_active is False and article.member != request.user:
         return redirect(to='/blog')
     params = {
-        'article':article,
-        'is_edit_user':request.user == article.member,
-        'is_login_user':request.user.is_authenticated,
+        'article': article,
+        'is_edit_user': request.user == article.member,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/show.htm',params)
+    return render(request, 'blog/show.htm', params)
+
 
 @login_required()
-def edit(request,id=1):
+def edit(request, id=1):
     article = Article.objects.filter(id=id).first()
     if request.method == 'POST' and request.user == article.member:
         if 'save-pub-btn' in request.POST and article.is_active is False:
@@ -53,22 +57,23 @@ def edit(request,id=1):
             article.is_active = True
         elif 'save-nopub-btn' in request.POST:
             article.is_active = False
-        article_form = EditArticleForm(request.POST,instance = article)
+        article_form = EditArticleForm(request.POST, instance=article)
         article_post = article_form.save(commit=False)
-        article_post.member=request.user
+        article_post.member = request.user
         article_post.save()
         return redirect(to='/blog/article/'+str(article_post.id))
 
     params = {
-        'form':EditArticleForm(instance=article),
-        'article':article,
-        'is_login_user':request.user.is_authenticated,
+        'form': EditArticleForm(instance=article),
+        'article': article,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/edit.htm',params)
+    return render(request, 'blog/edit.htm', params)
+
 
 @login_required()
 def create(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         article = Article()
         article.member = request.user
         article.is_active = False
@@ -79,62 +84,69 @@ def create(request):
         article_f.save()
         return redirect(to='/blog')
     params = {
-        'form':NewArticleForm(),
-        'is_login_user':request.user.is_authenticated,
+        'form': NewArticleForm(),
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/create.htm',params)
+    return render(request, 'blog/create.htm', params)
+
 
 @login_required(login_url='/admin/login/')
 def create_tag(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         article_tag = ArticleTag()
         article_tag_f = NewArticleTagForm(request.POST, instance=article_tag)
         article_tag_f.save()
         return redirect(to='/blog')
     params = {
-        'form':NewArticleTagForm(),
-        'is_login_user':request.user.is_authenticated,
+        'form': NewArticleTagForm(),
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/tag_create.htm',params)
+    return render(request, 'blog/tag_create.htm', params)
 
-def show_tag(request,id=1):
+
+def show_tag(request, id=1):
     article_tag = ArticleTag.objects.filter(id=id).first()
-    articles = Article.objects.filter(article_tags=article_tag).filter(is_active=True)
+    articles = Article.objects.filter(
+        article_tags=article_tag).filter(is_active=True)
     params = {
         'articles': articles,
         'tag': article_tag,
-        'is_login_user':request.user.is_authenticated,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/tag_show.htm',params)
+    return render(request, 'blog/tag_show.htm', params)
+
 
 @login_required(login_url='/admin/login/')
-def edit_tag(request,id=1):
+def edit_tag(request, id=1):
     article_tag = ArticleTag.objects.filter(id=id).first()
     if request.method == 'POST':
-        article_tag_form = EditArticleTagForm(request.POST,instance = article_tag)
+        article_tag_form = EditArticleTagForm(
+            request.POST, instance=article_tag)
         article_tag_post = article_tag_form.save(commit=False)
-        article_tag_post.member=request.user
+        article_tag_post.member = request.user
         article_tag_post.save()
         return redirect(to='/blog/tag/'+str(article_tag_post.id))
 
     params = {
-        'form':EditArticleTagForm(instance=article_tag),
-        'article_tag':article_tag,
-        'is_login_user':request.user.is_authenticated,
+        'form': EditArticleTagForm(instance=article_tag),
+        'article_tag': article_tag,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/tag_edit.htm',params)
+    return render(request, 'blog/tag_edit.htm', params)
+
 
 def index_tag(request):
     params = {
-        'is_login_user':request.user.is_authenticated,
-        'article_tags':ArticleTag.objects.all(),
-        
-    }
-    return render(request,'blog/tag_index.htm',params)
+        'is_login_user': request.user.is_authenticated,
+        'article_tags': ArticleTag.objects.all(),
 
-def edit_art_tags(request,id=1):
+    }
+    return render(request, 'blog/tag_index.htm', params)
+
+
+def edit_art_tags(request, id=1):
     article = Article.objects.filter(id=id).first()
-    if request.method=='POST' and request.user == article.member:
+    if request.method == 'POST' and request.user == article.member:
         choice_id = request.POST['tagchoice']
         print('choice_str:'+choice_id)
         article_tag = ArticleTag.objects.filter(id=choice_id).first()
@@ -144,24 +156,26 @@ def edit_art_tags(request,id=1):
         return redirect(to='/blog/article/'+str(article.id)+'/tags')
 
     params = {
-        'article_tags':ArticleTag.objects.all(),
-        'article':article,
-        'is_edit_user':request.user == article.member,
-        'is_login_user':request.user.is_authenticated,
+        'article_tags': ArticleTag.objects.all(),
+        'article': article,
+        'is_edit_user': request.user == article.member,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/article_tag_edit.htm',params)
+    return render(request, 'blog/article_tag_edit.htm', params)
 
-def delete_art_tag(request,art_id,tag_id):
+
+def delete_art_tag(request, art_id, tag_id):
     article = Article.objects.filter(id=art_id).first()
     tag = ArticleTag.objects.filter(id=tag_id).first()
     article.article_tags.remove(tag)
     return redirect(to='/blog/article/'+str(article.id)+'/tags')
 
+
 def relay(request, id):
     blogEvent = BlogEvent.objects.get(id=id)
     month = blogEvent.month
     year = blogEvent.year
-    
+
     # カレンダー（動的に生成したい）
     calender = [
         [
@@ -189,9 +203,8 @@ def relay(request, id):
             is_registerd[day] = ea.first()
         else:
             is_registerd[day] = False
-        
-        print(str(day) + ": " + str(is_registerd[day]))
 
+        print(str(day) + ": " + str(is_registerd[day]))
 
     params = {
         'id': id,
@@ -204,11 +217,13 @@ def relay(request, id):
     }
     return render(request, 'blog/relay.htm', params)
 
+
 @login_required()
 def relay_add_check(request, id, year, month, day):
     today = datetime.datetime(year, month, day)
     form = EventArticleForm()
-    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+    form.fields['article'].queryset = Article.objects.filter(
+        member=request.user)
 
     params = {
         'id': id,
@@ -220,9 +235,10 @@ def relay_add_check(request, id, year, month, day):
     }
     return render(request, 'blog/relay_add_check.htm', params)
 
+
 @login_required()
 def relay_add(request, id, year, month, day):
-    if request.method=='POST':
+    if request.method == 'POST':
         dt = datetime.datetime(year, month, day)
 
         # すでに登録されていたら
@@ -240,14 +256,16 @@ def relay_add(request, id, year, month, day):
 
     return redirect(to='blog.relay', id=id)
 
+
 @login_required()
 def relay_edit(request, id, year, month, day):
     dt = datetime.datetime(year, month, day)
     obj = EventArticle.objects.filter(event__id=id, release_date=dt).first()
     form = EventArticleForm(instance=obj)
-    form.fields['article'].queryset = Article.objects.filter(member=request.user)
+    form.fields['article'].queryset = Article.objects.filter(
+        member=request.user)
 
-    if request.method=='POST':
+    if request.method == 'POST':
         form = EventArticleForm(request.POST, instance=obj)
         form.save()
         return redirect(to='blog.relay', id=id)
@@ -259,7 +277,8 @@ def relay_edit(request, id, year, month, day):
         'day': day,
         'form': form
     }
-    return render(request,'blog/relay_edit.htm',params)
+    return render(request, 'blog/relay_edit.htm', params)
+
 
 @login_required()
 def relay_delete(request, id, year, month, day):
@@ -270,9 +289,10 @@ def relay_delete(request, id, year, month, day):
     return redirect(to='blog.relay', id=id)
 
 
-def event_index(request,event_name):
-    #ここにイベント一覧ページを用意する
+def event_index(request, event_name):
+    # ここにイベント一覧ページを用意する
     pass
+
 
 @login_required(login_url='/admin/login/')
 def mypage(request):
@@ -280,16 +300,18 @@ def mypage(request):
     articles_pub = articles.filter(is_active=True)
     articles_nopub = articles.filter(is_active=False)
     params = {
-        'articles_pub':articles_pub,
-        'articles_nopub':articles_nopub,
-        'is_login_user':request.user.is_authenticated,
+        'articles_pub': articles_pub,
+        'articles_nopub': articles_nopub,
+        'is_login_user': request.user.is_authenticated,
     }
-    return render(request,'blog/mypage.htm',params)
+    return render(request, 'blog/mypage.htm', params)
+
 
 class TextAlign(Enum):
     Left = 1
     Center = 2
     Right = 3
+
 
 def wrap_text(img, text: str, font, max_width: int) -> List[str]:
     draw = ImageDraw.Draw(img)
@@ -302,6 +324,7 @@ def wrap_text(img, text: str, font, max_width: int) -> List[str]:
         text_list[-2] = test_text
     return text_list
 
+
 def add_text_to_image(img, x: int, y: int, width: int, lines: int, text: str, font_size, font_color, text_align: TextAlign):
     font = ImageFont.truetype("blog/font.ttf", font_size)
     draw = ImageDraw.Draw(img)
@@ -312,13 +335,16 @@ def add_text_to_image(img, x: int, y: int, width: int, lines: int, text: str, fo
     w, h = img.size
     for i, t in enumerate(wrapped_text):
         if text_align == TextAlign.Center:
-            position = (x + width / 2 - draw.textsize(t, font=font)[0] / 2, y + i * font_size)
+            position = (x + width / 2 - draw.textsize(t, font=font)
+                        [0] / 2, y + i * font_size)
         elif text_align == TextAlign.Right:
-            position = (x + width - draw.textsize(t, font=font)[0], y + i * font_size)
+            position = (x + width - draw.textsize(t, font=font)
+                        [0], y + i * font_size)
         else:
             position = (x, y + i * font_size)
         draw.text(position, t, font_color, font=font)
     return img
+
 
 class GenOGPImageAPIView(APIView):
     def get(self, request, id):
@@ -370,6 +396,7 @@ class GenOGPImageAPIView(APIView):
 class ArticleResultsPagination(pagination.PageNumberPagination):
     page_size = 15
 
+
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.order_by('-pub_date').filter(is_active=True)
     serializer_class = ArticleSerializer
@@ -381,21 +408,26 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = ArticleSerializer(instance=instance)
         return Response(serializer.data)
 
+
 class MyArticlesViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     pagination_class = ArticleResultsPagination
+
     def get_queryset(self):
         return Article.objects.filter(member=self.request.user).order_by('-pub_date')
+
     def perform_create(self, serializer):
         if serializer.validated_data['is_active']:
             return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
         return serializer.save(member=self.request.user)
+
     def perform_update(self, serializer):
         current_article = get_object_or_404(Article, id=serializer.validated_data['id'])
         if serializer.validated_data['is_active'] and not current_article.is_active:
             return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
         return serializer.save(member=self.request.user)
+
 
 class ArticleTagViewSet(viewsets.ModelViewSet):
     queryset = ArticleTag.objects.all()
