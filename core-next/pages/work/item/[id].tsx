@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import FilePreview from "../../../components/Storage/FilePreview";
@@ -14,7 +13,6 @@ import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/dist/client/router";
-import { route } from "next/dist/server/router";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
   const router = useRouter();
@@ -24,7 +22,6 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     exit: theme.transitions.duration.leavingScreen,
   };
   const user = useSelector((state: RootState) => state.user);
-  const classes = useStyles();
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [nameField, setNameField] = useState(props.data.name);
