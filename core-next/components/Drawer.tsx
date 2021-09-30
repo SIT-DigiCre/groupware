@@ -127,7 +127,6 @@ const MiniDrawer = (props) => {
             onClick={() => {
               dispatch(userInfoSlice.actions.reset());
               dispatch(tokenSlice.actions.reset());
-              //router.push("/login");
             }}
           >
             <ListItemIcon>

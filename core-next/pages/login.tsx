@@ -1,9 +1,10 @@
 import { TextField, Grid, Card, Button } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { axios } from "../utils/axios";
 import { baseURL } from "../utils/common";
 import { useRouter } from "next/dist/client/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 import { tokenSlice } from "../store/token";
 import { userInfoSlice } from "../store/user";
 
@@ -11,6 +12,7 @@ const LoginPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const user = useSelector((state: RootState) => state.user.user);
   const [isError, setIsError] = useState(false);
   const [onLogin, setOnLogin] = useState(false);
   const [emailField, setEmailField] = useState("");
@@ -56,7 +58,6 @@ const LoginPage = () => {
                 icon: rtn.data[0].icon,
               })
             );
-            router.push("/");
           })
           .catch((error) => console.log(error));
       })
@@ -64,6 +65,15 @@ const LoginPage = () => {
         if (error.response.status === 401) setIsError(true);
       });
   }, [emailField, passwdField, router]);
+  useEffect(() => {
+    if (user !== null) {
+      if (typeof router.query["redirect"] === "string") {
+        router.push(router.query["redirect"]);
+      } else {
+        router.push("/");
+      }
+    }
+  }, [user]);
   return (
     <Grid
       container

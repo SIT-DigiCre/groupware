@@ -21,7 +21,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const token = useSelector((state: RootState) => state.token.token);
   const [editable, setEditable] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -33,9 +33,9 @@ const WorkItemPage = (props: WorkItemPageProps) => {
   const handleOnChangeIntroField = (e: React.ChangeEvent<HTMLInputElement>) =>
     setIntroField(e.target.value);
   useEffect(() => {
-    const userInfo: UserInfo = user.user;
-    if (props.data.user === userInfo.id) setEditable(true);
-  }, []);
+    const userInfo = user;
+    if (userInfo !== null && props.data.user === userInfo.id) setEditable(true);
+  }, [user]);
   const onUploaded = (fileObject: FileObject) => {
     console.log(fileObject.file_name);
     setEditFiles([...editFiles, fileObject]);
