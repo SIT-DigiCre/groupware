@@ -1,5 +1,4 @@
 SECRET_KEY = 'シークレットキー（生成はget_random_secret_key.pyでできる）'
-EMAIL_HOST_PASSWORD = 'Gmailのパスワード'
 
 SLACK_TOKEN = 'xoxb-からはじまるやつ'
 SLACK_USERNAME = 'digicore'

@@ -219,13 +219,6 @@ USE_L10N = False
 LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = 'home.index'
 
-# メール設定
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'sitdigicrecircle@gmail.com'
-# EMAIL_HOST_PASSWORD = '' # 外部ファイルに設定
-EMAIL_PORT = 587
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # LOGGING
