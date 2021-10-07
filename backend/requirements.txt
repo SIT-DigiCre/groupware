@@ -14,4 +14,4 @@ django-filter
 django-cors-headers
 djangorestframework-simplejwt
 djoser
-
+sendgrid
