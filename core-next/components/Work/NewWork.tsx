@@ -10,7 +10,9 @@ import UploadFile from "../Storage/UploadFile";
 import FilePreview from "../Storage/FilePreview";
 import SaveIcon from "@mui/icons-material/Save";
 import { axios } from "../../utils/axios";
+import { useRouter } from "next/dist/client/router";
 const NewWork = () => {
+  const router = useRouter();
   const token = useSelector((state: RootState) => state.token.token);
   const [tools, setTools] = useState<Tool[]>([]);
   const [tags, setTags] = useState<WorkTag[]>([]);
@@ -38,11 +40,18 @@ const NewWork = () => {
       files: files.map((file) => file.id),
     };
     console.log(item);
-    axios.post("/v1/work/item/", item, {
-      headers: {
-        Authorization: "JWT " + token.jwt,
-      },
-    });
+    axios
+      .post("/v1/work/item/", item, {
+        headers: {
+          Authorization: "JWT " + token.jwt,
+        },
+      })
+      .then((res) => {
+        router.push(`/work/item/${res.data.id}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Grid container spacing={2} alignItems="center" justifyContent="center">
