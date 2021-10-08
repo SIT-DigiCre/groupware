@@ -26,6 +26,12 @@ services:
     networks:
       - internal_network
       - https_network
+  core_next:
+    build: core-next
+    restart: always
+    networks:
+      - internal_network
+      - https_network
   web:
     image: nginx:1.17
     volumes:
