@@ -105,6 +105,7 @@ SIMPLE_JWT = {
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://blog.digicre.net',
+    'https://core2.digicre.net',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -218,7 +219,6 @@ USE_L10N = False
 
 LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = 'home.index'
-
 
 
 # LOGGING
