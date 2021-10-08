@@ -15,7 +15,7 @@ const ArticlePage = (props: ArticlePageProps) => (
       <h1>{props.data.title}</h1>
       <div style={{ display: 'inline', marginLeft: '8px', marginBottom: '3px' }}>
         {props.tags.map(tag => (
-          <span className='badge rounded-pill bg-primary' style={{ display: 'inline', marginLeft: '1px' }} >{tag.name}</span>
+          <span className='badge rounded-pill bg-primary' style={{ display: 'inline', marginLeft: '1px' }} key={tag.id}>{tag.name}</span>
         ))}
       </div>
       <div> 公開日：{props.data.pub_date}  閲覧数：{props.data.view_count}</div>
