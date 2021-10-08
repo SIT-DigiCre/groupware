@@ -1,5 +1,4 @@
 SECRET_KEY = 'シークレットキー（生成はget_random_secret_key.pyでできる）'
-EMAIL_HOST_PASSWORD = 'Gmailのパスワード'
 
 SLACK_TOKEN = 'xoxb-からはじまるやつ'
 SLACK_USERNAME = 'digicore'
@@ -7,3 +6,13 @@ SLACK_USERNAME = 'digicore'
 # 以下本番環境のときはコメントアウト
 SLACK_CHANNEL = '#test'
 SLACK_BACKEND = 'django_slack.backends.UrllibBackend'
+
+CONOHA_IDENTITY_SERVER_URL = ''
+CONOHA_OBJECT_STRAGE_SERVER_URL = ''
+
+CONOHA_TENANT_ID = ''
+CONOHA_API_USERNAME = ''
+CONOHA_API_PASSWORD = ''
+
+DEFAULT_FROM_EMAIL = ''
+SENDGRID_APIKEY = ''
