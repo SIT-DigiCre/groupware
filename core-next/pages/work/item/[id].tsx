@@ -13,6 +13,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/dist/client/router";
+import { Markdown } from "../../../components/Common/Markdown";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
   const router = useRouter();
@@ -112,7 +113,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
               </span>
             ))}
           </div>
-          <p>{props.data.intro}</p>
+          <Markdown md={props.data.intro} />
           {props.files.map((file) => (
             <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
           ))}
