@@ -37,7 +37,7 @@ const IndexPage = (props: { data: ArticleList }) => {
         >
           <Row>
             {articles.map(article => (
-              <Col md={4} sm={6} className='mt-2'>
+              <Col md={4} sm={6} className='mt-2' key={article.id}>
                 <Link href={'/article/' + String(article.id)}>
                   <Card>
                     <Card.Img src={article.article_image !== '' ? article.article_image : `${baseURL}/blog/article/${article.id}/ogp_image`} height={200} style={{ objectFit: 'cover' }}></Card.Img>
