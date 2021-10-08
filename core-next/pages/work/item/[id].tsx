@@ -235,8 +235,6 @@ type WorkItemPageProps = {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const id = params?.id;
-    const resData = axios.get("/v1/work/item/" + String(id));
-
     return { props: { id } };
   } catch (error) {
     return { props: { errors: error.message } };
