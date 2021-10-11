@@ -30,17 +30,50 @@ const WorkItemPage = (props: WorkItemPageProps) => {
   const [nameField, setNameField] = useState<string>();
   const [introField, setIntroField] = useState<string>();
   const [editFiles, setEditFiles] = useState<FileObject[]>();
-  const [workItem, setWorkItem] = useState<WorkItem>();
-  const [workTags, setWorkTags] = useState<WorkTag[]>([]);
-  const [files, setFiles] = useState<FileObject[]>([]);
+  const fetcher = async (url: string, token: string | null) => {
+    if (token) {
+      const res = await axios.get(url, {
+        headers: { Authorization: "JWT " + token },
+      });
+      return res.data;
+    } else {
+      return null;
+    }
+  };
+  const { data: workItem } = useSWR(
+    [`/v1/work/item/${props.id}`, token.jwt],
+    fetcher
+  );
+  const [workTags, setWorkTags] = useState<WorkTag[] | null>();
+  const [files, setFiles] = useState<FileObject[] | null>();
+  useEffect(() => {
+    (async () => {
+      if (workItem && token.jwt) {
+        let tags = [];
+        for (const url of workItem.tags.map(
+          (tagId: number) => `/v1/work/tag/${tagId}`
+        )) {
+          tags.push(await fetcher(url, token.jwt));
+        }
+        setWorkTags(tags);
+        let files = [];
+        for (const url of workItem.files.map(
+          (fileId: number) => `/v1/storage/fileobject/${fileId}`
+        )) {
+          files.push(await fetcher(url, token.jwt));
+        }
+        setFiles(files);
+      }
+    })();
+  }, [workItem]);
   const handleOnChangeNameField = (e: React.ChangeEvent<HTMLInputElement>) =>
     setNameField(e.target.value);
   const handleOnChangeIntroField = (e: React.ChangeEvent<HTMLInputElement>) =>
     setIntroField(e.target.value);
   useEffect(() => {
     const userInfo = user;
-    if (workItem === undefined) return;
-    if (userInfo !== null && workItem.id === userInfo.id) setEditable(true);
+    if (!workItem) return;
+    if (userInfo && workItem.id === userInfo.id) setEditable(true);
   }, [user, workItem]);
   const onUploaded = (fileObject: FileObject) => {
     console.log(fileObject.file_name);
@@ -69,44 +102,9 @@ const WorkItemPage = (props: WorkItemPageProps) => {
         alert(`保存に失敗 ${error.message}`);
       });
   };
-  const fetcher = (url, token) => {
-    axios
-      .get(url, { headers: { Authorization: "JWT " + token } })
-      .then(async (res) => {
-        const data: WorkItem = (await res).data;
-        setWorkItem(data);
-        const tags: WorkTag[] = await Promise.all(
-          data.tags.map(
-            async (tagId) =>
-              (
-                await axios.get("/v1/work/tag/" + String(tagId))
-              ).data
-          )
-        );
-        setWorkTags(tags);
-        const files: FileObject[] = await Promise.all(
-          data.files.map(
-            async (fileId) =>
-              (
-                await axios.get("/v1/storage/fileobject/" + String(fileId), {
-                  headers: {
-                    Authorization: "JWT " + token,
-                  },
-                })
-              ).data
-          )
-        );
-        setFiles(files);
-        return res.data;
-      });
-  };
-  const { data, error } = useSWR(
-    [`/v1/work/item/${props.id}`, token.jwt],
-    fetcher
-  );
   return (
     <>
-      {workItem !== undefined ? (
+      {workItem ? (
         <Grid container alignItems="center" justifyContent="center">
           {editMode ? (
             <Grid item xs={11}>
@@ -149,22 +147,30 @@ const WorkItemPage = (props: WorkItemPageProps) => {
                   marginBottom: "3px",
                 }}
               >
-                {workTags.map((tag) => (
-                  <span
-                    className="badge rounded-pill bg-primary"
-                    style={{ display: "inline", marginLeft: "1px" }}
-                  >
-                    {tag.name}
-                  </span>
-                ))}
+                {workTags ? (
+                  workTags.map((tag) => (
+                    <span
+                      className="badge rounded-pill bg-primary"
+                      style={{ display: "inline", marginLeft: "1px" }}
+                    >
+                      {tag.name}
+                    </span>
+                  ))
+                ) : (
+                  <></>
+                )}
               </div>
               <Markdown md={workItem.intro} />
-              {files.map((file) => (
-                <FilePreview
-                  fileUrl={file.file_url}
-                  fileName={file.file_name}
-                />
-              ))}
+              {files ? (
+                files.map((file) => (
+                  <FilePreview
+                    fileUrl={file.file_url}
+                    fileName={file.file_name}
+                  />
+                ))
+              ) : (
+                <></>
+              )}
             </Grid>
           )}
           {editable ? (
