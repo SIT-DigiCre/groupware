@@ -13,6 +13,7 @@ blog_router.register('article_tag', blog_views.ArticleTagViewSet)
 
 storage_router = routers.DefaultRouter()
 storage_router.register('fileobject', strage_views.FileObjectViewSet)
+storage_router.register('myfileobject', strage_views.MyFileObjectViewSet)
 
 work_router = routers.DefaultRouter()
 work_router.register('item', work_views.WorkItemViewSet)
