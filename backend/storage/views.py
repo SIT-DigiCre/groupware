@@ -13,7 +13,7 @@ from .models import FileObject
 from django.conf import settings
 
 
-class FileObjectViewSet(viewsets.ModelViewSet):
+class FileObjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FileObject.objects.all()
     serializer_class = FileObjectSerializer
     permission_classes = (IsOwnerOrReadOnlyUser,)
