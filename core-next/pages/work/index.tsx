@@ -19,15 +19,19 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { ArrowBack } from "@mui/icons-material";
 import NewWork from "../../components/Work/NewWork";
+import useSWR from "swr";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-const WorkIndexPage = (props: { data: WorkItemList }) => {
+const WorkIndexPage = () => {
   const theme = useTheme();
+  const token = useSelector((state: RootState) => state.token.token);
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
-  const [workItems, setWorkItems] = useState<WorkItem[]>(props.data.results);
-  const [workNextUrl, setWorkNextUrl] = useState(props.data.next);
+  const [workItems, setWorkItems] = useState<WorkItem[]>([]);
+  const [workNextUrl, setWorkNextUrl] = useState("");
   const [newMode, setNewMode] = useState(false);
   const loader = (
     <div className="loader" key={0}>
@@ -35,12 +39,22 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
     </div>
   );
   const loadNext = async () => {
-    console.log(workNextUrl);
+    if (workNextUrl === "") return;
     const resData = axios.get(workNextUrl);
     const data: WorkItemList = (await resData).data;
     setWorkNextUrl(data.next);
     setWorkItems(workItems.concat(data.results));
   };
+  const fetcher = (url, token) => {
+    axios
+      .get(url, { headers: { Authorization: "JWT " + token } })
+      .then((res) => {
+        setWorkItems(res.data.results);
+        setWorkNextUrl(res.data.next);
+        return res.data;
+      });
+  };
+  const { data, error } = useSWR(["/v1/work/item", token.jwt], fetcher);
   return (
     <>
       {newMode ? (
@@ -58,7 +72,7 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
             >
               <Grid>
                 {workItems.map((workItem) => (
-                  <Grid key={workItem.id}>
+                  <Grid key={workItem.id} className="mt-2">
                     <Link href={"/work/item/" + String(workItem.id)}>
                       <Card sx={{ minWidth: 275 }}>
                         <CardContent>
@@ -128,16 +142,3 @@ const WorkIndexPage = (props: { data: WorkItemList }) => {
 };
 
 export default WorkIndexPage;
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  try {
-    console.log("hello");
-    const resData = axios.get("/v1/work/item");
-    const data: WorkItemList = (await resData).data;
-    console.log(data);
-    return { props: { data } };
-  } catch (error) {
-    console.log(error.message);
-    return { props: { error: error.message } };
-  }
-};

@@ -6,6 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from home.permissions import IsOwnerOrReadOnlyUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from . import object_strage
 from .serializer import FileObjectSerializer
@@ -16,7 +17,7 @@ from django.conf import settings
 class FileObjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FileObject.objects.all()
     serializer_class = FileObjectSerializer
-    permission_classes = (IsOwnerOrReadOnlyUser,)
+    permission_classes = (IsAuthenticated,)
 
 class MyFileObjectViewSet(viewsets.ModelViewSet):
     queryset = FileObject.objects.all()

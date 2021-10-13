@@ -20,8 +20,15 @@ services:
     restart: always
     networks:
       - internal_network
+      - https_network
   blog_next:
     build: blog-next
+    restart: always
+    networks:
+      - internal_network
+      - https_network
+  core_next:
+    build: core-next
     restart: always
     networks:
       - internal_network

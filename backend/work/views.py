@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from work.serializer import WorkItemSerializer, WorkTagSerializer
 from django.shortcuts import *
 from django.contrib.auth.decorators import login_required
@@ -90,7 +90,7 @@ class WorkItemViewSet(viewsets.ModelViewSet):
     queryset = WorkItem.objects.order_by('-created_at')
     serializer_class = WorkItemSerializer
     pagination_class = WorkItemResultsPagination
-    permission_classes = (IsOwnerOrReadOnlyUser,)
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
