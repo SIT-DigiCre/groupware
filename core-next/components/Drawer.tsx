@@ -46,8 +46,8 @@ const MiniDrawer = (props) => {
 
       setOpen(open);
     };
-  const movePage = (url: string) => 
-    router.push(url).then(res=>setOpen(false));
+  const movePage = (url: string) =>
+    router.push(url).then(res => setOpen(false));
   return (
     <div>
       <AppBar position="static">
@@ -81,7 +81,7 @@ const MiniDrawer = (props) => {
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <List>
-        <div onClick={()=>{movePage('/')}}>
+          <div onClick={() => { movePage('/') }}>
             <ListItem button key="top">
               <ListItemIcon>
                 <DesktopWindowsIcon />
@@ -101,7 +101,7 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="×Ringi" />
           </ListItem>
-          <div onClick={()=>{movePage('/work')}}>
+          <div onClick={() => { movePage('/work') }}>
             <ListItem button key="work">
               <ListItemIcon>
                 <CreateIcon />
@@ -115,14 +115,12 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="×Member" />
           </ListItem>
-          <div onClick={()=>{movePage('/blog')}}>
-            <ListItem button key="blog">
-              <ListItemIcon>
-                <DescriptionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Blog" />
-            </ListItem>
-          </div>
+          <ListItem button key="blog">
+            <ListItemIcon>
+              <DescriptionIcon />
+            </ListItemIcon>
+            <ListItemText primary="×Blog" />
+          </ListItem>
         </List>
         <Divider />
         <List>
