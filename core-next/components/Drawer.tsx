@@ -124,12 +124,14 @@ const MiniDrawer = (props) => {
         </List>
         <Divider />
         <List>
-          <ListItem button key="setting">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="×Setting" />
-          </ListItem>
+          <div onClick={() => { movePage('/setting') }}>
+            <ListItem button key="setting">
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Setting" />
+            </ListItem>
+          </div>
           <ListItem
             button
             key="logout"
