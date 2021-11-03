@@ -41,7 +41,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
       return null;
     }
   };
-  const { data: workItem } = useSWR(
+  const { data: workItem } = useSWR<WorkItem>(
     [`/v1/work/item/${props.id}`, token.jwt],
     fetcher
   );
@@ -77,7 +77,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
   useEffect(() => {
     const userInfo = user;
     if (!workItem) return;
-    if (userInfo && workItem.id === userInfo.id) setEditable(true);
+    if (userInfo && workItem.user === userInfo.id) setEditable(true);
   }, [user, workItem]);
   const onUploaded = (fileObject: FileObject) => {
     setEditFiles([...editFiles, fileObject]);
