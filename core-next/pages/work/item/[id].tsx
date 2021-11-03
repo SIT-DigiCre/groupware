@@ -14,6 +14,7 @@ import UploadFile from "../../../components/Storage/UploadFile";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/dist/client/router";
 import { Markdown } from "../../../components/Common/Markdown";
+import TagSelectBox from "../../../components/Work/TagSelectBox";
 import useSWR from "swr";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
@@ -49,6 +50,8 @@ const WorkItemPage = (props: WorkItemPageProps) => {
   useEffect(() => {
     (async () => {
       if (workItem && token.jwt) {
+        setNameField(workItem.name);
+        setIntroField(workItem.intro);
         let tags = [];
         for (const url of workItem.tags.map(
           (tagId: number) => `/v1/work/tag/${tagId}`
@@ -63,6 +66,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
           files.push(await fetcher(url, token.jwt));
         }
         setFiles(files);
+        setEditFiles(files);
       }
     })();
   }, [workItem]);
@@ -76,8 +80,11 @@ const WorkItemPage = (props: WorkItemPageProps) => {
     if (userInfo && workItem.id === userInfo.id) setEditable(true);
   }, [user, workItem]);
   const onUploaded = (fileObject: FileObject) => {
-    console.log(fileObject.file_name);
     setEditFiles([...editFiles, fileObject]);
+  };
+  const [editedTags, setEditedTags] = useState<WorkTag[]>([]);
+  const onTagChange = (e: any, value: WorkTag[]) => {
+    setEditedTags(value);
   };
   const onSave = () => {
     const putData: WorkItem = {
@@ -86,7 +93,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
       intro: introField,
       user: workItem.user,
       tools: [],
-      tags: [],
+      tags: editedTags.map((tag) => tag.id),
       files: editFiles.map((file) => file.id),
     };
     axios
@@ -109,12 +116,13 @@ const WorkItemPage = (props: WorkItemPageProps) => {
           {editMode ? (
             <Grid item xs={11}>
               <h1>Edit Work</h1>
+              <TagSelectBox onChange={onTagChange} />
               <TextField
                 required
                 label="作品名"
                 fullWidth
                 onChange={handleOnChangeNameField}
-                defaultValue={nameField}
+                defaultValue={workItem.name}
                 className="mt-2"
               />
               <TextField
@@ -124,16 +132,18 @@ const WorkItemPage = (props: WorkItemPageProps) => {
                 multiline
                 maxRows={4}
                 onChange={handleOnChangeIntroField}
-                defaultValue={introField}
+                defaultValue={workItem.intro}
                 className="mt-2"
               />
               <div className="mt-2">
-                {editFiles.map((file) => (
-                  <FilePreview
-                    fileUrl={file.file_url}
-                    fileName={file.file_name}
-                  />
-                ))}
+                {editFiles
+                  ? editFiles.map((file) => (
+                      <FilePreview
+                        fileUrl={file.file_url}
+                        fileName={file.file_name}
+                      />
+                    ))
+                  : null}
               </div>
               <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
             </Grid>
