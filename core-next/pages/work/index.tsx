@@ -22,6 +22,7 @@ import NewWork from "../../components/Work/NewWork";
 import useSWR from "swr";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 
 const WorkIndexPage = () => {
   const theme = useTheme();
@@ -74,6 +75,7 @@ const WorkIndexPage = () => {
       ) : (
         <Grid container alignItems="center" justifyContent="center">
           <Grid item xs={11}>
+            <Breadcrumbs links={[{name: "Work"}]} />
             <h1>Work</h1>
             <InfiniteScroll
               loadMore={loadNext}
