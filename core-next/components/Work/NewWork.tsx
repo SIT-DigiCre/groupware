@@ -50,7 +50,7 @@ const NewWork = () => {
         router.push(`/work/item/${res.data.id}`);
       })
       .catch((error) => {
-        console.log(error);
+        router.reload()
       });
   };
   return (
