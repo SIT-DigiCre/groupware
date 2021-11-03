@@ -15,6 +15,7 @@ import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/dist/client/router";
 import { Markdown } from "../../../components/Common/Markdown";
 import useSWR from "swr";
+import Breadcrumbs from "../../../components/Common/Breadcrumbs";
 
 const WorkItemPage = (props: WorkItemPageProps) => {
   const router = useRouter();
@@ -139,6 +140,7 @@ const WorkItemPage = (props: WorkItemPageProps) => {
             </Grid>
           ) : (
             <Grid item xs={11}>
+              <Breadcrumbs links={[{name: "Work", url:"/work"}, {name: "Item"}, {name: workItem.name}]} />
               <h1>{workItem.name}</h1>
               <div
                 style={{
