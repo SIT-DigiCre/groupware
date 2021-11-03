@@ -63,7 +63,7 @@ const StorageIndexPage = () => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {fileObject.file_name}
+                    <a href={fileObject.file_url}>{fileObject.file_name}</a>
                   </TableCell>
                   <TableCell align="right">{fileObject.created_at}</TableCell>
                   <TableCell align="right">
