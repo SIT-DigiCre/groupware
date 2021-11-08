@@ -98,6 +98,10 @@ class WorkItemViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         return serializer.save(user=self.request.user)
 
+class MyWorkItemViewSet(WorkItemViewSet):
+    def get_queryset(self):
+        return WorkItem.objects.filter(user=self.request.user).order_by('-created_at')
+
 
 class WorkTagViewSet(viewsets.ModelViewSet):
     queryset = WorkTag.objects.all()
