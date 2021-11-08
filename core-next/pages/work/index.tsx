@@ -1,6 +1,6 @@
 import { axios } from "../../utils/axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { WorkItem, WorkTag, WorkItemList } from "../../interfaces/work";
 import InfiniteScroll from "react-infinite-scroller";
@@ -22,6 +22,7 @@ import NewWork from "../../components/Work/NewWork";
 import useSWR from "swr";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 
 const WorkIndexPage = () => {
   const theme = useTheme();
@@ -45,16 +46,26 @@ const WorkIndexPage = () => {
     setWorkNextUrl(data.next);
     setWorkItems(workItems.concat(data.results));
   };
-  const fetcher = (url, token) => {
-    axios
-      .get(url, { headers: { Authorization: "JWT " + token } })
-      .then((res) => {
-        setWorkItems(res.data.results);
-        setWorkNextUrl(res.data.next);
-        return res.data;
-      });
+  const fetcher = (url: string, token: string | null) => {
+    if (token) {
+      axios
+        .get(url, { headers: { Authorization: "JWT " + token } })
+        .then((res) => {
+          setWorkItems(res.data.results);
+          setWorkNextUrl(res.data.next);
+          return res.data;
+        });
+    } else {
+      return null;
+    }
   };
-  const { data, error } = useSWR(["/v1/work/item", token.jwt], fetcher);
+  const { data } = useSWR(["/v1/work/item", token.jwt], fetcher);
+  useEffect(() => {
+    if (data) {
+      setWorkItems(data.result);
+      setWorkNextUrl(data.next);
+    }
+  }, [data]);
   return (
     <>
       {newMode ? (
@@ -64,6 +75,7 @@ const WorkIndexPage = () => {
       ) : (
         <Grid container alignItems="center" justifyContent="center">
           <Grid item xs={11}>
+            <Breadcrumbs links={[{name: "Work"}]} />
             <h1>Work</h1>
             <InfiniteScroll
               loadMore={loadNext}

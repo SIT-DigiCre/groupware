@@ -21,6 +21,7 @@ const LoginCheck = () => {
           .post("/v1/auth/jwt/verify", {
             token: token.jwt,
           })
+          .then(res=>console.log("TOKEN問題なし"))
           .catch((error) =>
             axios
               .post("/v1/auth/jwt/refresh", {

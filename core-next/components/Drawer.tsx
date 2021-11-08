@@ -20,6 +20,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GroupIcon from "@mui/icons-material/Group";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { tokenSlice } from "../store/token";
@@ -45,6 +46,8 @@ const MiniDrawer = (props) => {
 
       setOpen(open);
     };
+  const movePage = (url: string) =>
+    router.push(url).then(res => setOpen(false));
   return (
     <div>
       <AppBar position="static">
@@ -78,6 +81,14 @@ const MiniDrawer = (props) => {
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <List>
+          <div onClick={() => { movePage('/') }}>
+            <ListItem button key="top">
+              <ListItemIcon>
+                <DesktopWindowsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Top" />
+            </ListItem>
+          </div>
           <ListItem button key="chat">
             <ListItemIcon>
               <ChatIcon />
@@ -90,37 +101,37 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="×Ringi" />
           </ListItem>
-          <Link href="/work">
+          <div onClick={() => { movePage('/work') }}>
             <ListItem button key="work">
               <ListItemIcon>
                 <CreateIcon />
               </ListItemIcon>
               <ListItemText primary="Work" />
             </ListItem>
-          </Link>
+          </div>
           <ListItem button key="member">
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>
             <ListItemText primary="×Member" />
           </ListItem>
-          <Link href="/blog">
-            <ListItem button key="blog">
-              <ListItemIcon>
-                <DescriptionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Blog" />
-            </ListItem>
-          </Link>
+          <ListItem button key="blog">
+            <ListItemIcon>
+              <DescriptionIcon />
+            </ListItemIcon>
+            <ListItemText primary="×Blog" />
+          </ListItem>
         </List>
         <Divider />
         <List>
-          <ListItem button key="setting">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="×Setting" />
-          </ListItem>
+          <div onClick={() => { movePage('/setting') }}>
+            <ListItem button key="setting">
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Setting" />
+            </ListItem>
+          </div>
           <ListItem
             button
             key="logout"

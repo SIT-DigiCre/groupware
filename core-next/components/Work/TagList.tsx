@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { WorkTag } from "../../interfaces/work";
-import { baseURL } from "../../utils/common";
 import { GetServerSideProps } from "next";
 
 const TagList = (props: { tagIds: number[] }) => {
@@ -21,7 +20,7 @@ const Tag = (props: { tagId: number }) => {
   const [tag, setTag] = useState<WorkTag>(null);
   useEffect(() => {
     axios
-      .get(baseURL + "/v1/work/tag" + String(props.tagId), {
+      .get("/v1/work/tag/" + String(props.tagId), {
         headers: "JWT " + token.jwt,
       })
       .then((res) => setTag(res.data))
