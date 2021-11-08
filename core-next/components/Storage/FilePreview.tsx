@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import ElementResizeListener from '../Common/ElementResizeListener';
-import {useEffect, useRef, useState} from "react";
-const PDFPreview = dynamic(() => import('./PDFPreview'), {ssr: false})
+import { useEffect, useRef, useState } from "react";
+const PDFPreview = dynamic(() => import('./PDFPreview'), { ssr: false })
 const FilePreview = (props: { fileUrl: string; fileName: string; width?: number }) => {
   const contentRef: React.RefObject<HTMLDivElement> = useRef(null);
   const [contentWidth, setContentWidth] = useState(100);
@@ -9,55 +9,63 @@ const FilePreview = (props: { fileUrl: string; fileName: string; width?: number 
   const onResize = (event: Event) => {
     console.log(contentRef.current.getBoundingClientRect().width);
     setContentWidth(contentRef.current.getBoundingClientRect().width);
-    setContentHight(contentRef.current.getBoundingClientRect().width*10/16);
+    setContentHight(contentRef.current.getBoundingClientRect().width * 10 / 16);
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setContentWidth(contentRef.current.getBoundingClientRect().width);
-    setContentHight(contentRef.current.getBoundingClientRect().width*10/16);
-  },[]);
-  switch (getFileKind(props.fileName)) {
-    case "image":
-      return <img src={props.fileUrl} style={{ maxWidth: "100%" }} />;
-    case "office":
-      return (
-        <div ref={contentRef} style={{width:"100%"}}>
-        <ElementResizeListener onResize={onResize}/>
-        <iframe
-          src={
-            "https://view.officeapps.live.com/op/embed.aspx?src=" +
-            props.fileUrl
-          }
-          width={props.width?props.width:contentWidth}
-          height={props.width?props.width*10/16:contentHight}
-          frameBorder="0"
-        />
-      </div>
-      );
-    case "pdf":
-      return (
-      <div ref={contentRef} style={{width:"100%"}}>
-        <ElementResizeListener onResize={onResize}/>
-        <PDFPreview pdfUrl={props.fileUrl} width={props.width?props.width:contentWidth}/>
-      </div>);
-    case "video":
-      return <video src={props.fileUrl} style={{ maxWidth: "100%" }} controls />;
-    case "audio":
-      return (
-      <>
-        <p>{props.fileName}</p>
-        <audio src={props.fileUrl} controls></audio>
-      </>);
-    case "exe":
-      return (
-        <>
-          <a href={props.fileUrl}>{props.fileName}</a>
-          <p>注意！実行形式ファイル</p>
-        </>
-      );
-    case "other":
-      return <a href={props.fileUrl}>{props.fileName}</a>;
+    setContentHight(contentRef.current.getBoundingClientRect().width * 10 / 16);
+  }, []);
+  const getFileTag = () => {
+    switch (getFileKind(props.fileName)) {
+      case "image":
+        return <img src={props.fileUrl} style={{ maxWidth: "100%" }} />;
+      case "office":
+        return (
+            <iframe
+              src={
+                "https://view.officeapps.live.com/op/embed.aspx?src=" +
+                props.fileUrl
+              }
+              width={props.width ? props.width : contentWidth}
+              height={props.width ? props.width * 10 / 16 : contentHight}
+              frameBorder="0"
+            />
+        );
+      case "pdf":
+        return (
+            <PDFPreview pdfUrl={props.fileUrl} width={props.width ? props.width : contentWidth} />);
+      case "video":
+        return <video src={props.fileUrl} style={{ maxWidth: "100%" }} controls />;
+      case "audio":
+        return (
+          <>
+            <p>{props.fileName}</p>
+            <audio src={props.fileUrl} controls></audio>
+          </>);
+      case "exe":
+        return (
+          <>
+            <a href={props.fileUrl}>{props.fileName}</a>
+            <p>注意！実行形式ファイル</p>
+          </>
+        );
+      case "other":
+        return <a href={props.fileUrl}>{props.fileName}</a>;
+    }
   }
+  return (
+    <div ref={contentRef} style={{ width: "100%" }}>
+      {
+        <div ref={contentRef} style={{ width: "100%" }}>
+          <ElementResizeListener onResize={onResize} />
+          {getFileTag()}
+        </div>
+      }
+    </div>
+  )
+
+
 };
 
 export default FilePreview;
