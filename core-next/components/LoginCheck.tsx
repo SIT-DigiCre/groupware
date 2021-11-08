@@ -37,7 +37,7 @@ const LoginCheck = () => {
               })
               .catch((error) => {
                 userInfoSlice.actions.reset();
-                router.push("/login?redirect=" + router.pathname);
+                router.push("/login?redirect=" + location.pathname);
               })
           );
       }
