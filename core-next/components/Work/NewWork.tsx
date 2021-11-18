@@ -79,7 +79,7 @@ const NewWork = () => {
         />
         <div className="mt-2">
           {files.map((file) => (
-            <FilePreview fileUrl={file.file_url} fileName={file.file_name} />
+            <FilePreview fileUrl={file.file_url} fileName={file.file_name} width={400} />
           ))}
         </div>
         <UploadFile onUploaded={onUploaded} targetContainer="work-item" />
