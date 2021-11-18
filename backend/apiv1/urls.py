@@ -18,6 +18,7 @@ storage_router.register('myfileobject', strage_views.MyFileObjectViewSet)
 work_router = routers.DefaultRouter()
 work_router.register('item', work_views.WorkItemViewSet)
 work_router.register('tag', work_views.WorkTagViewSet)
+work_router.register('myitem', work_views.MyWorkItemViewSet)
 
 account_router = routers.DefaultRouter()
 account_router.register('userinfo', account_views.MyUserViewSet)

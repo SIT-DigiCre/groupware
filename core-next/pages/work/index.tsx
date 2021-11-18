@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   Typography,
+  Paper,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ArrowBack } from "@mui/icons-material";
@@ -76,7 +77,21 @@ const WorkIndexPage = () => {
         <Grid container alignItems="center" justifyContent="center">
           <Grid item xs={11}>
             <Breadcrumbs links={[{name: "Work"}]} />
-            <h1>Work</h1>
+            <Paper>
+              <Button 
+                variant="contained" 
+                onClick={()=>{setNewMode(true)}} 
+                style={{margin:"5px"}}>
+                  New Work Items
+              </Button>
+              <Button 
+                variant="contained" 
+                href="/work/myworkitems" 
+                style={{margin:"5px"}}>
+                  My Work Items
+              </Button>
+            </Paper>
+            <h1>WorkItems</h1>
             <InfiniteScroll
               loadMore={loadNext}
               hasMore={workNextUrl !== null}

@@ -11,6 +11,7 @@ import FilePreview from "../Storage/FilePreview";
 import SaveIcon from "@mui/icons-material/Save";
 import { axios } from "../../utils/axios";
 import { useRouter } from "next/dist/client/router";
+import Breadcrumbs from "../Common/Breadcrumbs";
 const NewWork = () => {
   const router = useRouter();
   const token = useSelector((state: RootState) => state.token.token);
@@ -56,6 +57,7 @@ const NewWork = () => {
   return (
     <Grid container spacing={2} alignItems="center" justifyContent="center">
       <Grid item xs={11}>
+        <Breadcrumbs links={[{name: "Work", url: "/work"}, {name: "NewWork"}]} />
         <h1>New Work</h1>
         <TextField
           required

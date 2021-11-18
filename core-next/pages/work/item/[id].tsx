@@ -7,7 +7,7 @@ import { FileObject } from "../../../interfaces/storage";
 import { WorkItem, WorkTag } from "../../../interfaces/work";
 import { UserInfo } from "../../../interfaces/account";
 import { axios } from "../../../utils/axios";
-import { Button, Fab, TextField, Grid, Zoom } from "@mui/material";
+import { Button, Fab, TextField, Grid, Zoom, Chip, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import UploadFile from "../../../components/Storage/UploadFile";
@@ -160,14 +160,16 @@ const WorkItemPage = (props: WorkItemPageProps) => {
                 }}
               >
                 {workTags ? (
-                  workTags.map((tag) => (
-                    <span
-                      className="badge rounded-pill bg-primary"
-                      style={{ display: "inline", marginLeft: "1px" }}
-                    >
-                      {tag.name}
-                    </span>
-                  ))
+                  <Stack>
+                    {
+                      workTags.map((tag) => (
+                        <Chip
+                          label={tag.name}
+                          color="primary"
+                        />
+                      ))
+                    }
+                  </Stack>
                 ) : (
                   <></>
                 )}

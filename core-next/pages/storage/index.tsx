@@ -17,6 +17,7 @@ import {
   IconButton,
   Grid,
 } from "@mui/material";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 
 const fetcher = async (url: string, token: string | null) => {
   if (token) {
@@ -46,6 +47,7 @@ const StorageIndexPage = () => {
   return (
     <Grid container alignItems="center" justifyContent="center">
       <Grid item xs={12} sm={11}>
+        <Breadcrumbs links={[{name: "Storage"}]} />
         <h1>MyStorage</h1>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 450 }} aria-label="simple table">
