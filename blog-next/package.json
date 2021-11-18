@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/highlightjs": "^9.12.2",
     "@types/marked": "^2.0.4",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^5.1.0",
     "highlightjs": "^9.16.2",
     "isomorphic-dompurify": "^0.15.0",
