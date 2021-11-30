@@ -51,6 +51,14 @@ const BlogIndexPage = () => {
     <Grid container alignItems="center" justifyContent="center">
       <Grid item xs={11}>
         <Breadcrumbs links={[{ name: "Blog" }]} />
+        <Paper>
+          <Button
+            variant="contained"
+            href="/blog/new"
+            style={{ margin: "5px" }}>
+            New Article
+          </Button>
+        </Paper>
         <h1>My Articles</h1>
         <InfiniteScroll
           loadMore={loadNext}
