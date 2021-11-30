@@ -19,3 +19,10 @@ export type Article = {
   is_active: boolean;
   view_count: number;
 }
+
+export type ArticleList = {
+  count: number
+  next: string|undefined
+  previous: string|undefined
+  results: Article[]
+}
