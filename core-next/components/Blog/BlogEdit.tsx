@@ -56,7 +56,12 @@ const BlogEdit = (props:{onSave: (saveArticle: Article)=>void, article?: Article
       <Button
         onClick={() => { onClickSaveBtn(true) }}
         variant="contained">
-        Save
+        保存して公開
+      </Button>
+      <Button
+        onClick={() => { onClickSaveBtn(false) }}
+        variant="contained">
+        下書き保存
       </Button>
     </>
   );
