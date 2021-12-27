@@ -15,7 +15,7 @@ const LoginCheck = () => {
     if (router.pathname !== "/login") {
       if (token.jwt == null) {
         userInfoSlice.actions.reset();
-        router.push("/login?redirect=" + router.pathname);
+        router.push("/login?redirect=" + location.pathname);
       } else {
         axios
           .post("/v1/auth/jwt/verify", {
