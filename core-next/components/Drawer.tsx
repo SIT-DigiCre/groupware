@@ -115,12 +115,14 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="×Member" />
           </ListItem>
-          <ListItem button key="blog">
-            <ListItemIcon>
-              <DescriptionIcon />
-            </ListItemIcon>
-            <ListItemText primary="×Blog" />
-          </ListItem>
+          <div onClick={() => { movePage('/blog') }}>
+            <ListItem button key="blog">
+              <ListItemIcon>
+                <DescriptionIcon />
+              </ListItemIcon>
+              <ListItemText primary="Blog" />
+            </ListItem>
+          </div>
         </List>
         <Divider />
         <List>
