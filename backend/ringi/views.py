@@ -2,8 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.db.models import Count
+from rest_framework import viewsets, status
+from rest_framework.views import APIView
 from .models import Ringi, Status
 from .forms import RingiForm, RingiEditForm
+from rest_framework.response import Response
+
+
 
 @login_required()
 def index(request):
@@ -85,3 +90,54 @@ def delete(request, id):
         'ringi': ringi
     }
     return render(request, 'ringi/delete.htm', params)
+
+#========= REST API =====
+"""
+====== when create ======
+
+必須
+    receipt_image 領収書
+    price 金額
+    owner 登録者
+    purpose 目的
+    urgency 緊急度
+
+任意
+    note 備考
+
+=========================
+
+
+====== when delete ======
+
+できるタイミング
+    状況が申請中
+    &
+    未
+        購入
+        精算
+    &
+    リクエストユーザーが申請者
+
+=========================
+"""
+#delte
+class RingiView(APIView):
+    #ringi = Ringi.objects.all('-created_at')
+    def post(self, request, *args, **kwargs):
+        """ 
+        request.data データが入ってる
+        """
+        if 'title' not in request.data \
+            or 'price' not in request.data \
+            or 'owner' not in request.data \
+            or 'purpose' not in request.data\
+            or 'receipt_image' not in request.data \
+            or 'urgency' not in request.data:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    def get():
+        'aaaa'
+    def delete():
+        'aaa'
