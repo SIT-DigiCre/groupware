@@ -415,18 +415,18 @@ class MyArticlesViewSet(viewsets.ModelViewSet):
     pagination_class = ArticleResultsPagination
 
     def get_queryset(self):
-        return Article.objects.filter(member=self.request.user).order_by('-pub_date')
+        return Article.objects.filter(member=self.request.user.id).order_by('-pub_date')
 
     def perform_create(self, serializer):
         if serializer.validated_data['is_active']:
             return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
-        return serializer.save(member=self.request.user)
+        return serializer.save(member=self.request.user.id)
 
     def perform_update(self, serializer):
-        current_article = get_object_or_404(Article, id=serializer.validated_data['id'])
-        if serializer.validated_data['is_active'] and not current_article.is_active:
+        # current_article = get_object_or_404(Article, id=serializer.validated_data['id'])
+        if serializer.validated_data['is_active']:
             return serializer.save(member=self.request.user,pub_date=timezone.datetime.now())
-        return serializer.save(member=self.request.user)
+        return serializer.save(member=self.request.user.id)
 
 
 class ArticleTagViewSet(viewsets.ModelViewSet):

@@ -22,3 +22,7 @@
 .text-center {
   text-align: center;
 }
+
+.markdown-area img {
+  max-width: 100%;
+}
