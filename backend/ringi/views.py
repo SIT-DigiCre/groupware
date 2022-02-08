@@ -5,7 +5,7 @@ from django.db.models import Count
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 
-from backend.ringi.serializer import RingiSerializer
+from .serializer import RingiSerializer
 from .models import Ringi, Status
 from .forms import RingiForm, RingiEditForm
 from rest_framework.response import Response
