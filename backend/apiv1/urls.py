@@ -4,6 +4,7 @@ from blog import views as blog_views
 from storage import views as strage_views
 from work import views as work_views
 from account import views as account_views
+from ringi import views as ringi_views #稟議入れた。
 from rest_framework import routers
 
 blog_router = routers.DefaultRouter()
@@ -29,4 +30,5 @@ urlpatterns = [
     path('storage/fileobject/upload', strage_views.UploadFileObjectView.as_view()),
     path('work/', include(work_router.urls)),
     path('account/', include(account_router.urls)),
+    path('ringi/', ringi_views.RingiView.as_view())#稟議入れた
 ]
