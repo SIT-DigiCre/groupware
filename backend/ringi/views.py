@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from .models import Ringi, Status
 from .forms import RingiForm, RingiEditForm
 from rest_framework.response import Response
+from .serializer import RingiSerializer
 
 
 
@@ -124,10 +125,10 @@ def delete(request, id):
 #delte
 class RingiView(APIView):
     #ringi = Ringi.objects.all('-created_at')
-    def post(self, request, *args, **kwargs):
-        """ 
-        request.data データが入ってる
-        """
+    """ def post(self, request, *args, **kwargs):
+        
+        # request.data データが入ってる
+
         if 'title' not in request.data \
             or 'price' not in request.data \
             or 'owner' not in request.data \
@@ -135,9 +136,10 @@ class RingiView(APIView):
             or 'receipt_image' not in request.data \
             or 'urgency' not in request.data:
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
-        
+        """
 
-    def get():
-        'aaaa'
-    def delete():
-        'aaa'
+    def get(self,request,format=None):
+        ringis = Ringi.objects.all()
+        ringiserializer = RingiSerializer(ringis,many = True)
+        return Response(ringiserializer.data)
+    

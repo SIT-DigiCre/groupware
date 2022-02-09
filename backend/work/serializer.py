@@ -8,7 +8,7 @@ class WorkTagSerializer(serializers.ModelSerializer):
         model = WorkTag
         fields = ('id', 'name', 'intro')
 
-
+#forms的な
 class WorkItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkItem
