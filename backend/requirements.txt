@@ -12,7 +12,7 @@ Markdown
 djangorestframework
 django-filter
 django-cors-headers
-PyJWT == 2.1.0
+PyJWT == 2.4.0
 djangorestframework-simplejwt == 4.8.0
 djoser
 sendgrid
